@@ -1,4 +1,18 @@
-# Lenguaje BABAD
+
+---
+title: "Lenguaje BABAD"
+author: "José María Borrás , Ismael Sánchez , Javier Sáez "
+header-includes:
+  -  \usepackage[utf8]{inputenc}
+  -  \usepackage[T1]{fontenc}
+  -  \usepackage[sfdefault,scaled=.85, lining]{FiraSans}
+  -  \usepackage{geometry}
+  -  \geometry{left=3cm,right=3cm,top=3cm,bottom=3cm,headheight=1cm,headsep=0.5cm}
+
+output:
+    pdf_document
+---
+
 
 ## Descripción del lenguaje
 
@@ -50,10 +64,29 @@ El programa está compuesto por una cabecera de programa y un bloque.
 - La *cabecera* estará denotada por la palabra **principal***
 - En el *bloque* tendremos varias partes:
 
-  1. Inicio de bloque: Se iniciará con una palabra, en nuestro caso: **ini_bloque**
+  1. Inicio de bloque: Se iniciará con una palabra, en nuestro caso: **{**
   2. Declaración de variables locales: se declararán las variables locales entre dos marcas de declaración, la de inicio que será: **ini_var** y la de fin: **fin_var**
   3. Declaración de subprogramas:  el subprograma (que en nuestro caso es una función)se compone de una cabecera, que  será: **funcion**, y de otro bloque interno. 
   4. Sentencias, que se componen recursivamente de más sentencias. Una sentencia puede ser un bloque, una asignación entre variables, un condicional, un bucle, una entrada o salida, una llamada a una función, una expresión o una sentencia *return*, que marcaremos como **retorno**.
-  Una **expresión** podrá ser un operador unario, binario, un identificador, una constante , una función o una variable. Podrá estar (o no) entre paréntesis
+  Una **expresión** podrá ser un operador unario, binario, un identificador, una constante , una función o una variable. Podrá estar (o no) entre paréntesis, y terminarán siempre en un **;**
   
+  Si tenemos una lista de parámetros para una función, esta deberá ir entre paréntesis y escrita de la forma: **tipo nombre_variable**,  y separadas por comas.
+  El **tipo**, como sabemos podrá ser *entero,real,booleano,caracter*. Si queremos indicar que una variable es un vector, se hará escribiendo detrás de su nombre **[ "dimensión"]**. Si queremos que sea una matriz, escribiremos detrás del nombre **[<"dimensión i"] ["dimensión j"]**
   
+
+## Identificación de los tokens
+
+
+### Identificación de las palabras
+
+Las palabras identificadas son las siguientes:
+
+| {   | =   | >      | verdadero   | ini_var   | entero     |
+| :-: | :-: | :----: | :---------: | :-------: | :--------: |
+| }   | +   | <      | falso       | fin_var   | caracter   |
+| ;   | -   | >=     | principal   | funcion   | booleano   |
+| (   | *   | <=     | si          | retorno   | real       |
+| )   | /   | ==     | si_no       | haz       | hasta      |
+|  ,  |     |        |             |           |            |
+
+### Identificación de los tokens
