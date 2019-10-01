@@ -34,9 +34,11 @@
                 |  <sentencia_return> (si el lenguaje soporta funciones)
                 |  <llamada_proced> (si el lenguaje soporta proced.)
                 |  (Resto de sentencias del lenguaje asignado)
-<sentencia_asignacion> ::= (Dependerá del lenguaje de referencia)
+<sentencia_asignacion> ::= <variable><indicador_asignacion><variable>
+                          | <variable><asignacion><valor>
 <sentencia_if> ::= (Dependerá del lenguaje de referencia)
-<sentencia_while> ::= (Dependerá del lenguaje de referencia)
+<sentencia_while> ::= <indicador_while>(<condicion>)<bloque>
+                    | <indicador_while>(<condicion>)<sentencia>
 <sentencia_entrada> ::= <nomb_entrada> <lista_variables>
 <sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena>
 <expresion> ::= ( <expresion> )
