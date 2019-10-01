@@ -16,36 +16,64 @@
 <Marca_fin_declar_variables> ::= fin_var
 
 <Cabecera_programa> ::= principal
-<Inicio_de_bloque> ::= ini_bloque
-<Fin_de_bloque> ::= fin_bloque
+<Inicio_de_bloque> ::= {
+<Fin_de_bloque> ::= }
 <Variables_locales> ::= <Variables_locales> <Cuerpo_declar_variables>
                         |  <Cuerpo_declar_variables>
-<Cuerpo_declar_variables> ::= <tipo_basico><lista_variables>
-<Cabecera_subprog> ::= <tipo_basico><identificador>(<lista_variables>)
+<Cuerpo_declar_variables> ::= <tipo_basico><lista_identificador>
+              | <tipo_basico> <identificador>["nº natural"]
+              | <tipo_basico> <identificador>["nº natural"]["nº natural"]
+<Cabecera_subprograma> ::= <tipo_basico> <identificador> (<lista_parametros>)
                         | <tipo_basico><identificador>()
 <Sentencias> ::= <Sentencias> <Sentencia>
                  |  <Sentencia>
 <Sentencia> ::= <bloque>
                 |  <sentencia_asignacion>
                 |  <sentencia_if>
-                |  <sentencia_while>
+                |  <sentencia_do_until>
                 |  <sentencia_entrada>
                 |  <sentencia_salida>
                 |  <sentencia_return> (si el lenguaje soporta funciones)
-                |  <llamada_proced> (si el lenguaje soporta proced.)
-                |  (Resto de sentencias del lenguaje asignado)
-<sentencia_asignacion> ::= <variable><indicador_asignacion><variable>
-                          | <variable><asignacion><valor>
-<sentencia_if> ::= (Dependerá del lenguaje de referencia)
-<sentencia_while> ::= <indicador_while>(<condicion>)<bloque>
-                    | <indicador_while>(<condicion>)<sentencia>
-<sentencia_entrada> ::= <nomb_entrada> <lista_variables>
+<sentencia_asignacion> ::= <identificador> = <expresion>
+<sentencia_if> ::= si (<condicion>) <bloque>
+                 | si (<condicion>) <bloque> si_no <bloque>
+<sentencia_do_until> ::= hacer <bloque> hasta (<condicion>)
+<sentencia_entrada> ::= <nomb_entrada> <lista_identificador>
+<nomb_entrada> ::= entrada >>
 <sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena>
+<nomb_salida> ::= salida <<
+<sentencia_return> ::= retorno <expresion>
 <expresion> ::= ( <expresion> )
                 |  <op_unario> <expresion>
                 |  <expresion> <op_binario> <expresion>
                 |  <identificador>
                 |  <constante>
-                |  <funcion> (si el lenguaje soporta funciones)
-                |  (Resto de expresiones del lenguaje de referencia)
+                |  <funcion>
+<op_unario> ::= !
+              | ++
+              | --
+<op_binario> ::=  +
+                | -
+                | *
+                | /
+                | ==  
+                | !=  
+                | <  
+                | >  
+                | <=  
+                | >=  
+                | &&  
+<identificador> ::= "cadena de caracteres que empieza por letra o _"
+<constante> ::= const <tipo_basico> <identificador>
+<funcion> ::= <identificador>(<lista_identificador>)
+            | <identificador> ()
+<tipo_basico> ::= entero
+                | booleano
+                | real
+                | caracter
+<lista_identificador> ::= <lista_identificador> , <identificador>
+                    | <identificador>
+<lista_parametros> ::= <lista_parametros> , <tipo_basico> <identificador>
+                      | <tipo_basico> <identificador>
+
 ```
