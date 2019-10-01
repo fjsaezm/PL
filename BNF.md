@@ -35,9 +35,9 @@
                 |  <sentencia_salida>
                 |  <sentencia_return> (si el lenguaje soporta funciones)
 <sentencia_asignacion> ::= <identificador> = <expresion>
-<sentencia_if> ::= si (<condicion>) <bloque>
-                 | si (<condicion>) <bloque> si_no <bloque>
-<sentencia_do_until> ::= hacer <bloque> hasta (<condicion>)
+<sentencia_if> ::= si (<expresion>) <bloque>
+                 | si (<expresion>) <bloque> si_no <bloque>
+<sentencia_do_until> ::= hacer <bloque> hasta (<expresion>)
 <sentencia_entrada> ::= <nomb_entrada> <lista_identificador>
 <nomb_entrada> ::= entrada >>
 <sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena>
