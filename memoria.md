@@ -81,14 +81,8 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                         |  <Cuerpo_declar_variables>
 
 <Cuerpo_declar_variables> ::= <tipo_basico><lista_identificador> ;
-              | <tipo_basico> <identificador>[<numero>]
-              | <tipo_basico> <identificador>[<numero>][<numero>]
-<Cabecera_subprograma> ::= <tipo_basico> <identificador> (<lista_parametros>)
-                        | <tipo_basico><identificador>()  
-                        | <tipo_basico>[] <identificador>() 
-                        | <tipo_basico> [] <identificador>(<lista_parametros>)
-                        | <tipo_basico> [][] <identificador> ()
-                        | <tipo_basico> [][] <identificador> (<lista_parametros>)
+<Cabecera_subprograma> ::= <tipo_basico> <ident_array> (<lista_parametros>)
+
 <Sentencias> ::= <Sentencias> <Sentencia>
                  |  <Sentencia>
 <Sentencia> ::= <bloque>
@@ -98,9 +92,9 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                 |  <sentencia_entrada>
                 |  <sentencia_salida>
                 |  <sentencia_return> 
-<sentencia_asignacion> ::= <identificador> = <expresion> ;
-                          | <identificador> = <corchetes_digitos> ;
-                          | <identificador> = <corchetes_matriz> ;
+
+
+<sentencia_asignacion> ::= <array_ident> = <expresion> ;
 <sentencia_if> ::= si (<expresion>) <sentencia>
                  | si (<expresion>) <sentencia> si_no <sentencia>
 <sentencia_do_until> ::= hacer <bloque> hasta (<expresion>)
@@ -109,13 +103,14 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
 <sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena> ;
 <nomb_salida> ::= salida << 
 <sentencia_return> ::= retorno <expresion> ;
+
+
 <expresion> ::= ( <expresion> )
                 |  <op_unario> <expresion>
                 |  <expresion> <op_binario> <expresion>
-                |  <identificador>
+                |  <array_ident>
                 |  <constante>
                 |  <funcion>
-                |  <tipo_basico>
 
 <corchetes_digitos>::= [<lista_digitos>]
                      | [<lista_digitos],<corchetes_digitos>
@@ -138,29 +133,33 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                 | <=  
                 | >=  
                 | &&  
-<constante> ::= const <tipo_basico> <identificador> 
-               | < const_entero> | <const_real> | <const_booleano> | <const_caracter>
-<funcion> ::= <identificador>(<lista_identificador>)
+<constante> ::= < const_entero> | <const_real> | <const_booleano> | <const_caracter> 
+| <const_array>
+
+<funcion> ::= <identificador>(<lista_expr>)
             | <identificador> ()
+
 <tipo_basico> ::= entero
                 | booleano
                 | real
                 | caracter
-<lista_identificador> ::= <lista_identificador> , <identificador>
-                    | <identificador>
-                    | <identificador>[<digito>]
-                    | <identificador>[<digito>][<digito>]
-                    | <lista_identificador>, <identificador>[<digito>]
-                    | <lista_identificador>, <identificador>[<digito>][<digito>]
 
-<lista_parametros> ::= <lista_parametros> , <tipo_basico> <identificador>
-                      | <tipo_basico> <identificador>
-                      | <tipo_basico> <identificador>[]
-                      | <tipo_basico> <identificador>[][]
+<lista_identificador> ::= <lista_identificador> , <ident_array>
+                    | <ident_array>
+
+
+<idarray>::= <identificador>[<numero>] | <identificador>[<numero>][<numero>]
+<ident_array>::=<identificador> | <idarray>
+<array>::= <identificador>[<expresion>]
+          | <identificador>[<expresion>][<expresion>]
+<array_ident>::= <array> | <identificador>
+
+<lista_parametros> ::= <lista_parametros> , <tipo_basico> <ident_array>
+                     | <tipo_basico> <ident_array>
 
 
 <num>::= <num><digito>
-        | <digito>  
+        | <digito>
 <digito>::= 0 | 1 | ... | 9
 <identificador>::= <identificador><alfanumerico>
                  | <letra> 
@@ -186,9 +185,12 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
 <const_caracter>::= 'caracter'
 <const_boolena> ::= verdadero | falso
 
+<lista_expr>::= <lista_expr>, <expresion> | <expresion>
+<const_array>:: = [<lista_expr>]
 
 
 ```
+
 
 
 
@@ -216,13 +218,15 @@ El programa está compuesto por una cabecera de programa y un bloque.
 
 Las palabras identificadas son las siguientes:
 
-| {   | =   | >      | verdadero   | ini_var   | entero     |
-| :-: | :-: | :----: | :---------: | :-------: | :--------: |
-| }   | +   | <      | falso       | fin_var   | caracter   |
-| ;   | -   | >=     | principal   | hasta     | booleano   |
-| (   | *   | <=     | si          | retorno   | real       |
-| )   | /   | ==     | si_no       | hacer     | entrada    |
-|  ,  |     |        | salida      |           |            |
+| {   | =   | >      | verdadero   | ini_var   | entero           |
+| :-: | :-: | :----: | :---------: | :-------: | :--------:       |
+| }   | +   | <      | falso       | fin_var   | caracter         |
+| ;   | -   | >=     | principal   | hasta     | booleano         |
+| (   | *   | <=     | si          | retorno   | real             |
+| )   | /   | ==     | si_no       | hacer     | entrada          |
+| ,   | ;   |        | salida      | cadena    | constante entera |
+|     |     |        |             |           | constante real   |
+|     |     |        |             |           |                  |
 
 ### Identificación de los tokens
 
