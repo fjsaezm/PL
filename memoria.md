@@ -80,7 +80,7 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
 <Variables_locales> ::= <Variables_locales> <Cuerpo_declar_variables>
                         |  <Cuerpo_declar_variables>
 
-<Cuerpo_declar_variables> ::= <tipo_basico><lista_identificador> ";"
+<Cuerpo_declar_variables> ::= <tipo_basico><lista_identificador> ;
               | <tipo_basico> <identificador>[<numero>]
               | <tipo_basico> <identificador>[<numero>][<numero>]
 <Cabecera_subprograma> ::= <tipo_basico> <identificador> (<lista_parametros>)
@@ -98,17 +98,17 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                 |  <sentencia_entrada>
                 |  <sentencia_salida>
                 |  <sentencia_return> 
-<sentencia_asignacion> ::= <identificador> = <expresion> ";"
-                          | <identificador> = <corchetes_digitos> ";"
-                          | <identificador> = <corchetes_matriz> ";"
+<sentencia_asignacion> ::= <identificador> = <expresion> ;
+                          | <identificador> = <corchetes_digitos> ;
+                          | <identificador> = <corchetes_matriz> ;
 <sentencia_if> ::= si (<expresion>) <sentencia>
                  | si (<expresion>) <sentencia> si_no <sentencia>
 <sentencia_do_until> ::= hacer <bloque> hasta (<expresion>)
-<sentencia_entrada> ::= <nomb_entrada> <lista_identificador> ";"
+<sentencia_entrada> ::= <nomb_entrada> <lista_identificador> ;
 <nomb_entrada> ::= entrada >> 
-<sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena> ";"
-<nomb_salida> ::= salida <<
-<sentencia_return> ::= retorno <expresion> ";"
+<sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena> ;
+<nomb_salida> ::= salida << 
+<sentencia_return> ::= retorno <expresion> ;
 <expresion> ::= ( <expresion> )
                 |  <op_unario> <expresion>
                 |  <expresion> <op_binario> <expresion>
@@ -158,15 +158,14 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                       | <tipo_basico> <identificador>[]
                       | <tipo_basico> <identificador>[][]
 
-```
 
-\newpage
-```
 <num>::= <num><digito>
         | <digito>  
 <digito>::= 0 | 1 | ... | 9
-<identificador>::= <identificador><letra>
+<identificador>::= <identificador><alfanumerico>
                  | <letra> 
+                 | <identificador>_ 
+                 | _<letra>
 
 <letra>::= a | ... | z
 <alfanumerico>::= <alfanumerico> <letra>
@@ -190,6 +189,7 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
 
 
 ```
+
 
 
 ## Definición de la semántica en lenguaje natural
@@ -221,31 +221,36 @@ Las palabras identificadas son las siguientes:
 | }   | +   | <      | falso       | fin_var   | caracter   |
 | ;   | -   | >=     | principal   | hasta     | booleano   |
 | (   | *   | <=     | si          | retorno   | real       |
-| )   | /   | ==     | si_no       | hacer     |            |
-|  ,  |     |        |             |           |            |
+| )   | /   | ==     | si_no       | hacer     | entrada    |
+|  ,  |     |        | salida      |           |            |
 
 ### Identificación de los tokens
 
-| Token       | Código | Palabra                        | Atributo                                           |
-|-------------|--------|--------------------------------|----------------------------------------------------|
-| PRINCIPAL   |    256 | principal                      |                                                    |
-| INI_BLOQUE  |    257 | {                              |                                                    |
-| FIN_BLOQUE  |    258 | }                              |                                                    |
-| INI_EXPR    |    259 | (                              |                                                    |
-| FIN_EXPR    |    260 | )                              |                                                    |
-| COMA        |    261 | ,                              |                                                    |
-| OP_BINARIO  |    262 | * / == != <= >= < > &&         | 0:*  1: /  2: == 3: != 4: >= 5: >= 6: > 7: < 8: && |
-| VERDADERO   |    263 | verdadero                      |                                                    |
-| FALSO       |    264 |         falso                  |                                                    |
-| TIPO_BASICO |    265 | entero booleano  Caracter real | 0: entero 1: booleano 2: caracter 3: real          |
-| SI          |    266 | si                             |                                                    |
-| SI_NO       |    267 | si_no                          |                                                    |
-| INI_VAR     |    268 | ini_var                        |                                                    |
-| FIN_VAR     |    269 | fin_var                        |                                                    |
-| FUNCION     |    270 | funcion                        |                                                    |
-| RETORNO     |    271 | retorno                        |                                                    |
-| HACER       |    272 | hacer                          |                                                    |
-| HASTA       |    273 | hasta                          |                                                    |
-| OP_UNARIO   |    274 | & !                            | 0: & 1: !                                          |
-| ASIGNACION  |    275 | =                              |                                                    |
-             
+| Token       	| Código 	| Palabra                        	| Atributo                                           	|
+|-------------	|--------	|--------------------------------	|----------------------------------------------------	|
+| PRINCIPAL   	| 256    	| principal                      	|                                                    	|
+| INI_BLOQUE  	| 257    	| {                              	|                                                    	|
+| FIN_BLOQUE  	| 258    	| }                              	|                                                    	|
+| INI_EXPR    	| 259    	| (                              	|                                                    	|
+| FIN_EXPR    	| 260    	| )                              	|                                                    	|
+| COMA        	| 261    	| ,                              	|                                                    	|
+| OP_BINARIO  	| 262    	| +                              	| 0: * 1: /  2: == 3: != 4: >= 5: >= 6: > 7: < 8: && 	|
+| VERDADERO   	| 263    	| verdadero                      	|                                                    	|
+| FALSO       	| 264    	| falso                          	|                                                    	|
+| TIPO_BASICO 	| 265    	| entero booleano  Caracter real 	| 0: entero 1: booleano 2: caracter 3: real          	|
+| SI          	| 266    	| si                             	|                                                    	|
+| SI_NO       	| 267    	| si_no                          	|                                                    	|
+| INI_VAR     	| 268    	| ini_var                        	|                                                    	|
+| FIN_VAR     	| 269    	| fin_var                        	|                                                    	|
+| FUNCION     	| 270    	| funcion                        	|                                                    	|
+| RETORNO     	| 271    	| return                         	|                                                    	|
+| HACER       	| 272    	| hacer                          	|                                                    	|
+| HASTA       	| 273    	| hasta                          	|                                                    	|
+| OP_UNARIO   	| 274    	| & ! + -                        	| 0: & 1: ! 2: + 3: -                                	|
+| ASIGNACION  	| 275    	| =                              	|                                                    	|
+| CONST_ENT   	| 276    	| [0-9]+                         	|                                                    	|
+| CONST_R     	| 277    	| [0-9]+.[0-9]+                  	|                                                    	|
+| CONST_CAR   	| 278    	| \’[^\’]\’                      	|                                                    	|
+| ENTRADA     	| 279    	| entrada                        	|                                                    	|
+| SALIDA      	| 280    	| salida                         	|                                                    	|
+| CADENA      	| 281    	| \’[^\’]+\’                     	|                                                    	|

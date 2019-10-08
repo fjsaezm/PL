@@ -21,7 +21,7 @@
 <Variables_locales> ::= <Variables_locales> <Cuerpo_declar_variables>
                         |  <Cuerpo_declar_variables>
 
-<Cuerpo_declar_variables> ::= <tipo_basico><lista_identificador> ";"
+<Cuerpo_declar_variables> ::= <tipo_basico><lista_identificador> ;
               | <tipo_basico> <identificador>[<numero>]
               | <tipo_basico> <identificador>[<numero>][<numero>]
 <Cabecera_subprograma> ::= <tipo_basico> <identificador> (<lista_parametros>)
@@ -39,17 +39,17 @@
                 |  <sentencia_entrada>
                 |  <sentencia_salida>
                 |  <sentencia_return> 
-<sentencia_asignacion> ::= <identificador> = <expresion> ";"
-                          | <identificador> = <corchetes_digitos> ";"
-                          | <identificador> = <corchetes_matriz> ";"
+<sentencia_asignacion> ::= <identificador> = <expresion> ;
+                          | <identificador> = <corchetes_digitos> ;
+                          | <identificador> = <corchetes_matriz> ;
 <sentencia_if> ::= si (<expresion>) <sentencia>
                  | si (<expresion>) <sentencia> si_no <sentencia>
 <sentencia_do_until> ::= hacer <bloque> hasta (<expresion>)
-<sentencia_entrada> ::= <nomb_entrada> <lista_identificador> ";"
+<sentencia_entrada> ::= <nomb_entrada> <lista_identificador> ;
 <nomb_entrada> ::= entrada >> 
-<sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena> ";"
-<nomb_salida> ::= salida <<
-<sentencia_return> ::= retorno <expresion> ";"
+<sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena> ;
+<nomb_salida> ::= salida << 
+<sentencia_return> ::= retorno <expresion> ;
 <expresion> ::= ( <expresion> )
                 |  <op_unario> <expresion>
                 |  <expresion> <op_binario> <expresion>
@@ -103,8 +103,10 @@
 <num>::= <num><digito>
         | <digito>  
 <digito>::= 0 | 1 | ... | 9
-<identificador>::= <identificador><letra>
+<identificador>::= <identificador><alfanumerico>
                  | <letra> 
+                 | <identificador>_ 
+                 | _<letra>
 
 <letra>::= a | ... | z
 <alfanumerico>::= <alfanumerico> <letra>
