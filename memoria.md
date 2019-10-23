@@ -247,16 +247,15 @@ Las palabras identificadas son las siguientes:
 | SI_NO       	| 268    	| si_no                          	|                                                     	|
 | INI_VAR     	| 269    	| ini_var                        	|                                                     	|
 | FIN_VAR     	| 270    	| fin_var                        	|                                                     	|
-| FUNCION     	| 271    	| funcion                        	|                                                     	|
-| RETORNO     	| 272    	| return                         	|                                                     	|
-| HACER       	| 273    	| hacer                          	|                                                     	|
-| HASTA       	| 274    	| hasta                          	|                                                     	|
-| OP_UNARIO   	| 275    	| & !                            	| 0: & 1: !                                           	|
-| IGUAL       	| 276    	| =                              	|                                                     	|
-| ENTRADA     	| 277    	| entrada >>                     	|                                                     	|
-| SALIDA      	| 278    	| Salida <<                      	|                                                     	|
-| CADENA      	| 279    	| \’[^\’]\*’                     	|                                                     	|
-| SUMA        	| 280    	| +                              	|                                                     	|
-| RESTA       	| 281    	| -                              	|                                                     	|
-| CONSTANTE   	| 282    	| verdadero falso                	| 0: verdadero 1: falso 3: \’[^\’]\’ 4: [0-9]+.[0-9]+ 	|
-| CTE_ENTERA  	| 283    	|                                	| [0-9]*                                              	|
+| RETORNO     	| 271    	| return                         	|                                                     	|
+| HACER       	| 272    	| hacer                          	|                                                     	|
+| HASTA       	| 273    	| hasta                          	|                                                     	|
+| OP_UNARIO   	| 274    	| & !                            	| 0: & 1: !                                           	|
+| IGUAL       	| 275    	| =                              	|                                                     	|
+| ENTRADA     	| 276    	| entrada >>                     	|                                                     	|
+| SALIDA      	| 277    	| Salida <<                      	|                                                     	|
+| CADENA      	| 278    	| \’[^\’]\*’                     	|                                                     	|
+| SUMA        	| 279    	| +                              	|                                                     	|
+| RESTA       	| 280    	| -                              	|                                                     	|
+| CONSTANTE   	| 281    	| verdadero falso                	| 0: verdadero 1: falso 3: \’[^\’]\’ 4: [0-9]+.[0-9]+ 	|
+| CTE_ENTERA  	| 282    	| [0-9]+                               	|                                                     	|

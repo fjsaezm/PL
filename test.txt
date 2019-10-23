@@ -1,4 +1,11 @@
 principal
 {
-  
+  *;
+  entero a = 2;
+  real   b = 3.3;
+  caracter c = 'a';
+  booleano d = falso;
+
+  entero arr2D[2][3];
+  entero arr1D[3] = [1,2,3]
 }
