@@ -224,40 +224,39 @@ Las palabras identificadas son las siguientes:
 | ;  	| -  	| >= 	| principal 	| hasta   	| booleano         	|
 | (  	| *  	| <= 	| si        	| retorno 	| real             	|
 | )  	| /  	| == 	| si_no     	| hacer   	| entrada >>       	|
-| ,  	| ;  	| !  	| salida << 	| cadena  	| constante entera 	|
-| ++ 	| -- 	| != 	| &&        	|         	| constante real   	|
+| ,  	| ;  	| !  	| salida << 	| cadena  	| constante 	    |
+| ++ 	| -- 	| != 	| &&        	|         	| constante entera  |
 | [  	| ]  	|    	|           	|         	|                  	|
 
 ### Identificación de los tokens
 
-| Token       	| Código 	| Palabra                        	| Atributo                                           	|
-|-------------	|--------	|--------------------------------	|----------------------------------------------------	|
-| PRINCIPAL   	| 256    	| principal                      	|                                                    	|
-| INI_BLOQUE  	| 257    	| {                              	|                                                    	|
-| FIN_BLOQUE  	| 258    	| }                              	|                                                    	|
-| INI_EXPR    	| 259    	| (                              	|                                                    	|
-| INI_TAM     	| 260    	| [                              	|                                                    	|
-| FIN_TAM     	| 261    	| ]                              	|                                                    	|
-| FIN_EXPR    	| 262    	| )                              	|                                                    	|
-| COMA        	| 263    	| ,                              	|                                                    	|
-| PTCOMA      	| 264    	| ;                              	|                                                    	|
-| OP_BINARIO  	| 265    	| +                              	| 0: * 1: /  2: == 3: != 4: >= 5: >= 6: > 7: < 8: && 	|
-| VERDADERO   	| 266    	| verdadero                      	|                                                    	|
-| FALSO       	| 267    	| falso                          	|                                                    	|
-| TIPO_BASICO 	| 268    	| entero booleano  Caracter real 	| 0: entero 1: booleano 2: caracter 3: real          	|
-| SI          	| 269    	| si                             	|                                                    	|
-| SI_NO       	| 270    	| si_no                          	|                                                    	|
-| INI_VAR     	| 271    	| ini_var                        	|                                                    	|
-| FIN_VAR     	| 272    	| fin_var                        	|                                                    	|
-| FUNCION     	| 273    	| funcion                        	|                                                    	|
-| RETORNO     	| 274    	| return                         	|                                                    	|
-| HACER       	| 275    	| hacer                          	|                                                    	|
-| HASTA       	| 276    	| hasta                          	|                                                    	|
-| OP_UNARIO   	| 277    	| & ! + -                        	| 0: & 1: ! 2: + 3: - 4:++ 5:--                      	|
-| IGUAL       	| 278    	| =                              	|                                                    	|
-| CONST_ENT   	| 279    	| [0-9]+                         	|                                                    	|
-| CONST_R     	| 280    	| [0-9]+.[0-9]+                  	|                                                    	|
-| CONST_CAR   	| 281    	| \^[a-zA-Z0-9_]                	    |                                                    	|
-| ENTRADA     	| 282    	| entrada >>                     	|                                                    	|
-| SALIDA      	| 283    	| salida >>                      	|                                                    	|
-| CADENA      	| 284    	| \^[a-zA-Z0-9_]+                	   |                                                    	|
+| Token       	| Código 	| Palabra                        	| Atributo                                            	|
+|-------------	|--------	|--------------------------------	|-----------------------------------------------------	|
+| PRINCIPAL   	| 256    	| principal                      	|                                                     	|
+| INI_BLOQUE  	| 257    	| {                              	|                                                     	|
+| FIN_BLOQUE  	| 258    	| }                              	|                                                     	|
+| INI_EXPR    	| 259    	| (                              	|                                                     	|
+| INI_TAM     	| 260    	| [                              	|                                                     	|
+| FIN_TAM     	| 261    	| ]                              	|                                                     	|
+| FIN_EXPR    	| 262    	| )                              	|                                                     	|
+| COMA        	| 263    	| ,                              	|                                                     	|
+| PTCOMA      	| 264    	| ;                              	|                                                     	|
+| OP_BINARIO  	| 265    	| * / == != >=  <= < > &&        	| 0: * 1: /  2: == 3: != 4: >= 5: <= 6: > 7: < 8: &&  	|
+| TIPO_BASICO 	| 266    	| entero booleano  Caracter real 	| 0: entero 1: booleano 2: caracter 3: real           	|
+| SI          	| 267    	| si                             	|                                                     	|
+| SI_NO       	| 268    	| si_no                          	|                                                     	|
+| INI_VAR     	| 269    	| ini_var                        	|                                                     	|
+| FIN_VAR     	| 270    	| fin_var                        	|                                                     	|
+| FUNCION     	| 271    	| funcion                        	|                                                     	|
+| RETORNO     	| 272    	| return                         	|                                                     	|
+| HACER       	| 273    	| hacer                          	|                                                     	|
+| HASTA       	| 274    	| hasta                          	|                                                     	|
+| OP_UNARIO   	| 275    	| & !                            	| 0: & 1: !                                           	|
+| IGUAL       	| 276    	| =                              	|                                                     	|
+| ENTRADA     	| 277    	| entrada >>                     	|                                                     	|
+| SALIDA      	| 278    	| Salida <<                      	|                                                     	|
+| CADENA      	| 279    	| \’[^\’]\*’                     	|                                                     	|
+| SUMA        	| 280    	| +                              	|                                                     	|
+| RESTA       	| 281    	| -                              	|                                                     	|
+| CONSTANTE   	| 282    	| verdadero falso                	| 0: verdadero 1: falso 3: \’[^\’]\’ 4: [0-9]+.[0-9]+ 	|
+| CTE_ENTERA  	| 283    	|                                	| [0-9]*                                              	|
