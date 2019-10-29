@@ -25,9 +25,8 @@
 #define ENTRADA	277
 #define SALIDA	278
 #define CADENA	279
-#define SUMA	280
-#define RESTA	281
-#define CONSTANTE	282
-#define CTE_ENTERA	283
+#define SUMARESTA	280
+#define CONSTANTE	281
+#define CTE_ENTERA	282
 
 #endif

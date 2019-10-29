@@ -254,7 +254,6 @@ Las palabras identificadas son las siguientes:
 | ENTRADA     	| 276    	| entrada >>                     	|                                                     	|
 | SALIDA      	| 277    	| Salida <<                      	|                                                     	|
 | CADENA      	| 278    	| \’[^\’]\*’                     	|                                                     	|
-| SUMA        	| 279    	| +                              	|                                                     	|
-| RESTA       	| 280    	| -                              	|                                                     	|
+| SUMARESTA    	| 279    	| + -                            	| 0: + 1: -                                            	|
 | CONSTANTE   	| 281    	| verdadero falso                	| 0: verdadero 1: falso 3: \’[^\’]\’ 4: [0-9]+.[0-9]+ 	|
 | CTE_ENTERA  	| 282    	| [0-9]+                               	|                                                     	|
