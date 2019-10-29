@@ -16,17 +16,16 @@
 #define SI_NO	268
 #define INI_VAR	269
 #define FIN_VAR	270
-#define FUNCION	271
-#define RETORNO	272
-#define HACER	273
-#define HASTA	274
-#define OP_UNARIO	275
-#define IGUAL	276
-#define ENTRADA	277
-#define SALIDA	278
-#define CADENA	279
-#define SUMARESTA	280
-#define CONSTANTE	281
-#define CTE_ENTERA	282
+#define RETORNO	271
+#define HACER	272
+#define HASTA	273
+#define OP_UNARIO	274
+#define IGUAL	275
+#define ENTRADA	276
+#define SALIDA	277
+#define CADENA	278
+#define SUMARESTA	279
+#define CONSTANTE	280
+#define CTE_ENTERA	281
 
 #endif
