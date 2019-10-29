@@ -14,16 +14,17 @@ real {entero}.{entero}
 
 %%
 
-
+//Si esto está puesto arriba creo que aqui sobra
 letra [a-zA-Z]
 digito [0-9]
 entero {digito}+
 real {entero}.{entero}
+//
 
-{op_unario}    [&^!]
+op_unario    [&^!]
 op_binario   [\* | /]
 tipo_basico  ["entero"|"booleano"|"caracter"|"real"]
-cte          ["verdadero"|"falso"|\'[^\']\' | [0-9]+.[0-9]+]
+cte          ["verdadero"|"falso"|\'[^\']\' | {real}]
 
 "principal"   return PRINCIPAL;
 "{"           return INI_BLOQUE;
@@ -49,7 +50,7 @@ cte          ["verdadero"|"falso"|\'[^\']\' | [0-9]+.[0-9]+]
 "+"           return SUMA;
 "-"           return RESTA;
 {cte}           return CONSTANTE;
-[0-9]*        return CTE_ENTERA;
+{entero}        return CTE_ENTERA;
 
 
 . {

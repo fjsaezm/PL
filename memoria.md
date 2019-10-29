@@ -32,7 +32,7 @@ Adicionalmente, contemplaremos las constantes de tipo array.
 Esta estructura solo puede tener elementos de los tipos básicos definidos (entero, real, carácter o booleano).La sintaxis del lenguaje permitirá construir expresiones complejas con las operaciones definidas.
 
 
-Nuestro lenguaje también dispondrá de subprogramas. En concreto existirá la posibilidad de crear **funciones** externas al programa principal. Por último, presentaremos una estructura de control: los **bucles do-until**. 
+Nuestro lenguaje también dispondrá de subprogramas. En concreto existirá la posibilidad de crear **funciones** externas al programa principal. Por último, presentaremos una estructura de control: los **bucles do-until**.
 
 
 La estructura sintáctica de un programa en nuestro lenguaje será:
@@ -91,7 +91,7 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                 |  <sentencia_do_until>
                 |  <sentencia_entrada>
                 |  <sentencia_salida>
-                |  <sentencia_return> 
+                |  <sentencia_return>
 
 
 <sentencia_asignacion> ::= <array_ident> = <expresion> ;
@@ -99,9 +99,9 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                  | si (<expresion>) <sentencia> si_no <sentencia>
 <sentencia_do_until> ::= hacer <bloque> hasta (<expresion>)
 <sentencia_entrada> ::= <nomb_entrada> <lista_identificador> ;
-<nomb_entrada> ::= entrada >> 
+<nomb_entrada> ::= entrada >>
 <sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena> ;
-<nomb_salida> ::= salida << 
+<nomb_salida> ::= salida <<
 <sentencia_return> ::= retorno <expresion> ;
 
 
@@ -133,7 +133,7 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                 | <=  
                 | >=  
                 | &&  
-<constante> ::= < const_entero> | <const_real> | <const_booleano> | <const_caracter> 
+<constante> ::= < const_entero> | <const_real> | <const_booleano> | <const_caracter>
 | <const_array>
 
 <funcion> ::= <identificador>(<lista_expr>)
@@ -162,19 +162,19 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
         | <digito>
 <digito>::= 0 | 1 | ... | 9
 <identificador>::= <identificador><alfanumerico>
-                 | <letra> 
-                 | <identificador>_ 
+                 | <letra>
+                 | <identificador>_
                  | _<letra>
 
 <letra>::= a | ... | z
 <alfanumerico>::= <alfanumerico> <letra>
-                 | <alfanumerico> <digito> 
+                 | <alfanumerico> <digito>
                  | <letra>                 
                  | <digito>                
 
 
 
-<lista_expresiones_o_cadena>::= <lista_expresiones_o_cadena> <expresiones_cadena>; 
+<lista_expresiones_o_cadena>::= <lista_expresiones_o_cadena> <expresiones_cadena>;
                               | < expresiones_cadena>
 <expresiones_cadena>::= <expresion>
                        | <cadena>
@@ -196,20 +196,20 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
 
 ## Definición de la semántica en lenguaje natural
 
-El programa está compuesto por una cabecera de programa y un bloque. 
+El programa está compuesto por una cabecera de programa y un bloque.
 
 - La *cabecera* estará denotada por la palabra **principal***
 - En el *bloque* tendremos varias partes:
 
   1. Inicio de bloque: Se iniciará con una palabra, en nuestro caso: **{**
   2. Declaración de variables locales: se declararán las variables locales entre dos marcas de declaración, la de inicio que será: **ini_var** y la de fin: **fin_var**
-  3. Declaración de subprogramas:  el subprograma (que en nuestro caso es una función)se compone de una cabecera, que  será: **funcion**, y de otro bloque interno. 
+  3. Declaración de subprogramas:  el subprograma (que en nuestro caso es una función)se compone de una cabecera, que  será: **funcion**, y de otro bloque interno.
   4. Sentencias, que se componen recursivamente de más sentencias. Una sentencia puede ser un bloque, una asignación entre variables, un condicional, un bucle, una entrada o salida, una llamada a una función, una expresión o una sentencia *return*, que marcaremos como **retorno**.
   Una **expresión** podrá ser un operador unario, binario, un identificador, una constante , una función o una variable. Podrá estar (o no) entre paréntesis, y terminarán siempre en un **;**
-  
+
   Si tenemos una lista de parámetros para una función, esta deberá ir entre paréntesis y escrita de la forma: **tipo nombre_variable**,  y separadas por comas.
   El **tipo**, como sabemos podrá ser *entero,real,booleano,caracter*. Si queremos indicar que una variable es un vector, se hará escribiendo detrás de su nombre **[ "dimensión"]**. Si queremos que sea una matriz, escribiremos detrás del nombre **[<"dimensión i"] ["dimensión j"]**
-  
+
 
 ## Identificación de los tokens
 
@@ -219,7 +219,6 @@ El programa está compuesto por una cabecera de programa y un bloque.
 Las palabras identificadas son las siguientes:
 
 | {  	| =  	| >  	| verdadero 	| ini_var 	| entero           	|
-|----	|----	|----	|-----------	|---------	|------------------	|
 | }  	| +  	| <  	| falso     	| fin_var 	| caracter         	|
 | ;  	| -  	| >= 	| principal 	| hasta   	| booleano         	|
 | (  	| *  	| <= 	| si        	| retorno 	| real             	|
