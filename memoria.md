@@ -219,6 +219,7 @@ El programa está compuesto por una cabecera de programa y un bloque.
 Las palabras identificadas son las siguientes:
 
 | {  	| =  	| >  	| verdadero 	| ini_var 	| entero           	|
+|----	|----	|------------------	|-----------|------------------ |
 | }  	| +  	| <  	| falso     	| fin_var 	| caracter         	|
 | ;  	| -  	| >= 	| principal 	| hasta   	| booleano         	|
 | (  	| *  	| <= 	| si        	| retorno 	| real             	|
