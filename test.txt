@@ -1,3 +1,7 @@
+entero suma(entero a, entero b){
+  retorno a+b;
+}
+
 principal
 {
   *;
@@ -7,5 +11,18 @@ principal
   booleano d = falso;
 
   entero arr2D[2][3];
-  entero arr1D[3] = [1,2,3]
+  entero arr1D[3] = [1,2,3];
+
+  hacer{
+    a++
+  }
+  hasta (a>5)
+
+  si (b==5.0){
+    b = 4.0;
+  }
+  sino {
+    a = a+3;
+  } 
+
 }

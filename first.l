@@ -7,55 +7,51 @@ char sourceName[20];
 
 %}
 
+sumaresta [+-]
 letra [a-zA-Z]
+alfanumerico {letra}[a-zA-Z0-9]*
 digito [0-9]
 entero {digito}+
 real {entero}.{entero}
+
+op_unario    [&|!]
+op_binario   (* | / | < | > | "&&" | ">=" | "<=" | "||" )
+tipo_basico  ("entero"|"booleano"|"caracter"|"real")
+cte          ("verdadero"|"falso"|'{letra}'|{real})
 
 %%
 
-//Si esto está puesto arriba creo que aqui sobra
-letra [a-zA-Z]
-digito [0-9]
-entero {digito}+
-real {entero}.{entero}
-//
 
-op_unario    [&^!]
-op_binario   [\* | /]
-tipo_basico  ["entero"|"booleano"|"caracter"|"real"]
-cte          ["verdadero"|"falso"|\'[^\']\' | {real}]
-
-"principal"   return PRINCIPAL;
-"{"           return INI_BLOQUE;
-"}"           return FIN_BLOQUE;
-"("           return INI_EXPR;
-")"           return FIN_EXPR;
-"["           return INI_TAM;
-"]"           return FIN_TAM;
-","           return COMA;
-";"           return PTCOMA;
-{op_binario}    return OP_BINARIO;
-{tipo_basico}   return TIPO_BASICO;
-"si"          return SI;
-"si_no"       return SI_NO;
-"ini_var"     return INI_VAR;
-"fin_var"     return FIN_VAR;
-"retorno"     return RETORNO;
-{op_unario}   return OP_UNARIO;
-"="           return IGUAL;
-"entrada>>"   return ENTRADA;
-"salida<<"    return SALIDA;
-\'[^\']*'     return CADENA;
-"+"           return SUMA;
-"-"           return RESTA;
-{cte}           return CONSTANTE;
-{entero}        return CTE_ENTERA;
-
+" "           
+"principal"   {ECHO; return PRINCIPAL;}
+"{"           {ECHO; return INI_BLOQUE;}
+"}"           {ECHO; return FIN_BLOQUE;}
+"("           {ECHO; return INI_EXPR;}
+")"           {ECHO; return FIN_EXPR;}
+"["           {ECHO; return INI_TAM;}
+"]"           {ECHO; return FIN_TAM;}
+","           {ECHO; return COMA;}
+";"           {ECHO; return PTCOMA;}
+{op_binario}    {ECHO; return OP_BINARIO;}
+{tipo_basico}   {ECHO; return TIPO_BASICO;}
+"si"          {ECHO; return SI;}
+"si_no"       {ECHO; return SI_NO;}
+"ini_var"     {ECHO; return INI_VAR;}
+"fin_var"     {ECHO; return FIN_VAR;}
+"retorno"     {ECHO; return RETORNO;}
+{op_unario}   {ECHO; return OP_UNARIO;}
+"="           {ECHO; return IGUAL;}
+"entrada>>"   {ECHO; return ENTRADA;}
+"salida<<"    {ECHO; return SALIDA;}
+{cte}           {ECHO; return CONSTANTE;}
+{alfanumerico}+     {ECHO; return CADENA;}
+{sumaresta}     {ECHO; return SUMARESTA;}
+{entero}        {ECHO; return CTE_ENTERA;}
 
 . {
 printf(" \nError Léxico en Linea: %d. No se reconoce la palabra '%s'. ", yylineno, yytext);
 }
+
 
 %%
 
