@@ -13,9 +13,15 @@ alfanumerico {letra}[a-zA-Z0-9]*
 digito [0-9]
 entero {digito}+
 real {entero}.{entero}
+and   "&"
+dand  "&&"
+leq  "<="
+geq  ">="
+or   "||"
 
-op_unario    [&|!]
-op_binario   (* | / | < | > | "&&" | ">=" | "<=" | "||" )
+op_unario    {and}|!
+op_binario1  {dand}|{leq}|{geq}|{or}
+op_binario2  (*|/|<|>)
 tipo_basico  ("entero"|"booleano"|"caracter"|"real")
 cte          ("verdadero"|"falso"|'{letra}'|{real})
 
@@ -32,7 +38,16 @@ cte          ("verdadero"|"falso"|'{letra}'|{real})
 "]"           {ECHO; return FIN_TAM;}
 ","           {ECHO; return COMA;}
 ";"           {ECHO; return PTCOMA;}
-{op_binario}    {ECHO; return OP_BINARIO;}
+"*"           {ECHO; return OP_BINARIO;}
+"/"           {ECHO; return OP_BINARIO;}
+"<"           {ECHO; return OP_BINARIO;}
+">"           {ECHO; return OP_BINARIO;}
+"="           {ECHO; return IGUAL;}
+"entrada>>"   {ECHO; return ENTRADA;}
+"salida<<"    {ECHO; return SALIDA;}
+"hacer"       {ECHO; return HACER;}
+"hasta"       {ECHO; return HASTA;}
+{op_binario1}    {ECHO; return OP_BINARIO;}
 {tipo_basico}   {ECHO; return TIPO_BASICO;}
 "si"          {ECHO; return SI;}
 "si_no"       {ECHO; return SI_NO;}
@@ -40,9 +55,7 @@ cte          ("verdadero"|"falso"|'{letra}'|{real})
 "fin_var"     {ECHO; return FIN_VAR;}
 "retorno"     {ECHO; return RETORNO;}
 {op_unario}   {ECHO; return OP_UNARIO;}
-"="           {ECHO; return IGUAL;}
-"entrada>>"   {ECHO; return ENTRADA;}
-"salida<<"    {ECHO; return SALIDA;}
+
 {cte}           {ECHO; return CONSTANTE;}
 {alfanumerico}+     {ECHO; return CADENA;}
 {sumaresta}     {ECHO; return SUMARESTA;}
