@@ -51,7 +51,7 @@
                 |  <expresion> <op_binario> <expresion>
                 |  <array_ident>
                 |  <constante>
-                |  <funcion>
+
 
 <corchetes_digitos>::= [<lista_digitos>]
                      | [<lista_digitos],<corchetes_digitos>
