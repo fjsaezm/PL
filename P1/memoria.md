@@ -110,6 +110,8 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                 |  <expresion> <op_binario> <expresion>
                 |  <array_ident>
                 |  <constante>
+                | <funcion>
+
 
 <corchetes_digitos>::= [<lista_digitos>]
                      | [<lista_digitos],<corchetes_digitos>
@@ -224,8 +226,8 @@ Las palabras identificadas son las siguientes:
 | (  	| *  	| <= 	| si        	| retorno 	| real             	|
 | )  	| /  	| == 	| si_no     	| hacer   	| entrada >>       	|
 | ,  	| ;  	| !  	| salida << 	| cadena  	| constante 	    |
-| ++ 	| -- 	| != 	| &&        	|         	| constante entera  |
-| [  	| ]  	|    	|           	|         	|                  	|
+| ++ 	| -- 	| != 	| &&        	| %        	| constante entera  |
+| [  	| ]  	| &#x7c; | &#x7c; &#x7c;| ^        	|&                  	|
 
 ### Identificación de los tokens
 
@@ -240,7 +242,7 @@ Las palabras identificadas son las siguientes:
 | FIN_EXPR    	| 262    	| )                              	|                                                     	|
 | COMA        	| 263    	| ,                              	|                                                     	|
 | PTCOMA      	| 264    	| ;                              	|                                                     	|
-| OP_BINARIO  	| 265    	| * / == != >=  <= < > &&        	| 0: * 1: /  2: == 3: != 4: >= 5: <= 6: > 7: < 8: &&  	|
+| OP_BINARIO  	| 265    	|* / == != >=  <= < > && &#x7c; ^ &#x7c;&#x7c; % &      	| 0: * 1: / 2: == 3: != 4: >= 5: <= 6: > 7: < 8: && 9: &#x7c; 10: ^ 11: &#x7c; &#x7c; 12: %  13: & 	|
 | TIPO_BASICO 	| 266    	| entero booleano  Caracter real 	| 0: entero 1: booleano 2: caracter 3: real           	|
 | SI          	| 267    	| si                             	|                                                     	|
 | SI_NO       	| 268    	| si_no                          	|                                                     	|

@@ -16,7 +16,7 @@ principal
   hacer{
     a++
   }
-  hasta (a>5)
+  hasta (a>5 | b > 2)
 
   si (b==5.0){
     b = 4.0;

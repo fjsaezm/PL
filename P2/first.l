@@ -7,6 +7,8 @@ char sourceName[20];
 
 %}
 
+%option yylineno
+
 sumaresta [+-]
 letra [a-zA-Z]
 alfanumerico {letra}[a-zA-Z0-9]*
@@ -18,16 +20,21 @@ dand  "&&"
 leq  "<="
 geq  ">="
 or   "||"
+bor  "|"
+xor  "^"
+band "&"
+mod  "%"
+
 
 op_unario    {and}|!
-op_binario1  {dand}|{leq}|{geq}|{or}
-op_binario2  (*|/|<|>)
+op_binario  {dand}|{leq}|{geq}|{or}|{bor}|{xor}|{band}|{mod}
 tipo_basico  ("entero"|"booleano"|"caracter"|"real")
 cte          ("verdadero"|"falso"|'{letra}'|{real})
 
 %%
 
 
+"\n"          {yylineno;}
 " "           
 "principal"   {ECHO; return PRINCIPAL;}
 "{"           {ECHO; return INI_BLOQUE;}
@@ -47,7 +54,7 @@ cte          ("verdadero"|"falso"|'{letra}'|{real})
 "salida<<"    {ECHO; return SALIDA;}
 "hacer"       {ECHO; return HACER;}
 "hasta"       {ECHO; return HASTA;}
-{op_binario1}    {ECHO; return OP_BINARIO;}
+{op_binario}    {ECHO; return OP_BINARIO;}
 {tipo_basico}   {ECHO; return TIPO_BASICO;}
 "si"          {ECHO; return SI;}
 "si_no"       {ECHO; return SI_NO;}
