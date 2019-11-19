@@ -28,14 +28,16 @@
 %token ENTRADA SALIDA
 %token HACER HASTA
 
-
 %left OPOR
 %left OPAND
-%left OPIG
-%left OPTSUMREST
-%left OPDIST
-%right OPUN
+%left OPIGUALDAD
+%left OPRELACION
+%left OPSIGNO
+%left OPMULTIPLICATIVO
+%right OP_UNARIO
 
+
+%start programa
 
 %%
 
@@ -92,12 +94,86 @@ sentencia_entrada : ENTRADA lista_id PTCOMA
 sentencia_salida : SALIDA lista_id PTCOMA
 ;
 sentencia_return : RETORNO expresion PTCOMA
-;
+; 
 expresion : INI_EXPR expresion FIN_EXPR
-          | OP_UNARIO expresion
+          | OPUN expresion
           | CONSTANTE
           | array_ident
-          | 
+          | expresion OPIG expresion
+          | expresion OP_BINARIO expreison
+          | OP_UNARIO expresion
+          | funcion
+
+;
+corchetes_digitos: INI_TAM lista_digitos FINTAM
+                 | lista_digitos COMA corchetes_digitos
+;
+
+corchetes_matriz : INI_TAM corchetes_digitos FIN_TAM
+;
+
+lista_digitos : digito COMA lista_digitos
+              | digito
+;
 
 
+ constante :   const_entero |  const_real |  const_booleano |  const_caracter
+           |  const_array
+ ;
 
+   funcion :  identificador INI_EXPR lista_expr FIN_EXPR
+  |  identificador INI_EXPR FIN_EXPR
+   ;
+ tipo_basico : entero   |  booleano  |  real  |  caracter
+ ;
+
+   lista_identificador :  lista_identificador COMA  ident_array
+                      |  ident_array
+
+   ;
+   idarray:  identificador INI_TAM  numero FIN_TAM
+          | identificador INI_TAM  numero FIN_TAM INI_TAM  numero FIN_TAM
+   ;
+   ident_array: identificador |  idarray
+   ;
+   array:  identificador INI_TAM  expresion FIN_TAM
+        |  identificadorINI_TAM  expresion FIN_TAM INI_TAM  expresion FIN_TAM
+   ;
+   array_ident:  array |  identificador
+   ;
+   lista_parametros :  lista_parametros COMA  tipo_basico  ident_array
+                   |  tipo_basico  ident_array
+   ;
+   num:  CTE_ENTERA
+   ;
+
+
+identificador : identificador alfanumerico
+              | letra
+;
+
+alfanumerico : alfanumerico letra
+             | alfanumerico digito
+             | letra
+             | digito
+;
+
+lista_expresiones_o_cadena :  lista_expresiones_o_cadena expresiones_cadena PTOCOMA | expresiones_cadena
+;
+
+expresiones_cadena : expresion
+  | CADENA
+;
+  const_entero : num
+;
+  const_real : const_entero . const_entero
+;
+  const_caracter : CONSTANTE
+  ;
+  const_boolena ::= verdadero | falso
+    ;
+lista_expr : lista_expr COMA expresion | expresion
+;
+
+const_array : = INI_TAM lista_expr FIN_TAM
+  ;
