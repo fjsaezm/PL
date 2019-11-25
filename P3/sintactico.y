@@ -185,3 +185,15 @@ lista_digitos : digito COMA lista_digitos
 
  const_array : = INI_TAM lista_expr FIN_TAM
  ;
+ 
+%%
+
+
+// Include yylex.c file
+#include "lex.yy.c"
+
+
+//Imprime mensaje de error en pantalla
+void yyerror( char *msg ){
+	fprintf(stderr, "Línea %d: %s\n", yylineno, msg) ;
+}
