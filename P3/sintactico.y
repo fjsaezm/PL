@@ -64,8 +64,6 @@ dec_subprog : cabe_subprog bloque
 cabe_subprog : TIPO_BASICO ident_array INI_EXPR lista_parametros FIN_EXPR
 ;
 
-dec_subpr : cabe_subpr bloque
-;
 
 dec_var_loc : INI_VAR
 var_loc
@@ -76,9 +74,6 @@ var_loc : var_loc cuerpo_dec_var
 ;
 
 cuerpo_dec_var : TIPO_BASICO lista_identificador PTCOMA
-;
-
-cabe_subpr : TIPO_BASICO ident_array INI_EXPR lista_parametros FIN_EXPR
 ;
 
 sentencias : sentencias sentencia
@@ -120,21 +115,8 @@ expresion : INI_EXPR expresion FIN_EXPR
 | CONSTANTE
 | funcion
 ;
-corchetes_digitos: INI_TAM lista_digitos FIN_TAM
-| INI_TAM lista_digitos FIN_TAM COMA corchetes_digitos
-;
-
-corchetes_matriz : INI_TAM corchetes_digitos FIN_TAM
-;
-
-lista_digitos : digito COMA lista_digitos
-| digito
-;
 
 
-constante :   const_entero |  const_real |  const_booleano |  const_caracter
-|  const_array
-;
 
 funcion :  identificador INI_EXPR lista_expr FIN_EXPR
 |  identificador INI_EXPR FIN_EXPR
@@ -184,12 +166,6 @@ letra : CONSTANTE
 digito : CONSTANTE
 ;
 
-lista_expresiones_o_cadena :  lista_expresiones_o_cadena expresiones_cadena PTCOMA | expresiones_cadena
-;
-
-expresiones_cadena : expresion
-| CADENA
-;
 
 const_entero : num
 ;

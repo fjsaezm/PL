@@ -41,7 +41,7 @@
 <sentencia_do_until> ::= hacer <bloque> hasta (<expresion>)
 <sentencia_entrada> ::= <nomb_entrada> <lista_identificador> ;
 <nomb_entrada> ::= entrada >> 
-<sentencia_salida> ::= <nomb_salida> <lista_expresiones_o_cadena> ;
+<sentencia_salida> ::= <nomb_salida> <lista_expr> ;
 <nomb_salida> ::= salida << 
 <sentencia_return> ::= retorno <expresion> ;
 
@@ -53,9 +53,6 @@
                 |  <constante>
 
 
-<corchetes_digitos>::= [<lista_digitos>]
-                     | [<lista_digitos],<corchetes_digitos>
-<corchetes_matriz>::= [<corchetes_digitos>]
 <lista_digitos>::= <digito>,<lista_digitos>
                  | <digito>
 <op_unario> ::= !

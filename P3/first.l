@@ -2,8 +2,7 @@
 // descomentar para hacer léxico
 // #define LEXICO
 #include "y.tab.h"  // Códigos de tokens generados por YACC
-#include<stdio.h>
-#include<string.h>
+
 FILE *source,*destiny;
 char sourceName[20];
 

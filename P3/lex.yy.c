@@ -569,13 +569,12 @@ char *yytext;
 // descomentar para hacer léxico
 // #define LEXICO
 #include "y.tab.h"  // Códigos de tokens generados por YACC
-#include<stdio.h>
-#include<string.h>
+
 FILE *source,*destiny;
 char sourceName[20];
 
+#line 576 "lex.yy.c"
 #line 577 "lex.yy.c"
-#line 578 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -792,11 +791,11 @@ YY_DECL
 		}
 
 	{
-#line 27 "first.l"
+#line 26 "first.l"
 
 
 
-#line 799 "lex.yy.c"
+#line 798 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -866,202 +865,202 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 30 "first.l"
+#line 29 "first.l"
 {yylineno;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 31 "first.l"
+#line 30 "first.l"
 
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 32 "first.l"
+#line 31 "first.l"
 {ECHO; return PRINCIPAL;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 33 "first.l"
+#line 32 "first.l"
 {ECHO; return INI_BLOQUE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 34 "first.l"
+#line 33 "first.l"
 {ECHO; return FIN_BLOQUE;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 35 "first.l"
+#line 34 "first.l"
 {ECHO; return INI_EXPR;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 36 "first.l"
+#line 35 "first.l"
 {ECHO; return FIN_EXPR;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 37 "first.l"
+#line 36 "first.l"
 {ECHO; return INI_TAM;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 38 "first.l"
+#line 37 "first.l"
 {ECHO; return FIN_TAM;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 39 "first.l"
+#line 38 "first.l"
 {ECHO; return COMA;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 40 "first.l"
+#line 39 "first.l"
 {ECHO; return PTCOMA;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 41 "first.l"
+#line 40 "first.l"
 {ECHO; return OPMUL;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 42 "first.l"
+#line 41 "first.l"
 {ECHO; return OPMUL;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 43 "first.l"
+#line 42 "first.l"
 {ECHO; return OPREL;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 44 "first.l"
+#line 43 "first.l"
 {ECHO; return OPREL;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 45 "first.l"
+#line 44 "first.l"
 {ECHO; return OPREL;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 46 "first.l"
+#line 45 "first.l"
 {ECHO; return OPREL;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 47 "first.l"
+#line 46 "first.l"
 {ECHO; return IGUAL;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 48 "first.l"
+#line 47 "first.l"
 {ECHO; return ENTRADA;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 49 "first.l"
+#line 48 "first.l"
 {ECHO; return SALIDA;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 50 "first.l"
+#line 49 "first.l"
 {ECHO; return HACER;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 51 "first.l"
+#line 50 "first.l"
 {ECHO; return HASTA;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 52 "first.l"
+#line 51 "first.l"
 {ECHO; return OR;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 53 "first.l"
+#line 52 "first.l"
 {ECHO; return AND;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 54 "first.l"
+#line 53 "first.l"
 {ECHO; return XOR;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 55 "first.l"
+#line 54 "first.l"
 {ECHO; return TIPO_BASICO;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 56 "first.l"
+#line 55 "first.l"
 {ECHO; return SI;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 57 "first.l"
+#line 56 "first.l"
 {ECHO; return SI_NO;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 58 "first.l"
+#line 57 "first.l"
 {ECHO; return INI_VAR;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 59 "first.l"
+#line 58 "first.l"
 {ECHO; return FIN_VAR;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 60 "first.l"
+#line 59 "first.l"
 {ECHO; return RETORNO;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 61 "first.l"
+#line 60 "first.l"
 {ECHO; return AND;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 62 "first.l"
+#line 61 "first.l"
 {ECHO; return NOT;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 64 "first.l"
+#line 63 "first.l"
 {ECHO; return CONSTANTE;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 65 "first.l"
+#line 64 "first.l"
 {ECHO; return CADENA;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 66 "first.l"
+#line 65 "first.l"
 {ECHO; return SUMARESTA;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 67 "first.l"
+#line 66 "first.l"
 {ECHO; return CTE_ENTERA;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 69 "first.l"
+#line 68 "first.l"
 {
 printf(" \nError Léxico en Linea: %d. No se reconoce la palabra '%s'. ", yylineno, yytext);
 }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 74 "first.l"
+#line 73 "first.l"
 ECHO;
 	YY_BREAK
-#line 1064 "lex.yy.c"
+#line 1063 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2078,7 +2077,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 74 "first.l"
+#line 73 "first.l"
 
 
 #ifdef LEXICO

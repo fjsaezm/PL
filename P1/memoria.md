@@ -113,9 +113,6 @@ Al igual que en el programa, la estructura sintáctica de un subprograma es:
                 | <funcion>
 
 
-<corchetes_digitos>::= [<lista_digitos>]
-                     | [<lista_digitos],<corchetes_digitos>
-<corchetes_matriz>::= [<corchetes_digitos>]
 <lista_digitos>::= <digito>,<lista_digitos>
                  | <digito>
 <op_unario> ::= !
