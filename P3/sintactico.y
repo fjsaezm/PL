@@ -7,10 +7,9 @@
   int yylex();  // Para evitar warning al compilar
   void yyerror(const char * msg);
 
-  #define YYERROR_VERBOSE
-%}
+  %}
 
-%error-verbose
+%define parse.error verbose
 
  //Tokens
 
@@ -29,40 +28,51 @@
 %token HACER HASTA
 %token PUNTO
 
-%left OPOR
-%left OPAND
-%left OPIGUALDAD
-%left OPRELACION
-%left OPSIGNO
-%left OPMULTIPLICATIVO
-%right OP_UNARIO
 
+
+%left OR
+%left AND
+%left XOR
+%left IGUAL
+%left OPREL
+%left SUMARESTA
+%left OPMUL
+%right NOT
 
 %start programa
 
 %%
 
- //Producciones
 
 programa : PRINCIPAL bloque
 ;
 
 bloque : INI_BLOQUE
-         dec_var_loc
-         dec_subpr
-         sentencias
-         FIN_BLOQUE
+dec_var_loc
+dec_subprogs
+sentencias
+FIN_BLOQUE
+;
+
+dec_subprogs : dec_subprogs dec_subprog
+          | /*vacio*/
+;
+
+dec_subprog : cabe_subprog bloque
+;
+
+cabe_subprog : TIPO_BASICO ident_array INI_EXPR lista_parametros FIN_EXPR
 ;
 
 dec_subpr : cabe_subpr bloque
 ;
 
 dec_var_loc : INI_VAR
-              var_loc
-              FIN_VAR
+var_loc
+FIN_VAR
 ;
 var_loc : var_loc cuerpo_dec_var
-        | cuerpo_dec_var
+| cuerpo_dec_var
 ;
 
 cuerpo_dec_var : TIPO_BASICO lista_identificador PTCOMA
@@ -72,22 +82,22 @@ cabe_subpr : TIPO_BASICO ident_array INI_EXPR lista_parametros FIN_EXPR
 ;
 
 sentencias : sentencias sentencia
-            | sentencia
+| sentencia
 ;
 
 sentencia : bloque
-           | sentencia_asig
-           | sentencia_if
-           | sentencia_do_until
-           | sentencia_entrada
-           | sentencia_salida
-           | sentencia_return
+| sentencia_asig
+| sentencia_if
+| sentencia_do_until
+| sentencia_entrada
+| sentencia_salida
+| sentencia_return
 ;
-sentencia_asig : array_ident OPIGUALDAD expresion PTCOMA
+sentencia_asig : array_ident IGUAL expresion PTCOMA
 ;
 
 sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
-                | SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
+| SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
 ;
 sentencia_do_until : HACER bloque HASTA INI_EXPR expresion FIN_EXPR
 ;
@@ -98,70 +108,75 @@ sentencia_salida : SALIDA lista_identificador PTCOMA
 sentencia_return : RETORNO expresion PTCOMA
 ;
 expresion : INI_EXPR expresion FIN_EXPR
-          | OP_UNARIO expresion
-          | expresion OP_BINARIO expresion
-          | array_ident
-          | CONSTANTE
-          | funcion
-
+| SUMARESTA expresion             %prec NOT
+| expresion OR expresion
+| expresion AND expresion
+| expresion XOR expresion
+| expresion SUMARESTA expresion
+| expresion IGUAL expresion
+| expresion OPREL expresion
+| expresion OPMUL expresion
+| array_ident
+| CONSTANTE
+| funcion
 ;
 corchetes_digitos: INI_TAM lista_digitos FIN_TAM
-                 | INI_TAM lista_digitos FIN_TAM COMA corchetes_digitos
+| INI_TAM lista_digitos FIN_TAM COMA corchetes_digitos
 ;
 
 corchetes_matriz : INI_TAM corchetes_digitos FIN_TAM
 ;
 
 lista_digitos : digito COMA lista_digitos
-              | digito
+| digito
 ;
 
 
- constante :   const_entero |  const_real |  const_booleano |  const_caracter
-           |  const_array
- ;
+constante :   const_entero |  const_real |  const_booleano |  const_caracter
+|  const_array
+;
 
- funcion :  identificador INI_EXPR lista_expr FIN_EXPR
-   	|  identificador INI_EXPR FIN_EXPR
- ;
+funcion :  identificador INI_EXPR lista_expr FIN_EXPR
+|  identificador INI_EXPR FIN_EXPR
+;
 
- tipo_basico : TIPO_BASICO
- ;
+tipo_basico : TIPO_BASICO
+;
 
- lista_identificador :  lista_identificador COMA  ident_array
-                     |  ident_array
- ;
+lista_identificador :  lista_identificador COMA  ident_array
+|  ident_array
+;
 
- idarray:  identificador INI_TAM  num FIN_TAM
-        | identificador INI_TAM  num FIN_TAM INI_TAM  num FIN_TAM
- ;
+idarray:  identificador INI_TAM  num FIN_TAM
+| identificador INI_TAM  num FIN_TAM INI_TAM  num FIN_TAM
+;
 
- ident_array: identificador |  idarray
- ;
+ident_array: identificador |  idarray
+;
 
- array:  identificador INI_TAM  expresion FIN_TAM
-      |  identificador INI_TAM  expresion FIN_TAM INI_TAM  expresion FIN_TAM
- ;
+array:  identificador INI_TAM  expresion FIN_TAM
+|  identificador INI_TAM  expresion FIN_TAM INI_TAM  expresion FIN_TAM
+;
 
- array_ident:  array |  identificador
- ;
+array_ident:  array |  identificador
+;
 
- lista_parametros :  lista_parametros COMA  tipo_basico  ident_array
-                  |  tipo_basico  ident_array
- ;
+lista_parametros :  lista_parametros COMA  tipo_basico  ident_array
+|  tipo_basico  ident_array
+;
 
- num:  CTE_ENTERA
- ;
+num:  CTE_ENTERA
+;
 
- identificador : identificador alfanumerico
-               | letra
- ;
+identificador : identificador alfanumerico
+| letra
+;
 
- alfanumerico : alfanumerico letra
-              | alfanumerico digito
-              | letra
-              | digito
- ;
+alfanumerico : alfanumerico letra
+| alfanumerico digito
+| letra
+| digito
+;
 
 letra : CONSTANTE
 ;
@@ -169,39 +184,37 @@ letra : CONSTANTE
 digito : CONSTANTE
 ;
 
- lista_expresiones_o_cadena :  lista_expresiones_o_cadena expresiones_cadena PTCOMA | expresiones_cadena
- ;
+lista_expresiones_o_cadena :  lista_expresiones_o_cadena expresiones_cadena PTCOMA | expresiones_cadena
+;
 
- expresiones_cadena : expresion
- 		   | CADENA
- ;
+expresiones_cadena : expresion
+| CADENA
+;
 
- const_entero : num
- ;
+const_entero : num
+;
 
- const_real : const_entero PUNTO const_entero
- ;
+const_real : const_entero '.' const_entero
+;
 
- const_caracter : CONSTANTE
- ;
+const_caracter : CONSTANTE
+;
 
- const_booleano : CONSTANTE
- ;
+const_booleano : CONSTANTE
+;
 
- lista_expr : lista_expr COMA expresion | expresion
- ;
+lista_expr : lista_expr COMA expresion | expresion
+;
 
- const_array : INI_TAM lista_expr FIN_TAM
- ;
- 
+const_array : INI_TAM lista_expr FIN_TAM
+;
+
+
 %%
 
 
-// Include yylex.c file
 #include "lex.yy.c"
 
-
-//Imprime mensaje de error en pantalla
-void yyerror( char *msg ){
-	fprintf(stderr, "Línea %d: %s\n", yylineno, msg) ;
+void yyerror(const char * msg) {
+  printf("(Línea %d) %s\n", yylineno, msg);
 }
