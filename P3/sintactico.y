@@ -27,6 +27,7 @@
 %token RETORNO
 %token ENTRADA SALIDA
 %token HACER HASTA
+%token PUNTO
 
 %left OPOR
 %left OPAND
@@ -64,10 +65,10 @@ var_loc : var_loc cuerpo_dec_var
         | cuerpo_dec_var
 ;
 
-cuerpo_dec_var : TIPO_BASICO lista_id PTCOMA
+cuerpo_dec_var : TIPO_BASICO lista_identificador PTCOMA
 ;
 
-cabe_subpr : TIPO_BASICO ident_array INI_EXPR lista_param FIN_EXPR
+cabe_subpr : TIPO_BASICO ident_array INI_EXPR lista_parametros FIN_EXPR
 ;
 
 sentencias : sentencias sentencia
@@ -82,16 +83,17 @@ sentencia : bloque
            | sentencia_salida
            | sentencia_return
 ;
-sentencia_asig : array_ident OPIG expresion PTCOMA
+sentencia_asig : array_ident OPIGUALDAD expresion PTCOMA
 ;
-sentencia if  :  SI INI_EXPR expresion FIN_EXPR sentencia
+
+sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
                 | SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
 ;
 sentencia_do_until : HACER bloque HASTA INI_EXPR expresion FIN_EXPR
 ;
-sentencia_entrada : ENTRADA lista_id PTCOMA
+sentencia_entrada : ENTRADA lista_identificador PTCOMA
 ;
-sentencia_salida : SALIDA lista_id PTCOMA
+sentencia_salida : SALIDA lista_identificador PTCOMA
 ;
 sentencia_return : RETORNO expresion PTCOMA
 ;
@@ -103,8 +105,8 @@ expresion : INI_EXPR expresion FIN_EXPR
           | funcion
 
 ;
-corchetes_digitos: INI_TAM lista_digitos FINTAM
-                 | INI_TAM lista_digitos FINTAM COMA corchetes_digitos
+corchetes_digitos: INI_TAM lista_digitos FIN_TAM
+                 | INI_TAM lista_digitos FIN_TAM COMA corchetes_digitos
 ;
 
 corchetes_matriz : INI_TAM corchetes_digitos FIN_TAM
@@ -123,22 +125,22 @@ lista_digitos : digito COMA lista_digitos
    	|  identificador INI_EXPR FIN_EXPR
  ;
 
- tipo_basico : entero   |  booleano  |  real  |  caracter
+ tipo_basico : TIPO_BASICO
  ;
 
  lista_identificador :  lista_identificador COMA  ident_array
                      |  ident_array
  ;
 
- idarray:  identificador INI_TAM  numero FIN_TAM
-        | identificador INI_TAM  numero FIN_TAM INI_TAM  numero FIN_TAM
+ idarray:  identificador INI_TAM  num FIN_TAM
+        | identificador INI_TAM  num FIN_TAM INI_TAM  num FIN_TAM
  ;
 
  ident_array: identificador |  idarray
  ;
 
  array:  identificador INI_TAM  expresion FIN_TAM
-      |  identificadorINI_TAM  expresion FIN_TAM INI_TAM  expresion FIN_TAM
+      |  identificador INI_TAM  expresion FIN_TAM INI_TAM  expresion FIN_TAM
  ;
 
  array_ident:  array |  identificador
@@ -161,7 +163,13 @@ lista_digitos : digito COMA lista_digitos
               | digito
  ;
 
- lista_expresiones_o_cadena :  lista_expresiones_o_cadena expresiones_cadena PTOCOMA | expresiones_cadena
+letra : CONSTANTE
+;
+
+digito : CONSTANTE
+;
+
+ lista_expresiones_o_cadena :  lista_expresiones_o_cadena expresiones_cadena PTCOMA | expresiones_cadena
  ;
 
  expresiones_cadena : expresion
@@ -171,19 +179,19 @@ lista_digitos : digito COMA lista_digitos
  const_entero : num
  ;
 
- const_real : const_entero . const_entero
+ const_real : const_entero PUNTO const_entero
  ;
 
  const_caracter : CONSTANTE
  ;
 
- const_boolena ::= verdadero | falso
+ const_booleano : CONSTANTE
  ;
 
  lista_expr : lista_expr COMA expresion | expresion
  ;
 
- const_array : = INI_TAM lista_expr FIN_TAM
+ const_array : INI_TAM lista_expr FIN_TAM
  ;
  
 %%
