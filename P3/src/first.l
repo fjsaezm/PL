@@ -1,6 +1,6 @@
 %{
 // descomentar para hacer léxico
-// #define LEXICO
+#define LEXICO 0
 #include "y.tab.h"  // Códigos de tokens generados por YACC
 
 FILE *source,*destiny;
@@ -72,7 +72,7 @@ printf(" \nError Léxico en Linea: %d. No se reconoce la palabra '%s'. ", yyline
 
 %%
 
-#ifdef LEXICO
+#if LEXICO == 1
 int main(int argc,char **argv)
 {
 if(argc < 2){
