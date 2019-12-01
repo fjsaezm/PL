@@ -21,7 +21,7 @@
 %token PTCOMA COMA
 %token TIPO_BASICO
 %token CADENA
-%token CONSTANTE CTE_ENTERA
+%token CTE_CARACTER CTE_ENTERA CTE_LOGICA CTE_REAL
 %token SI SI_NO
 %token RETORNO
 %token ENTRADA SALIDA
@@ -112,7 +112,6 @@ expresion : INI_EXPR expresion FIN_EXPR
 | expresion OPREL expresion
 | expresion OPMUL expresion
 | array_ident
-| CONSTANTE
 | funcion
 ;
 
@@ -147,36 +146,22 @@ lista_parametros :  lista_parametros COMA  tipo_basico  ident_array
 |  tipo_basico  ident_array
 ;
 
+identificador : CADENA
+;
+
 num:  CTE_ENTERA
 ;
-
-identificador : identificador alfanumerico
-| letra
-;
-
-alfanumerico : alfanumerico letra
-| alfanumerico digito
-| letra
-| digito
-;
-
-letra : CONSTANTE
-;
-
-digito : CONSTANTE
-;
-
 
 const_entero : num
 ;
 
-const_real : const_entero '.' const_entero
+const_real : CTE_REAL
 ;
 
-const_caracter : CONSTANTE
+const_caracter : CTE_CARACTER
 ;
 
-const_booleano : CONSTANTE
+const_booleano : CTE_LOGICA
 ;
 
 lista_expr : lista_expr COMA expresion | expresion

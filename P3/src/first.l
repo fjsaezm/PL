@@ -18,10 +18,7 @@ digito [0-9]
 entero {digito}+
 real {entero}.{entero}
 
-
-op_unario    {and}|{not}
 tipo_basico  ("entero"|"booleano"|"caracter"|"real")
-cte          ("verdadero"|"falso"|'{letra}'|{real})
 
 %%
 
@@ -60,7 +57,10 @@ cte          ("verdadero"|"falso"|'{letra}'|{real})
 "&"           {ECHO; return AND;}
 "!"         {ECHO; return NOT;}
 
-{cte}           {ECHO; return CONSTANTE;}
+"verdadero"	{ECHO; return CTE_LOGICA;}
+"falso"		{ECHO; return CTE_LOGICA;}
+'{letra}'	{ECHO; return CTE_CARACTER;}
+{real}		{ECHO; return CTE_REAL;}
 {alfanumerico}+     {ECHO; return CADENA;}
 {sumaresta}     {ECHO; return SUMARESTA;}
 {entero}        {ECHO; return CTE_ENTERA;}

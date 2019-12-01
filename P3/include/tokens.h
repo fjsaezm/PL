@@ -26,7 +26,9 @@
 #define SALIDA	277
 #define CADENA	278
 #define SUMARESTA	279
-#define CONSTANTE	280
+#define CTE_CARACTER	280
 #define CTE_ENTERA	281
+#define CTE_REAL	282
+#define CTE_LOGICA	283
 
 #endif
