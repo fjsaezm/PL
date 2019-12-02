@@ -26,8 +26,6 @@
 %token RETORNO
 %token ENTRADA SALIDA
 %token HACER HASTA
-%token PUNTO
-%token CONSTANTE
 
 
 
