@@ -53,6 +53,11 @@ dec_var_loc
 dec_subprogs
 sentencias
 FIN_BLOQUE
+|
+INI_BLOQUE
+dec_var_loc
+dec_subprogs
+FIN_BLOQUE
 ;
 
 dec_subprogs : dec_subprogs dec_subprog
