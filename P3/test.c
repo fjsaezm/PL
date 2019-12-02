@@ -12,7 +12,7 @@ principal()
 
 
 entero funcionA (entero a1, real a2, caracter a3)
-{
+ {
   ini_var
     entero x1, x2 ;
   fin_var
@@ -63,8 +63,8 @@ entero funcionA (entero a1, real a2, caracter a3)
           retorno ' ' ;
       }
 
-    salida << "introduzca un valor entero: ";
-    entrada >> valor ;
+    salida<< "introduzca un valor entero: ";
+    entrada>> valor ;
     si (d1>0.0)
     {
       ini_var
@@ -79,8 +79,7 @@ entero funcionA (entero a1, real a2, caracter a3)
       d1= d1/1000.0 ;
     }
     retorno d1 ;
-  }
+ }
 
 }
-
 }

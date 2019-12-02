@@ -19,7 +19,9 @@ entero {digito}+
 real {entero}.{entero}
 
 tipo_basico  ("entero"|"booleano"|"caracter"|"real")
-
+cadena \"[^\"]*\"
+identificador [a-zA-Z_][a-zA-Z0-9_]*
+igual   "="|"=="
 %%
 
 
@@ -40,7 +42,7 @@ tipo_basico  ("entero"|"booleano"|"caracter"|"real")
 ">"           {ECHO; return OPREL;}
 "<="          {ECHO; return OPREL;}
 ">="          {ECHO; return OPREL;}
-"="           {ECHO; return IGUAL;}
+{igual}          {ECHO; return IGUAL;}
 "entrada>>"   {ECHO; return ENTRADA;}
 "salida<<"    {ECHO; return SALIDA;}
 "hacer"       {ECHO; return HACER;}
@@ -59,9 +61,12 @@ tipo_basico  ("entero"|"booleano"|"caracter"|"real")
 
 "verdadero"	{ECHO; return CTE_LOGICA;}
 "falso"		{ECHO; return CTE_LOGICA;}
-'{letra}'	{ECHO; return CTE_CARACTER;}
+
+\'[^\']\' {ECHO; return CTE_CARACTER;}
 {real}		{ECHO; return CTE_REAL;}
-{alfanumerico}+     {ECHO; return CADENA;}
+
+{identificador} {ECHO;return CADENA;}
+{cadena}  {ECHO; return CADENA;}
 {sumaresta}     {ECHO; return SUMARESTA;}
 {entero}        {ECHO; return CTE_ENTERA;}
 
