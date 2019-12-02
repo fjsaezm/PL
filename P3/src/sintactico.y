@@ -27,6 +27,7 @@
 %token ENTRADA SALIDA
 %token HACER HASTA
 %token PUNTO
+%token CONSTANTE
 
 
 
@@ -44,7 +45,7 @@
 %%
 
 
-programa : PRINCIPAL bloque
+programa : PRINCIPAL INI_EXPR FIN_EXPR bloque
 ;
 
 bloque : INI_BLOQUE
@@ -91,8 +92,8 @@ sentencia : bloque
 sentencia_asig : array_ident IGUAL expresion PTCOMA
 ;
 
-sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
-| SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
+sentencia_if  :  SI INI_EXPR expresion FIN_EXPR bloque
+| SI INI_EXPR expresion FIN_EXPR bloque SI_NO bloque
 ;
 sentencia_do_until : HACER bloque HASTA INI_EXPR expresion FIN_EXPR
 ;
@@ -113,6 +114,10 @@ expresion : INI_EXPR expresion FIN_EXPR
 | expresion OPMUL expresion
 | array_ident
 | funcion
+| CTE_LOGICA
+| CTE_CARACTER
+| CTE_ENTERA
+| CTE_REAL
 ;
 
 
@@ -152,23 +157,11 @@ identificador : CADENA
 num:  CTE_ENTERA
 ;
 
-const_entero : num
-;
 
-const_real : CTE_REAL
-;
-
-const_caracter : CTE_CARACTER
-;
-
-const_booleano : CTE_LOGICA
-;
 
 lista_expr : lista_expr COMA expresion | expresion
 ;
 
-const_array : INI_TAM lista_expr FIN_TAM
-;
 
 
 %%

@@ -9,7 +9,7 @@ principal()
     real pf[10], pf2[10][10] ;
     caracter pc[10], pc2[10][10] ;
   fin_var
-}
+
 
 entero funcionA (entero a1, real a2, caracter a3)
 {
@@ -80,5 +80,7 @@ entero funcionA (entero a1, real a2, caracter a3)
     }
     retorno d1 ;
   }
+
+}
 
 }
