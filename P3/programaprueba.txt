@@ -49,12 +49,12 @@ entero funcionA (entero a1, real a2, caracter a3)
     ini_var
       caracter dato ;
       entero valor ;
-    fin var
+    fin_var
 
       caracter funcionE (caracter e1, caracter e2)
       {
-        salida << "introduzca dos caracteres: ";
-        entrada >> e1, e2 ;
+        salida<< "introduzca dos caracteres: ";
+        entrada>> e1, e2 ;
         si (e1=='a')
           retorno e1 ;
         si_no si (e1=='b')

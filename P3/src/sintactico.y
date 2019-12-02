@@ -69,6 +69,7 @@ cabe_subprog : TIPO_BASICO ident_array INI_EXPR lista_parametros FIN_EXPR
 dec_var_loc : INI_VAR
 var_loc
 FIN_VAR
+| /*empty*/
 ;
 var_loc : var_loc cuerpo_dec_var
 | cuerpo_dec_var
@@ -92,8 +93,8 @@ sentencia : bloque
 sentencia_asig : array_ident IGUAL expresion PTCOMA
 ;
 
-sentencia_if  :  SI INI_EXPR expresion FIN_EXPR bloque
-| SI INI_EXPR expresion FIN_EXPR bloque SI_NO bloque
+sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
+| SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
 ;
 sentencia_do_until : HACER bloque HASTA INI_EXPR expresion FIN_EXPR
 ;
