@@ -1,17 +1,17 @@
 principal()
 {
   ini_var
-    entero ve ;
-    real vf ;
+    entero ve b,c,d
+    real vf , g j;
     caracter vc ;
-    booleano vl ;
+    b··ooleano vl ;
     entero pe[10], pe2[10][10] ;
     real pf[10], pf2[10][10] ;
     caracter pc[10], pc2[10][10] ;
   fin_var
 
 
-  entero funcionA (entero a1, real a2, caracter a3)
+  entero funcionA (entero a1,b real a2, caracter a3)
   {
     ini_var
       entero x1, x2 ;
@@ -30,8 +30,8 @@ principal()
           fin_var
 
           x1 = 1.3 ;
-          si (c2>10)
-            c2= c2-1 ;
+          si (c2>10+)
+            c2= c2-1) ;
           si_no
             x1= 3.1 ;
           retorno x1 ;

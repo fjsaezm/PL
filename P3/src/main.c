@@ -20,7 +20,9 @@ int main(int argc, char * argv[]) {
     yyin = stdin;
   }
 
+  
   yyparse();
+
 
   printf("Fin\n");
 }

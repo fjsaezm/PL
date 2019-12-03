@@ -79,6 +79,7 @@ var_loc : var_loc cuerpo_dec_var
 ;
 
 cuerpo_dec_var : TIPO_BASICO lista_identificador PTCOMA
+               | error
 ;
 
 sentencias : sentencias sentencia
@@ -92,6 +93,7 @@ sentencia : bloque
 | sentencia_entrada
 | sentencia_salida
 | sentencia_return
+| error
 ;
 sentencia_asig : array_ident IGUAL expresion PTCOMA
 ;
@@ -122,6 +124,7 @@ expresion : INI_EXPR expresion FIN_EXPR
 | CTE_CARACTER
 | CTE_ENTERA
 | CTE_REAL
+| error
 ;
 
 
@@ -163,7 +166,7 @@ num:  CTE_ENTERA
 
 
 
-lista_expr : lista_expr COMA expresion | expresion
+lista_expr : lista_expr COMA expresion | expresion 
 ;
 
 
@@ -174,5 +177,5 @@ lista_expr : lista_expr COMA expresion | expresion
 #include "lex.yy.c"
 
 void yyerror(const char * msg) {
-  printf("(Línea %d) %s\n", yylineno, msg);
+  printf("\n(Línea %d) %s\n", yylineno, msg);
 }

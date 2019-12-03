@@ -25,8 +25,8 @@ igual   "="|"=="
 %%
 
 
-"\n"          {yylineno;}
-" "           
+"\n"          {ECHO;yylineno;}
+" "           {ECHO;}
 "principal"   {ECHO; return PRINCIPAL;}
 "{"           {ECHO; return INI_BLOQUE;}
 "}"           {ECHO; return FIN_BLOQUE;}
