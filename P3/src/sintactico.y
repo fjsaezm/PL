@@ -32,11 +32,12 @@
 %left OR
 %left AND
 %left XOR
-%left IGUAL
+%left ASIG
 %left OPREL
+%left OPIGUAL
 %left SUMARESTA
 %left OPMUL
-%right NOT
+%right OPUNARIO
 
 %start programa
 
@@ -65,7 +66,7 @@ dec_subprogs : dec_subprogs dec_subprog
 dec_subprog : cabe_subprog bloque
 ;
 
-cabe_subprog : TIPO_BASICO ident_array INI_EXPR lista_parametros FIN_EXPR
+cabe_subprog : TIPO_BASICO identificador INI_EXPR lista_parametros FIN_EXPR
 ;
 
 
@@ -95,7 +96,7 @@ sentencia : bloque
 | sentencia_return
 | error
 ;
-sentencia_asig : array_ident IGUAL expresion PTCOMA
+sentencia_asig : array_ident ASIG expresion PTCOMA
 ;
 
 sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
@@ -110,12 +111,13 @@ sentencia_salida : SALIDA lista_identificador PTCOMA
 sentencia_return : RETORNO expresion PTCOMA
 ;
 expresion : INI_EXPR expresion FIN_EXPR
-| SUMARESTA expresion             %prec NOT
+| SUMARESTA expresion             
+| OPUNARIO expresion
 | expresion OR expresion
 | expresion AND expresion
 | expresion XOR expresion
+| expresion OPIGUAL expresion
 | expresion SUMARESTA expresion
-| expresion IGUAL expresion
 | expresion OPREL expresion
 | expresion OPMUL expresion
 | array_ident
@@ -144,11 +146,11 @@ idarray:  identificador INI_TAM  num FIN_TAM
 | identificador INI_TAM  num FIN_TAM INI_TAM  num FIN_TAM
 ;
 
-ident_array: identificador |  idarray
+ident_array: identificador |  idarray | error
 ;
 
-array:  identificador INI_TAM  expresion FIN_TAM
-|  identificador INI_TAM  expresion FIN_TAM INI_TAM  expresion FIN_TAM
+array:  identificador INI_TAM  lista_expr FIN_TAM
+|  identificador INI_TAM  lista_expr FIN_TAM INI_TAM  lista_expr FIN_TAM
 ;
 
 array_ident:  array |  identificador
@@ -156,6 +158,7 @@ array_ident:  array |  identificador
 
 lista_parametros :  lista_parametros COMA  tipo_basico  ident_array
 |  tipo_basico  ident_array
+|  lista_parametros error  tipo_basico  ident_array
 ;
 
 identificador : CADENA
