@@ -3,6 +3,9 @@
 #define LEXICO 0
 #include "y.tab.h"  // Códigos de tokens generados por YACC
 
+#include <stdlib.h>
+#include <string.h>
+
 FILE *source,*destiny;
 char sourceName[20];
 
@@ -17,11 +20,8 @@ alfanumerico {letra}[a-zA-Z0-9]*
 digito [0-9]
 entero {digito}+
 real {entero}.{entero}
-
-tipo_basico  ("entero"|"booleano"|"caracter"|"real")
 cadena \"[^\"]*\"
 identificador [a-zA-Z_][a-zA-Z0-9_]*
-igual   "="|"=="
 %%
 
 
@@ -36,13 +36,17 @@ igual   "="|"=="
 "]"           {ECHO; return FIN_TAM;}
 ","           {ECHO; return COMA;}
 ";"           {ECHO; return PTCOMA;}
-"*"           {ECHO; return OPMUL;}
-"/"           {ECHO; return OPMUL;}
-"<"           {ECHO; return OPREL;}
-">"           {ECHO; return OPREL;}
-"<="          {ECHO; return OPREL;}
-">="          {ECHO; return OPREL;}
-{igual}          {ECHO; return IGUAL;}
+"="	      {ECHO; return ASIG;}
+"+"           {ECHO; yylval.attr = 0; return SUMARESTA;}
+"-"           {ECHO; yylval.attr = 1; return SUMARESTA;}
+"*"           {ECHO; yylval.attr = 0; return OPMUL;}
+"/"           {ECHO; yylval.attr = 1; return OPMUL;}
+">"           {ECHO; yylval.attr = 0; return OPREL;}
+"<"           {ECHO; yylval.attr = 1; return OPREL;}
+"<="          {ECHO; yylval.attr = 2; return OPREL;}
+">="          {ECHO; yylval.attr = 3; return OPREL;}
+"=="	      {ECHO; yylval.attr = 0; return OPIGUAL;}
+"!="	      {ECHO; yylval.attr = 1; return OPIGUAL;}
 "entrada>>"   {ECHO; return ENTRADA;}
 "salida<<"    {ECHO; return SALIDA;}
 "hacer"       {ECHO; return HACER;}
@@ -50,25 +54,27 @@ igual   "="|"=="
 "||"          {ECHO; return OR;}
 "&&"          {ECHO; return AND;}
 "^"           {ECHO; return XOR;}
-{tipo_basico}   {ECHO; return TIPO_BASICO;}
+"entero"      {ECHO; yylval.type = ENTERO; return TIPO_BASICO;}
+"booleano"    {ECHO; yylval.type = BOOLEANO; return TIPO_BASICO;}
+"caracter"    {ECHO; yylval.type = CARACTER; return TIPO_BASICO;}
+"real"        {ECHO; yylval.type = FLOTANTE; return TIPO_BASICO;}
 "si"          {ECHO; return SI;}
 "si_no"       {ECHO; return SI_NO;}
 "ini_var"     {ECHO; return INI_VAR;}
 "fin_var"     {ECHO; return FIN_VAR;}
 "retorno"     {ECHO; return RETORNO;}
-"&"           {ECHO; return AND;}
-"!"         {ECHO; return NOT;}
+"&"           {ECHO; yylval.attr = 0; return OPUNARIO;}
+"!"           {ECHO; yylval.attr = 1; return OPUNARIO;}
 
-"verdadero"	{ECHO; return CTE_LOGICA;}
-"falso"		{ECHO; return CTE_LOGICA;}
+"verdadero"	{ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return CTE_LOGICA;}
+"falso"		{ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return CTE_LOGICA;}
 
-\'[^\']\' {ECHO; return CTE_CARACTER;}
-{real}		{ECHO; return CTE_REAL;}
+\'[^\']\' {ECHO; yylval.lex = strdup(yytext); return CTE_CARACTER;}
+{real}		{ECHO; yylval.lex = strdup(yytext); return CTE_REAL;}
+{entero}        {ECHO; yylval.lex = strdup(yytext); return CTE_ENTERA;}
 
-{identificador} {ECHO;return CADENA;}
-{cadena}  {ECHO; return CADENA;}
-{sumaresta}     {ECHO; return SUMARESTA;}
-{entero}        {ECHO; return CTE_ENTERA;}
+\"[^\"]*\"  {ECHO; yylval.lex = strdup(yytext); return CADENA;}
+[a-zA-Z_][a-zA-Z0-9_]* {ECHO; yylval.lex = strdup(yytext); return CADENA;}
 
 . {
 printf(" \nError Léxico en Linea: %d. No se reconoce la palabra '%s'. ", yylineno, yytext);

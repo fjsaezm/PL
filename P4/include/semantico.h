@@ -20,8 +20,8 @@ typedef enum {
 	FLOTANTE,
 	CARACTER,
 	BOOLEANO,
-	ARRAY1D,
-  ARRAY2D,
+	STRING,
+	MATRIZ,
 	NA
 
 } tData;
@@ -164,6 +164,9 @@ void tsOpAnd(attrs o1, attrs op, attrs o2, attrs* res);
 
 // Realiza la comprobación de la operación ||
 void tsOpOr(attrs o1, attrs op, attrs o2, attrs* res);
+
+// Realiza la comprobación de la operación ^
+void tsOpXor(attrs o1, attrs op, attrs o2, attrs* res);
 
 // Realiza la comprobación de la operación ==, !=
 void tsOpEqual(attrs o1, attrs op, attrs o2, attrs* res);

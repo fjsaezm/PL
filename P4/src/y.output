@@ -1,0 +1,2046 @@
+La regla es inútil debido a los conflictos
+
+   49 expresion: expresion XOR expresion
+
+
+Estado 6 conflictos: 2 reducción/reducción
+Estado 113 conflictos: 7 reducción/reducción
+Estado 130 conflictos: 1 desplazamiento/reducción
+
+
+Gramática
+
+    0 $accept: programa $end
+
+    1 programa: PRINCIPAL INI_EXPR FIN_EXPR bloque
+
+    2 $@1: %empty
+
+    3 bloque: INI_BLOQUE $@1 dec_var_loc dec_subprogs sentencias FIN_BLOQUE
+
+    4 $@2: %empty
+
+    5 bloque: INI_BLOQUE $@2 dec_var_loc dec_subprogs FIN_BLOQUE
+
+    6 dec_subprogs: dec_subprogs dec_subprog
+    7             | %empty
+
+    8 $@3: %empty
+
+    9 dec_subprog: cabe_subprog $@3 bloque
+
+   10 $@4: %empty
+
+   11 cabe_subprog: TIPO_BASICO identificador $@4 INI_EXPR cabe2
+
+   12 $@5: %empty
+
+   13 cabe2: lista_parametros FIN_EXPR $@5
+   14      | FIN_EXPR
+
+   15 $@6: %empty
+
+   16 dec_var_loc: INI_VAR $@6 var_loc FIN_VAR
+   17            | %empty
+
+   18 var_loc: var_loc cuerpo_dec_var
+   19        | cuerpo_dec_var
+
+   20 $@7: %empty
+
+   21 cuerpo_dec_var: TIPO_BASICO $@7 lista_identificador PTCOMA
+   22               | error
+
+   23 $@8: %empty
+
+   24 sentencias: sentencias $@8 sentencia
+
+   25 $@9: %empty
+
+   26 sentencias: $@9 sentencia
+
+   27 sentencia: bloque
+   28          | sentencia_asig
+   29          | sentencia_if
+   30          | sentencia_do_until
+   31          | sentencia_entrada
+   32          | sentencia_salida
+   33          | sentencia_return
+   34          | error
+
+   35 sentencia_asig: array_ident ASIG expresion PTCOMA
+
+   36 sentencia_if: SI INI_EXPR expresion FIN_EXPR sentencia
+   37             | SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
+
+   38 sentencia_do_until: HACER bloque HASTA INI_EXPR expresion FIN_EXPR
+
+   39 sentencia_entrada: ENTRADA lista_identificador PTCOMA
+
+   40 sentencia_salida: SALIDA lista_identificador PTCOMA
+
+   41 @10: %empty
+
+   42 sentencia_return: RETORNO expresion @10 PTCOMA
+
+   43 expresion: INI_EXPR expresion FIN_EXPR
+   44          | SUMARESTA expresion
+   45          | OPUNARIO expresion
+   46          | expresion OR expresion
+   47          | expresion AND expresion
+   48          | expresion XOR expresion
+   49          | expresion XOR expresion
+   50          | expresion OPIGUAL expresion
+   51          | expresion SUMARESTA expresion
+   52          | expresion OPREL expresion
+   53          | expresion OPMUL expresion
+   54          | funcion
+   55          | constante
+   56          | error
+
+   57 constante: CTE_ENTERA
+   58          | array_ident
+   59          | CTE_LOGICA
+   60          | CTE_REAL
+   61          | CTE_CARACTER
+
+   62 funcion: identificador INI_EXPR lista_expr FIN_EXPR
+   63        | identificador INI_EXPR FIN_EXPR
+
+   64 tipo_basico: TIPO_BASICO
+
+   65 lista_identificador: lista_identificador COMA ident_array
+   66                    | ident_array
+
+   67 idarray: identificador INI_TAM num FIN_TAM
+   68        | identificador INI_TAM num FIN_TAM INI_TAM num FIN_TAM
+
+   69 ident_array: identificador
+   70            | idarray
+   71            | error
+
+   72 array: identificador INI_TAM lista_expr FIN_TAM
+   73      | identificador INI_TAM lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM
+
+   74 array_ident: array
+   75            | identificador
+
+   76 lista_parametros: lista_parametros COMA tipo_basico ident_array
+   77                 | tipo_basico ident_array
+   78                 | lista_parametros error tipo_basico ident_array
+
+   79 identificador: CADENA
+
+   80 num: CTE_ENTERA
+
+   81 lista_expr: lista_expr COMA expresion
+   82           | expresion
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+error (256) 22 34 56 71 78
+PRINCIPAL (258) 1
+INI_BLOQUE (259) 3 5
+FIN_BLOQUE (260) 3 5
+INI_VAR (261) 16
+FIN_VAR (262) 16
+INI_EXPR (263) 1 11 36 37 38 43 62 63
+FIN_EXPR (264) 1 13 14 36 37 38 43 62 63
+INI_TAM (265) 67 68 72 73
+FIN_TAM (266) 67 68 72 73
+PTCOMA (267) 21 35 39 40 42
+COMA (268) 65 76 81
+TIPO_BASICO (269) 11 21 64
+CADENA (270) 79
+CTE_CARACTER (271) 61
+CTE_ENTERA (272) 57 80
+CTE_LOGICA (273) 59
+CTE_REAL (274) 60
+SI (275) 36 37
+SI_NO (276) 37
+RETORNO (277) 42
+ENTRADA (278) 39
+SALIDA (279) 40
+HACER (280) 38
+HASTA (281) 38
+OR (282) 46
+AND (283) 47
+XOR (284) 48 49
+ASIG (285) 35
+OPREL (286) 52
+OPIGUAL (287) 50
+SUMARESTA (288) 44 51
+OPMUL (289) 53
+OPUNARIO (290) 45
+
+
+No terminales con las reglas donde aparecen
+
+$accept (36)
+    en la izquierda: 0
+programa (37)
+    en la izquierda: 1, en la derecha: 0
+bloque (38)
+    en la izquierda: 3 5, en la derecha: 1 9 27 38
+$@1 (39)
+    en la izquierda: 2, en la derecha: 3
+$@2 (40)
+    en la izquierda: 4, en la derecha: 5
+dec_subprogs (41)
+    en la izquierda: 6 7, en la derecha: 3 5 6
+dec_subprog (42)
+    en la izquierda: 9, en la derecha: 6
+$@3 (43)
+    en la izquierda: 8, en la derecha: 9
+cabe_subprog (44)
+    en la izquierda: 11, en la derecha: 9
+$@4 (45)
+    en la izquierda: 10, en la derecha: 11
+cabe2 (46)
+    en la izquierda: 13 14, en la derecha: 11
+$@5 (47)
+    en la izquierda: 12, en la derecha: 13
+dec_var_loc (48)
+    en la izquierda: 16 17, en la derecha: 3 5
+$@6 (49)
+    en la izquierda: 15, en la derecha: 16
+var_loc (50)
+    en la izquierda: 18 19, en la derecha: 16 18
+cuerpo_dec_var (51)
+    en la izquierda: 21 22, en la derecha: 18 19
+$@7 (52)
+    en la izquierda: 20, en la derecha: 21
+sentencias (53)
+    en la izquierda: 24 26, en la derecha: 3 24
+$@8 (54)
+    en la izquierda: 23, en la derecha: 24
+$@9 (55)
+    en la izquierda: 25, en la derecha: 26
+sentencia (56)
+    en la izquierda: 27 28 29 30 31 32 33 34, en la derecha: 24 26
+    36 37
+sentencia_asig (57)
+    en la izquierda: 35, en la derecha: 28
+sentencia_if (58)
+    en la izquierda: 36 37, en la derecha: 29
+sentencia_do_until (59)
+    en la izquierda: 38, en la derecha: 30
+sentencia_entrada (60)
+    en la izquierda: 39, en la derecha: 31
+sentencia_salida (61)
+    en la izquierda: 40, en la derecha: 32
+sentencia_return (62)
+    en la izquierda: 42, en la derecha: 33
+@10 (63)
+    en la izquierda: 41, en la derecha: 42
+expresion (64)
+    en la izquierda: 43 44 45 46 47 48 49 50 51 52 53 54 55 56, en la derecha:
+    35 36 37 38 42 43 44 45 46 47 48 49 50 51 52 53 81 82
+constante (65)
+    en la izquierda: 57 58 59 60 61, en la derecha: 55
+funcion (66)
+    en la izquierda: 62 63, en la derecha: 54
+tipo_basico (67)
+    en la izquierda: 64, en la derecha: 76 77 78
+lista_identificador (68)
+    en la izquierda: 65 66, en la derecha: 21 39 40 65
+idarray (69)
+    en la izquierda: 67 68, en la derecha: 70
+ident_array (70)
+    en la izquierda: 69 70 71, en la derecha: 65 66 76 77 78
+array (71)
+    en la izquierda: 72 73, en la derecha: 74
+array_ident (72)
+    en la izquierda: 74 75, en la derecha: 35 58
+lista_parametros (73)
+    en la izquierda: 76 77 78, en la derecha: 13 76 78
+identificador (74)
+    en la izquierda: 79, en la derecha: 11 62 63 67 68 69 72 73 75
+num (75)
+    en la izquierda: 80, en la derecha: 67 68
+lista_expr (76)
+    en la izquierda: 81 82, en la derecha: 62 72 73 81
+
+
+Estado 0
+
+    0 $accept: . programa $end
+
+    PRINCIPAL  desplazar e ir al estado 1
+
+    programa  ir al estado 2
+
+
+Estado 1
+
+    1 programa: PRINCIPAL . INI_EXPR FIN_EXPR bloque
+
+    INI_EXPR  desplazar e ir al estado 3
+
+
+Estado 2
+
+    0 $accept: programa . $end
+
+    $end  desplazar e ir al estado 4
+
+
+Estado 3
+
+    1 programa: PRINCIPAL INI_EXPR . FIN_EXPR bloque
+
+    FIN_EXPR  desplazar e ir al estado 5
+
+
+Estado 4
+
+    0 $accept: programa $end .
+
+    $default  aceptar
+
+
+Estado 5
+
+    1 programa: PRINCIPAL INI_EXPR FIN_EXPR . bloque
+
+    INI_BLOQUE  desplazar e ir al estado 6
+
+    bloque  ir al estado 7
+
+
+Estado 6
+
+    3 bloque: INI_BLOQUE . $@1 dec_var_loc dec_subprogs sentencias FIN_BLOQUE
+    5       | INI_BLOQUE . $@2 dec_var_loc dec_subprogs FIN_BLOQUE
+
+    FIN_BLOQUE   reduce usando la regla 4 ($@2)
+    INI_VAR      reduce usando la regla 2 ($@1)
+    INI_VAR      [reduce usando la regla 4 ($@2)]
+    TIPO_BASICO  reduce usando la regla 2 ($@1)
+    TIPO_BASICO  [reduce usando la regla 4 ($@2)]
+    $default     reduce usando la regla 2 ($@1)
+
+    $@1  ir al estado 8
+    $@2  ir al estado 9
+
+
+Estado 7
+
+    1 programa: PRINCIPAL INI_EXPR FIN_EXPR bloque .
+
+    $default  reduce usando la regla 1 (programa)
+
+
+Estado 8
+
+    3 bloque: INI_BLOQUE $@1 . dec_var_loc dec_subprogs sentencias FIN_BLOQUE
+
+    INI_VAR  desplazar e ir al estado 10
+
+    $default  reduce usando la regla 17 (dec_var_loc)
+
+    dec_var_loc  ir al estado 11
+
+
+Estado 9
+
+    5 bloque: INI_BLOQUE $@2 . dec_var_loc dec_subprogs FIN_BLOQUE
+
+    INI_VAR  desplazar e ir al estado 10
+
+    $default  reduce usando la regla 17 (dec_var_loc)
+
+    dec_var_loc  ir al estado 12
+
+
+Estado 10
+
+   16 dec_var_loc: INI_VAR . $@6 var_loc FIN_VAR
+
+    $default  reduce usando la regla 15 ($@6)
+
+    $@6  ir al estado 13
+
+
+Estado 11
+
+    3 bloque: INI_BLOQUE $@1 dec_var_loc . dec_subprogs sentencias FIN_BLOQUE
+
+    $default  reduce usando la regla 7 (dec_subprogs)
+
+    dec_subprogs  ir al estado 14
+
+
+Estado 12
+
+    5 bloque: INI_BLOQUE $@2 dec_var_loc . dec_subprogs FIN_BLOQUE
+
+    $default  reduce usando la regla 7 (dec_subprogs)
+
+    dec_subprogs  ir al estado 15
+
+
+Estado 13
+
+   16 dec_var_loc: INI_VAR $@6 . var_loc FIN_VAR
+
+    error        desplazar e ir al estado 16
+    TIPO_BASICO  desplazar e ir al estado 17
+
+    var_loc         ir al estado 18
+    cuerpo_dec_var  ir al estado 19
+
+
+Estado 14
+
+    3 bloque: INI_BLOQUE $@1 dec_var_loc dec_subprogs . sentencias FIN_BLOQUE
+    6 dec_subprogs: dec_subprogs . dec_subprog
+
+    TIPO_BASICO  desplazar e ir al estado 20
+
+    $default  reduce usando la regla 25 ($@9)
+
+    dec_subprog   ir al estado 21
+    cabe_subprog  ir al estado 22
+    sentencias    ir al estado 23
+    $@9           ir al estado 24
+
+
+Estado 15
+
+    5 bloque: INI_BLOQUE $@2 dec_var_loc dec_subprogs . FIN_BLOQUE
+    6 dec_subprogs: dec_subprogs . dec_subprog
+
+    FIN_BLOQUE   desplazar e ir al estado 25
+    TIPO_BASICO  desplazar e ir al estado 20
+
+    dec_subprog   ir al estado 21
+    cabe_subprog  ir al estado 22
+
+
+Estado 16
+
+   22 cuerpo_dec_var: error .
+
+    $default  reduce usando la regla 22 (cuerpo_dec_var)
+
+
+Estado 17
+
+   21 cuerpo_dec_var: TIPO_BASICO . $@7 lista_identificador PTCOMA
+
+    $default  reduce usando la regla 20 ($@7)
+
+    $@7  ir al estado 26
+
+
+Estado 18
+
+   16 dec_var_loc: INI_VAR $@6 var_loc . FIN_VAR
+   18 var_loc: var_loc . cuerpo_dec_var
+
+    error        desplazar e ir al estado 16
+    FIN_VAR      desplazar e ir al estado 27
+    TIPO_BASICO  desplazar e ir al estado 17
+
+    cuerpo_dec_var  ir al estado 28
+
+
+Estado 19
+
+   19 var_loc: cuerpo_dec_var .
+
+    $default  reduce usando la regla 19 (var_loc)
+
+
+Estado 20
+
+   11 cabe_subprog: TIPO_BASICO . identificador $@4 INI_EXPR cabe2
+
+    CADENA  desplazar e ir al estado 29
+
+    identificador  ir al estado 30
+
+
+Estado 21
+
+    6 dec_subprogs: dec_subprogs dec_subprog .
+
+    $default  reduce usando la regla 6 (dec_subprogs)
+
+
+Estado 22
+
+    9 dec_subprog: cabe_subprog . $@3 bloque
+
+    $default  reduce usando la regla 8 ($@3)
+
+    $@3  ir al estado 31
+
+
+Estado 23
+
+    3 bloque: INI_BLOQUE $@1 dec_var_loc dec_subprogs sentencias . FIN_BLOQUE
+   24 sentencias: sentencias . $@8 sentencia
+
+    FIN_BLOQUE  desplazar e ir al estado 32
+
+    $default  reduce usando la regla 23 ($@8)
+
+    $@8  ir al estado 33
+
+
+Estado 24
+
+   26 sentencias: $@9 . sentencia
+
+    error       desplazar e ir al estado 34
+    INI_BLOQUE  desplazar e ir al estado 6
+    CADENA      desplazar e ir al estado 29
+    SI          desplazar e ir al estado 35
+    RETORNO     desplazar e ir al estado 36
+    ENTRADA     desplazar e ir al estado 37
+    SALIDA      desplazar e ir al estado 38
+    HACER       desplazar e ir al estado 39
+
+    bloque              ir al estado 40
+    sentencia           ir al estado 41
+    sentencia_asig      ir al estado 42
+    sentencia_if        ir al estado 43
+    sentencia_do_until  ir al estado 44
+    sentencia_entrada   ir al estado 45
+    sentencia_salida    ir al estado 46
+    sentencia_return    ir al estado 47
+    array               ir al estado 48
+    array_ident         ir al estado 49
+    identificador       ir al estado 50
+
+
+Estado 25
+
+    5 bloque: INI_BLOQUE $@2 dec_var_loc dec_subprogs FIN_BLOQUE .
+
+    $default  reduce usando la regla 5 (bloque)
+
+
+Estado 26
+
+   21 cuerpo_dec_var: TIPO_BASICO $@7 . lista_identificador PTCOMA
+
+    error   desplazar e ir al estado 51
+    CADENA  desplazar e ir al estado 29
+
+    lista_identificador  ir al estado 52
+    idarray              ir al estado 53
+    ident_array          ir al estado 54
+    identificador        ir al estado 55
+
+
+Estado 27
+
+   16 dec_var_loc: INI_VAR $@6 var_loc FIN_VAR .
+
+    $default  reduce usando la regla 16 (dec_var_loc)
+
+
+Estado 28
+
+   18 var_loc: var_loc cuerpo_dec_var .
+
+    $default  reduce usando la regla 18 (var_loc)
+
+
+Estado 29
+
+   79 identificador: CADENA .
+
+    $default  reduce usando la regla 79 (identificador)
+
+
+Estado 30
+
+   11 cabe_subprog: TIPO_BASICO identificador . $@4 INI_EXPR cabe2
+
+    $default  reduce usando la regla 10 ($@4)
+
+    $@4  ir al estado 56
+
+
+Estado 31
+
+    9 dec_subprog: cabe_subprog $@3 . bloque
+
+    INI_BLOQUE  desplazar e ir al estado 6
+
+    bloque  ir al estado 57
+
+
+Estado 32
+
+    3 bloque: INI_BLOQUE $@1 dec_var_loc dec_subprogs sentencias FIN_BLOQUE .
+
+    $default  reduce usando la regla 3 (bloque)
+
+
+Estado 33
+
+   24 sentencias: sentencias $@8 . sentencia
+
+    error       desplazar e ir al estado 34
+    INI_BLOQUE  desplazar e ir al estado 6
+    CADENA      desplazar e ir al estado 29
+    SI          desplazar e ir al estado 35
+    RETORNO     desplazar e ir al estado 36
+    ENTRADA     desplazar e ir al estado 37
+    SALIDA      desplazar e ir al estado 38
+    HACER       desplazar e ir al estado 39
+
+    bloque              ir al estado 40
+    sentencia           ir al estado 58
+    sentencia_asig      ir al estado 42
+    sentencia_if        ir al estado 43
+    sentencia_do_until  ir al estado 44
+    sentencia_entrada   ir al estado 45
+    sentencia_salida    ir al estado 46
+    sentencia_return    ir al estado 47
+    array               ir al estado 48
+    array_ident         ir al estado 49
+    identificador       ir al estado 50
+
+
+Estado 34
+
+   34 sentencia: error .
+
+    $default  reduce usando la regla 34 (sentencia)
+
+
+Estado 35
+
+   36 sentencia_if: SI . INI_EXPR expresion FIN_EXPR sentencia
+   37             | SI . INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
+
+    INI_EXPR  desplazar e ir al estado 59
+
+
+Estado 36
+
+   42 sentencia_return: RETORNO . expresion @10 PTCOMA
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 68
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 37
+
+   39 sentencia_entrada: ENTRADA . lista_identificador PTCOMA
+
+    error   desplazar e ir al estado 51
+    CADENA  desplazar e ir al estado 29
+
+    lista_identificador  ir al estado 73
+    idarray              ir al estado 53
+    ident_array          ir al estado 54
+    identificador        ir al estado 55
+
+
+Estado 38
+
+   40 sentencia_salida: SALIDA . lista_identificador PTCOMA
+
+    error   desplazar e ir al estado 51
+    CADENA  desplazar e ir al estado 29
+
+    lista_identificador  ir al estado 74
+    idarray              ir al estado 53
+    ident_array          ir al estado 54
+    identificador        ir al estado 55
+
+
+Estado 39
+
+   38 sentencia_do_until: HACER . bloque HASTA INI_EXPR expresion FIN_EXPR
+
+    INI_BLOQUE  desplazar e ir al estado 6
+
+    bloque  ir al estado 75
+
+
+Estado 40
+
+   27 sentencia: bloque .
+
+    $default  reduce usando la regla 27 (sentencia)
+
+
+Estado 41
+
+   26 sentencias: $@9 sentencia .
+
+    $default  reduce usando la regla 26 (sentencias)
+
+
+Estado 42
+
+   28 sentencia: sentencia_asig .
+
+    $default  reduce usando la regla 28 (sentencia)
+
+
+Estado 43
+
+   29 sentencia: sentencia_if .
+
+    $default  reduce usando la regla 29 (sentencia)
+
+
+Estado 44
+
+   30 sentencia: sentencia_do_until .
+
+    $default  reduce usando la regla 30 (sentencia)
+
+
+Estado 45
+
+   31 sentencia: sentencia_entrada .
+
+    $default  reduce usando la regla 31 (sentencia)
+
+
+Estado 46
+
+   32 sentencia: sentencia_salida .
+
+    $default  reduce usando la regla 32 (sentencia)
+
+
+Estado 47
+
+   33 sentencia: sentencia_return .
+
+    $default  reduce usando la regla 33 (sentencia)
+
+
+Estado 48
+
+   74 array_ident: array .
+
+    $default  reduce usando la regla 74 (array_ident)
+
+
+Estado 49
+
+   35 sentencia_asig: array_ident . ASIG expresion PTCOMA
+
+    ASIG  desplazar e ir al estado 76
+
+
+Estado 50
+
+   72 array: identificador . INI_TAM lista_expr FIN_TAM
+   73      | identificador . INI_TAM lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM
+   75 array_ident: identificador .
+
+    INI_TAM  desplazar e ir al estado 77
+
+    $default  reduce usando la regla 75 (array_ident)
+
+
+Estado 51
+
+   71 ident_array: error .
+
+    $default  reduce usando la regla 71 (ident_array)
+
+
+Estado 52
+
+   21 cuerpo_dec_var: TIPO_BASICO $@7 lista_identificador . PTCOMA
+   65 lista_identificador: lista_identificador . COMA ident_array
+
+    PTCOMA  desplazar e ir al estado 78
+    COMA    desplazar e ir al estado 79
+
+
+Estado 53
+
+   70 ident_array: idarray .
+
+    $default  reduce usando la regla 70 (ident_array)
+
+
+Estado 54
+
+   66 lista_identificador: ident_array .
+
+    $default  reduce usando la regla 66 (lista_identificador)
+
+
+Estado 55
+
+   67 idarray: identificador . INI_TAM num FIN_TAM
+   68        | identificador . INI_TAM num FIN_TAM INI_TAM num FIN_TAM
+   69 ident_array: identificador .
+
+    INI_TAM  desplazar e ir al estado 80
+
+    $default  reduce usando la regla 69 (ident_array)
+
+
+Estado 56
+
+   11 cabe_subprog: TIPO_BASICO identificador $@4 . INI_EXPR cabe2
+
+    INI_EXPR  desplazar e ir al estado 81
+
+
+Estado 57
+
+    9 dec_subprog: cabe_subprog $@3 bloque .
+
+    $default  reduce usando la regla 9 (dec_subprog)
+
+
+Estado 58
+
+   24 sentencias: sentencias $@8 sentencia .
+
+    $default  reduce usando la regla 24 (sentencias)
+
+
+Estado 59
+
+   36 sentencia_if: SI INI_EXPR . expresion FIN_EXPR sentencia
+   37             | SI INI_EXPR . expresion FIN_EXPR sentencia SI_NO sentencia
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 82
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 60
+
+   56 expresion: error .
+
+    $default  reduce usando la regla 56 (expresion)
+
+
+Estado 61
+
+   43 expresion: INI_EXPR . expresion FIN_EXPR
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 83
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 62
+
+   61 constante: CTE_CARACTER .
+
+    $default  reduce usando la regla 61 (constante)
+
+
+Estado 63
+
+   57 constante: CTE_ENTERA .
+
+    $default  reduce usando la regla 57 (constante)
+
+
+Estado 64
+
+   59 constante: CTE_LOGICA .
+
+    $default  reduce usando la regla 59 (constante)
+
+
+Estado 65
+
+   60 constante: CTE_REAL .
+
+    $default  reduce usando la regla 60 (constante)
+
+
+Estado 66
+
+   44 expresion: SUMARESTA . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 84
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 67
+
+   45 expresion: OPUNARIO . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 85
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 68
+
+   42 sentencia_return: RETORNO expresion . @10 PTCOMA
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    OR         desplazar e ir al estado 86
+    AND        desplazar e ir al estado 87
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+    $default  reduce usando la regla 41 (@10)
+
+    @10  ir al estado 93
+
+
+Estado 69
+
+   55 expresion: constante .
+
+    $default  reduce usando la regla 55 (expresion)
+
+
+Estado 70
+
+   54 expresion: funcion .
+
+    $default  reduce usando la regla 54 (expresion)
+
+
+Estado 71
+
+   58 constante: array_ident .
+
+    $default  reduce usando la regla 58 (constante)
+
+
+Estado 72
+
+   62 funcion: identificador . INI_EXPR lista_expr FIN_EXPR
+   63        | identificador . INI_EXPR FIN_EXPR
+   72 array: identificador . INI_TAM lista_expr FIN_TAM
+   73      | identificador . INI_TAM lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM
+   75 array_ident: identificador .
+
+    INI_EXPR  desplazar e ir al estado 94
+    INI_TAM   desplazar e ir al estado 77
+
+    $default  reduce usando la regla 75 (array_ident)
+
+
+Estado 73
+
+   39 sentencia_entrada: ENTRADA lista_identificador . PTCOMA
+   65 lista_identificador: lista_identificador . COMA ident_array
+
+    PTCOMA  desplazar e ir al estado 95
+    COMA    desplazar e ir al estado 79
+
+
+Estado 74
+
+   40 sentencia_salida: SALIDA lista_identificador . PTCOMA
+   65 lista_identificador: lista_identificador . COMA ident_array
+
+    PTCOMA  desplazar e ir al estado 96
+    COMA    desplazar e ir al estado 79
+
+
+Estado 75
+
+   38 sentencia_do_until: HACER bloque . HASTA INI_EXPR expresion FIN_EXPR
+
+    HASTA  desplazar e ir al estado 97
+
+
+Estado 76
+
+   35 sentencia_asig: array_ident ASIG . expresion PTCOMA
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 98
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 77
+
+   72 array: identificador INI_TAM . lista_expr FIN_TAM
+   73      | identificador INI_TAM . lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 99
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+    lista_expr     ir al estado 100
+
+
+Estado 78
+
+   21 cuerpo_dec_var: TIPO_BASICO $@7 lista_identificador PTCOMA .
+
+    $default  reduce usando la regla 21 (cuerpo_dec_var)
+
+
+Estado 79
+
+   65 lista_identificador: lista_identificador COMA . ident_array
+
+    error   desplazar e ir al estado 51
+    CADENA  desplazar e ir al estado 29
+
+    idarray        ir al estado 53
+    ident_array    ir al estado 101
+    identificador  ir al estado 55
+
+
+Estado 80
+
+   67 idarray: identificador INI_TAM . num FIN_TAM
+   68        | identificador INI_TAM . num FIN_TAM INI_TAM num FIN_TAM
+
+    CTE_ENTERA  desplazar e ir al estado 102
+
+    num  ir al estado 103
+
+
+Estado 81
+
+   11 cabe_subprog: TIPO_BASICO identificador $@4 INI_EXPR . cabe2
+
+    FIN_EXPR     desplazar e ir al estado 104
+    TIPO_BASICO  desplazar e ir al estado 105
+
+    cabe2             ir al estado 106
+    tipo_basico       ir al estado 107
+    lista_parametros  ir al estado 108
+
+
+Estado 82
+
+   36 sentencia_if: SI INI_EXPR expresion . FIN_EXPR sentencia
+   37             | SI INI_EXPR expresion . FIN_EXPR sentencia SI_NO sentencia
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    FIN_EXPR   desplazar e ir al estado 109
+    OR         desplazar e ir al estado 86
+    AND        desplazar e ir al estado 87
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+
+Estado 83
+
+   43 expresion: INI_EXPR expresion . FIN_EXPR
+   46          | expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    FIN_EXPR   desplazar e ir al estado 110
+    OR         desplazar e ir al estado 86
+    AND        desplazar e ir al estado 87
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+
+Estado 84
+
+   44 expresion: SUMARESTA expresion .
+   46          | expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    OPMUL  desplazar e ir al estado 92
+
+    $default  reduce usando la regla 44 (expresion)
+
+
+Estado 85
+
+   45 expresion: OPUNARIO expresion .
+   46          | expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    $default  reduce usando la regla 45 (expresion)
+
+
+Estado 86
+
+   46 expresion: expresion OR . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 111
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 87
+
+   47 expresion: expresion AND . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 112
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 88
+
+   48 expresion: expresion XOR . expresion
+   49          | expresion XOR . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 113
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 89
+
+   52 expresion: expresion OPREL . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 114
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 90
+
+   50 expresion: expresion OPIGUAL . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 115
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 91
+
+   51 expresion: expresion SUMARESTA . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 116
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 92
+
+   53 expresion: expresion OPMUL . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 117
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 93
+
+   42 sentencia_return: RETORNO expresion @10 . PTCOMA
+
+    PTCOMA  desplazar e ir al estado 118
+
+
+Estado 94
+
+   62 funcion: identificador INI_EXPR . lista_expr FIN_EXPR
+   63        | identificador INI_EXPR . FIN_EXPR
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    FIN_EXPR      desplazar e ir al estado 119
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 99
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+    lista_expr     ir al estado 120
+
+
+Estado 95
+
+   39 sentencia_entrada: ENTRADA lista_identificador PTCOMA .
+
+    $default  reduce usando la regla 39 (sentencia_entrada)
+
+
+Estado 96
+
+   40 sentencia_salida: SALIDA lista_identificador PTCOMA .
+
+    $default  reduce usando la regla 40 (sentencia_salida)
+
+
+Estado 97
+
+   38 sentencia_do_until: HACER bloque HASTA . INI_EXPR expresion FIN_EXPR
+
+    INI_EXPR  desplazar e ir al estado 121
+
+
+Estado 98
+
+   35 sentencia_asig: array_ident ASIG expresion . PTCOMA
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    PTCOMA     desplazar e ir al estado 122
+    OR         desplazar e ir al estado 86
+    AND        desplazar e ir al estado 87
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+
+Estado 99
+
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+   82 lista_expr: expresion .
+
+    OR         desplazar e ir al estado 86
+    AND        desplazar e ir al estado 87
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+    $default  reduce usando la regla 82 (lista_expr)
+
+
+Estado 100
+
+   72 array: identificador INI_TAM lista_expr . FIN_TAM
+   73      | identificador INI_TAM lista_expr . FIN_TAM INI_TAM lista_expr FIN_TAM
+   81 lista_expr: lista_expr . COMA expresion
+
+    FIN_TAM  desplazar e ir al estado 123
+    COMA     desplazar e ir al estado 124
+
+
+Estado 101
+
+   65 lista_identificador: lista_identificador COMA ident_array .
+
+    $default  reduce usando la regla 65 (lista_identificador)
+
+
+Estado 102
+
+   80 num: CTE_ENTERA .
+
+    $default  reduce usando la regla 80 (num)
+
+
+Estado 103
+
+   67 idarray: identificador INI_TAM num . FIN_TAM
+   68        | identificador INI_TAM num . FIN_TAM INI_TAM num FIN_TAM
+
+    FIN_TAM  desplazar e ir al estado 125
+
+
+Estado 104
+
+   14 cabe2: FIN_EXPR .
+
+    $default  reduce usando la regla 14 (cabe2)
+
+
+Estado 105
+
+   64 tipo_basico: TIPO_BASICO .
+
+    $default  reduce usando la regla 64 (tipo_basico)
+
+
+Estado 106
+
+   11 cabe_subprog: TIPO_BASICO identificador $@4 INI_EXPR cabe2 .
+
+    $default  reduce usando la regla 11 (cabe_subprog)
+
+
+Estado 107
+
+   77 lista_parametros: tipo_basico . ident_array
+
+    error   desplazar e ir al estado 51
+    CADENA  desplazar e ir al estado 29
+
+    idarray        ir al estado 53
+    ident_array    ir al estado 126
+    identificador  ir al estado 55
+
+
+Estado 108
+
+   13 cabe2: lista_parametros . FIN_EXPR $@5
+   76 lista_parametros: lista_parametros . COMA tipo_basico ident_array
+   78                 | lista_parametros . error tipo_basico ident_array
+
+    error     desplazar e ir al estado 127
+    FIN_EXPR  desplazar e ir al estado 128
+    COMA      desplazar e ir al estado 129
+
+
+Estado 109
+
+   36 sentencia_if: SI INI_EXPR expresion FIN_EXPR . sentencia
+   37             | SI INI_EXPR expresion FIN_EXPR . sentencia SI_NO sentencia
+
+    error       desplazar e ir al estado 34
+    INI_BLOQUE  desplazar e ir al estado 6
+    CADENA      desplazar e ir al estado 29
+    SI          desplazar e ir al estado 35
+    RETORNO     desplazar e ir al estado 36
+    ENTRADA     desplazar e ir al estado 37
+    SALIDA      desplazar e ir al estado 38
+    HACER       desplazar e ir al estado 39
+
+    bloque              ir al estado 40
+    sentencia           ir al estado 130
+    sentencia_asig      ir al estado 42
+    sentencia_if        ir al estado 43
+    sentencia_do_until  ir al estado 44
+    sentencia_entrada   ir al estado 45
+    sentencia_salida    ir al estado 46
+    sentencia_return    ir al estado 47
+    array               ir al estado 48
+    array_ident         ir al estado 49
+    identificador       ir al estado 50
+
+
+Estado 110
+
+   43 expresion: INI_EXPR expresion FIN_EXPR .
+
+    $default  reduce usando la regla 43 (expresion)
+
+
+Estado 111
+
+   46 expresion: expresion . OR expresion
+   46          | expresion OR expresion .
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    AND        desplazar e ir al estado 87
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+    $default  reduce usando la regla 46 (expresion)
+
+
+Estado 112
+
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   47          | expresion AND expresion .
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+    $default  reduce usando la regla 47 (expresion)
+
+
+Estado 113
+
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   48          | expresion XOR expresion .
+   49          | expresion . XOR expresion
+   49          | expresion XOR expresion .
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+    FIN_EXPR  reduce usando la regla 48 (expresion)
+    FIN_EXPR  [reduce usando la regla 49 (expresion)]
+    FIN_TAM   reduce usando la regla 48 (expresion)
+    FIN_TAM   [reduce usando la regla 49 (expresion)]
+    PTCOMA    reduce usando la regla 48 (expresion)
+    PTCOMA    [reduce usando la regla 49 (expresion)]
+    COMA      reduce usando la regla 48 (expresion)
+    COMA      [reduce usando la regla 49 (expresion)]
+    OR        reduce usando la regla 48 (expresion)
+    OR        [reduce usando la regla 49 (expresion)]
+    AND       reduce usando la regla 48 (expresion)
+    AND       [reduce usando la regla 49 (expresion)]
+    XOR       reduce usando la regla 48 (expresion)
+    XOR       [reduce usando la regla 49 (expresion)]
+    $default  reduce usando la regla 48 (expresion)
+
+
+Estado 114
+
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   52          | expresion OPREL expresion .
+   53          | expresion . OPMUL expresion
+
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+    $default  reduce usando la regla 52 (expresion)
+
+
+Estado 115
+
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   50          | expresion OPIGUAL expresion .
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+    $default  reduce usando la regla 50 (expresion)
+
+
+Estado 116
+
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   51          | expresion SUMARESTA expresion .
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    OPMUL  desplazar e ir al estado 92
+
+    $default  reduce usando la regla 51 (expresion)
+
+
+Estado 117
+
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+   53          | expresion OPMUL expresion .
+
+    $default  reduce usando la regla 53 (expresion)
+
+
+Estado 118
+
+   42 sentencia_return: RETORNO expresion @10 PTCOMA .
+
+    $default  reduce usando la regla 42 (sentencia_return)
+
+
+Estado 119
+
+   63 funcion: identificador INI_EXPR FIN_EXPR .
+
+    $default  reduce usando la regla 63 (funcion)
+
+
+Estado 120
+
+   62 funcion: identificador INI_EXPR lista_expr . FIN_EXPR
+   81 lista_expr: lista_expr . COMA expresion
+
+    FIN_EXPR  desplazar e ir al estado 131
+    COMA      desplazar e ir al estado 124
+
+
+Estado 121
+
+   38 sentencia_do_until: HACER bloque HASTA INI_EXPR . expresion FIN_EXPR
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 132
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 122
+
+   35 sentencia_asig: array_ident ASIG expresion PTCOMA .
+
+    $default  reduce usando la regla 35 (sentencia_asig)
+
+
+Estado 123
+
+   72 array: identificador INI_TAM lista_expr FIN_TAM .
+   73      | identificador INI_TAM lista_expr FIN_TAM . INI_TAM lista_expr FIN_TAM
+
+    INI_TAM  desplazar e ir al estado 133
+
+    $default  reduce usando la regla 72 (array)
+
+
+Estado 124
+
+   81 lista_expr: lista_expr COMA . expresion
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 134
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+
+
+Estado 125
+
+   67 idarray: identificador INI_TAM num FIN_TAM .
+   68        | identificador INI_TAM num FIN_TAM . INI_TAM num FIN_TAM
+
+    INI_TAM  desplazar e ir al estado 135
+
+    $default  reduce usando la regla 67 (idarray)
+
+
+Estado 126
+
+   77 lista_parametros: tipo_basico ident_array .
+
+    $default  reduce usando la regla 77 (lista_parametros)
+
+
+Estado 127
+
+   78 lista_parametros: lista_parametros error . tipo_basico ident_array
+
+    TIPO_BASICO  desplazar e ir al estado 105
+
+    tipo_basico  ir al estado 136
+
+
+Estado 128
+
+   13 cabe2: lista_parametros FIN_EXPR . $@5
+
+    $default  reduce usando la regla 12 ($@5)
+
+    $@5  ir al estado 137
+
+
+Estado 129
+
+   76 lista_parametros: lista_parametros COMA . tipo_basico ident_array
+
+    TIPO_BASICO  desplazar e ir al estado 105
+
+    tipo_basico  ir al estado 138
+
+
+Estado 130
+
+   36 sentencia_if: SI INI_EXPR expresion FIN_EXPR sentencia .
+   37             | SI INI_EXPR expresion FIN_EXPR sentencia . SI_NO sentencia
+
+    SI_NO  desplazar e ir al estado 139
+
+    SI_NO     [reduce usando la regla 36 (sentencia_if)]
+    $default  reduce usando la regla 36 (sentencia_if)
+
+
+Estado 131
+
+   62 funcion: identificador INI_EXPR lista_expr FIN_EXPR .
+
+    $default  reduce usando la regla 62 (funcion)
+
+
+Estado 132
+
+   38 sentencia_do_until: HACER bloque HASTA INI_EXPR expresion . FIN_EXPR
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+
+    FIN_EXPR   desplazar e ir al estado 140
+    OR         desplazar e ir al estado 86
+    AND        desplazar e ir al estado 87
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+
+Estado 133
+
+   73 array: identificador INI_TAM lista_expr FIN_TAM INI_TAM . lista_expr FIN_TAM
+
+    error         desplazar e ir al estado 60
+    INI_EXPR      desplazar e ir al estado 61
+    CADENA        desplazar e ir al estado 29
+    CTE_CARACTER  desplazar e ir al estado 62
+    CTE_ENTERA    desplazar e ir al estado 63
+    CTE_LOGICA    desplazar e ir al estado 64
+    CTE_REAL      desplazar e ir al estado 65
+    SUMARESTA     desplazar e ir al estado 66
+    OPUNARIO      desplazar e ir al estado 67
+
+    expresion      ir al estado 99
+    constante      ir al estado 69
+    funcion        ir al estado 70
+    array          ir al estado 48
+    array_ident    ir al estado 71
+    identificador  ir al estado 72
+    lista_expr     ir al estado 141
+
+
+Estado 134
+
+   46 expresion: expresion . OR expresion
+   47          | expresion . AND expresion
+   48          | expresion . XOR expresion
+   49          | expresion . XOR expresion
+   50          | expresion . OPIGUAL expresion
+   51          | expresion . SUMARESTA expresion
+   52          | expresion . OPREL expresion
+   53          | expresion . OPMUL expresion
+   81 lista_expr: lista_expr COMA expresion .
+
+    OR         desplazar e ir al estado 86
+    AND        desplazar e ir al estado 87
+    XOR        desplazar e ir al estado 88
+    OPREL      desplazar e ir al estado 89
+    OPIGUAL    desplazar e ir al estado 90
+    SUMARESTA  desplazar e ir al estado 91
+    OPMUL      desplazar e ir al estado 92
+
+    $default  reduce usando la regla 81 (lista_expr)
+
+
+Estado 135
+
+   68 idarray: identificador INI_TAM num FIN_TAM INI_TAM . num FIN_TAM
+
+    CTE_ENTERA  desplazar e ir al estado 102
+
+    num  ir al estado 142
+
+
+Estado 136
+
+   78 lista_parametros: lista_parametros error tipo_basico . ident_array
+
+    error   desplazar e ir al estado 51
+    CADENA  desplazar e ir al estado 29
+
+    idarray        ir al estado 53
+    ident_array    ir al estado 143
+    identificador  ir al estado 55
+
+
+Estado 137
+
+   13 cabe2: lista_parametros FIN_EXPR $@5 .
+
+    $default  reduce usando la regla 13 (cabe2)
+
+
+Estado 138
+
+   76 lista_parametros: lista_parametros COMA tipo_basico . ident_array
+
+    error   desplazar e ir al estado 51
+    CADENA  desplazar e ir al estado 29
+
+    idarray        ir al estado 53
+    ident_array    ir al estado 144
+    identificador  ir al estado 55
+
+
+Estado 139
+
+   37 sentencia_if: SI INI_EXPR expresion FIN_EXPR sentencia SI_NO . sentencia
+
+    error       desplazar e ir al estado 34
+    INI_BLOQUE  desplazar e ir al estado 6
+    CADENA      desplazar e ir al estado 29
+    SI          desplazar e ir al estado 35
+    RETORNO     desplazar e ir al estado 36
+    ENTRADA     desplazar e ir al estado 37
+    SALIDA      desplazar e ir al estado 38
+    HACER       desplazar e ir al estado 39
+
+    bloque              ir al estado 40
+    sentencia           ir al estado 145
+    sentencia_asig      ir al estado 42
+    sentencia_if        ir al estado 43
+    sentencia_do_until  ir al estado 44
+    sentencia_entrada   ir al estado 45
+    sentencia_salida    ir al estado 46
+    sentencia_return    ir al estado 47
+    array               ir al estado 48
+    array_ident         ir al estado 49
+    identificador       ir al estado 50
+
+
+Estado 140
+
+   38 sentencia_do_until: HACER bloque HASTA INI_EXPR expresion FIN_EXPR .
+
+    $default  reduce usando la regla 38 (sentencia_do_until)
+
+
+Estado 141
+
+   73 array: identificador INI_TAM lista_expr FIN_TAM INI_TAM lista_expr . FIN_TAM
+   81 lista_expr: lista_expr . COMA expresion
+
+    FIN_TAM  desplazar e ir al estado 146
+    COMA     desplazar e ir al estado 124
+
+
+Estado 142
+
+   68 idarray: identificador INI_TAM num FIN_TAM INI_TAM num . FIN_TAM
+
+    FIN_TAM  desplazar e ir al estado 147
+
+
+Estado 143
+
+   78 lista_parametros: lista_parametros error tipo_basico ident_array .
+
+    $default  reduce usando la regla 78 (lista_parametros)
+
+
+Estado 144
+
+   76 lista_parametros: lista_parametros COMA tipo_basico ident_array .
+
+    $default  reduce usando la regla 76 (lista_parametros)
+
+
+Estado 145
+
+   37 sentencia_if: SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia .
+
+    $default  reduce usando la regla 37 (sentencia_if)
+
+
+Estado 146
+
+   73 array: identificador INI_TAM lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM .
+
+    $default  reduce usando la regla 73 (array)
+
+
+Estado 147
+
+   68 idarray: identificador INI_TAM num FIN_TAM INI_TAM num FIN_TAM .
+
+    $default  reduce usando la regla 68 (idarray)

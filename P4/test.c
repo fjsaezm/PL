@@ -1,10 +1,10 @@
 principal()
 {
   ini_var
-    entero ve b,c,d
-    real vf , g j;
+    entero b,c,d;
+    real f, g, j;
     caracter vc ;
-    b··ooleano vl ;
+    booleano vl ;
     entero pe[10], pe2[10][10] ;
     real pf[10], pf2[10][10] ;
     caracter pc[10], pc2[10][10] ;
@@ -30,7 +30,7 @@ principal()
           fin_var
 
           x1 = 1.3 ;
-          si (c2>10+)
+          si (c2>10)
             c2= c2-1) ;
           si_no
             x1= 3.1 ;

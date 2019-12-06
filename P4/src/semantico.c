@@ -1,4 +1,3 @@
-
 #include "semantico.h"
 
 //Variables necesarias
@@ -590,6 +589,25 @@ void tsOpOr(attrs o1, attrs op, attrs o2, attrs* res){
 
 }
 
+// Realiza la comprobación de la operación ^ 
+void tsOpXor(attrs o1, attrs op, attrs o2, attrs* res){
+
+    if (o1.type != o2.type) {
+		printf("Semantic Error (%d): Expressions must be same types.", line);
+		return;
+	}
+	if (o1.type != BOOLEANO || isArray(o1) || isArray(o2)) {
+		printf("Semantic Error(%d):Invalid type in op. Both must be same. Expects BOOLEANO", line);
+		return;
+	}
+
+	res->type = BOOLEANO;
+	res->nDim = 0;
+	res->tDim1 = 0;
+	res->tDim2 = 0;
+
+}
+
 // Realiza la comprobación de la operación ==, !=
 void tsOpEqual(attrs o1, attrs op, attrs o2, attrs* res){
 
@@ -771,5 +789,3 @@ void printAttr(attrs e, char *msg){
 	printf("-------------------------------\n");
 
 }
-
-  
