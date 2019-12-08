@@ -73,7 +73,7 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 {real}		{ECHO; yylval.lex = strdup(yytext); return CTE_REAL;}
 {entero}        {ECHO; yylval.lex = strdup(yytext); return CTE_ENTERA;}
 
-\"[^\"]*\"  {ECHO; yylval.lex = strdup(yytext); return CADENA;}
+\"[^\"]+\"  {ECHO; yylval.lex = strdup(yytext); return CADENA;}
 [a-zA-Z_][a-zA-Z0-9_]* {ECHO; yylval.lex = strdup(yytext); return CADENA;}
 
 . {

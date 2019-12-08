@@ -46,23 +46,14 @@
 %%
 
 
-programa : PRINCIPAL INI_EXPR FIN_EXPR bloque
+programa : PRINCIPAL bloque
 ;
 
-bloque : INI_BLOQUE
-	{ tsAddMark();}
-	dec_var_loc
-	dec_subprogs
-	sentencias
-	FIN_BLOQUE
-	{ tsCleanIn();}
-	|
-	INI_BLOQUE
-	{tsAddMark();}
-	dec_var_loc
-	dec_subprogs
-	FIN_BLOQUE
-	{tsCleanIn();}
+bloque : INI_BLOQUE {tsAddMark();} interiorBloque FIN_BLOQUE {tsCleanIn();}
+;
+
+interiorBloque : dec_var_loc dec_subprogs sentencias 
+	| dec_var_loc dec_subprogs 
 ;
 
 dec_subprogs : dec_subprogs dec_subprog
@@ -79,12 +70,8 @@ cabe2 : lista_parametros FIN_EXPR { tsUpdateNparam($1); nParam = 0; decParam = 0
 	| FIN_EXPR
 ;
 
-dec_var_loc : INI_VAR
-	{decVar = 1;}
-	var_loc
-	FIN_VAR
-	{decVar = 0;}
-	| /*empty*/
+dec_var_loc : INI_VAR {decVar = 1;} var_loc FIN_VAR {decVar = 0;}
+	| /*vacío*/
 ;
 var_loc : var_loc cuerpo_dec_var
 	| cuerpo_dec_var
@@ -156,7 +143,6 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; 
 	| OPUNARIO expresion {tsOpUnary($1, $2, &$$); }
 	| expresion OR expresion {tsOpOr($1, $2, $3, &$$); }
 	| expresion AND expresion {tsOpAnd($1, $2, $3, &$$); }
-	| expresion XOR expresion {tsOpXor($1, $2, $3, &$$); } 
 	| expresion XOR expresion {tsOpXor($1, $2, $3, &$$); }
 	| expresion OPIGUAL expresion {tsOpEqual($1, $2, $3, &$$); }
 	| expresion SUMARESTA expresion {tsOpSign($1, $2, &$$); } 

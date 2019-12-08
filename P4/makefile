@@ -19,8 +19,8 @@ $(SRC)/y.tab.c: $(SRC)/semantico.y $(SRC)/lex.yy.c
 $(SRC)/lex.yy.c: $(SRC)/first.l
 	lex -o $@ $(SRC)/first.l
 
-$(OBJ)/semantico.o: $(SRC)/semantico.c
-	$(GCC) -o $@ -c $(SRC)/semantico.c -I$(INCLUDE)
+$(OBJ)/semantico.o: $(SRC)/semantico_1.c
+	$(GCC) -o $@ -c $(SRC)/semantico_1.c -I$(INCLUDE)
 
 all:
 	make semantico

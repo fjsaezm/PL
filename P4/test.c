@@ -1,4 +1,4 @@
-principal()
+principal
 {
   ini_var
     entero b,c,d;
