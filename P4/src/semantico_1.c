@@ -633,12 +633,15 @@ void tsOpEqual(attrs o1, attrs op, attrs o2, attrs* res){
 }
 
 // Realiza la comprobación de la operación <, >, <=, >=, <>
-void tsOpRel(attrs o1, attrs op, attrs o2, attrs* res){
+void tsOpRel(attrs o1,attrs o ,attrs o2, attrs* res){
 
-  printTS();
-  printf("%d\n",o1.type);
-  printf("%d\n",o2.type);
+ 
     if (o1.type != o2.type) {
+
+      printTS();
+      printf("o1type =%s\n",o1.lex);
+      printf("otype =%s\n",o.lex);
+      printf("o2type =%s\n",o2.lex);
 
 		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", yylineno);
 		return;

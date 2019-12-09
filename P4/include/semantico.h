@@ -175,7 +175,7 @@ void tsOpXor(attrs o1, attrs op, attrs o2, attrs* res);
 void tsOpEqual(attrs o1, attrs op, attrs o2, attrs* res);
 
 // Realiza la comprobación de la operación <, >, <=, >=, <>
-void tsOpRel(attrs o1, attrs op, attrs o2, attrs* res);
+void tsOpRel(attrs o1,attrs o,attrs o2, attrs* res);
 
 // Realiza la comprobación de la llamada a una función
 void tsFunctionCall(attrs id, attrs* res);

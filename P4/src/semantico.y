@@ -113,7 +113,7 @@ sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
     	    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",line);
   	  }
 	}
-	| SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
+| SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
 	{
   	  if($3.type != BOOLEANO){
     	    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",line);
@@ -146,8 +146,8 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; 
 	| expresion AND expresion {tsOpAnd($1, $2, $3, &$$); }
 	| expresion XOR expresion {tsOpXor($1, $2, $3, &$$); }
 	| expresion OPIGUAL expresion {tsOpEqual($1, $2, $3, &$$); }
-	| expresion SUMARESTA expresion {tsOpSign($1, $2, &$$); } 
-	| expresion OPREL expresion {tsOpRel($1, $2, $3, &$$); }
+| expresion SUMARESTA expresion {tsOpSign($1, $2, &$$); } 
+| expresion OPREL expresion {tsOpRel($1, $2,$3, &$$); }
 	| expresion OPMUL expresion {tsOpMul($1,$2,$3,&$$);}
 	| funcion {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; currentFunction = -1;}
 	| constante {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
@@ -157,9 +157,9 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; 
 
 /* revisar array ident*/
 constante : CTE_ENTERA{ $$.type = ENTERO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
-	| array_ident { aux = 1; $$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
+| array_ident {printf("Leido array ident!\n\n"); $$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
 	| CTE_LOGICA { $$.type = BOOLEANO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
-	| CTE_REAL { $$.type = REAL; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
+| CTE_REAL {printf("Leida ct real!\n\n"); $$.type = REAL; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 	| CTE_CARACTER  { $$.type = CARACTER; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; } 
 
 funcion :  identificador INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; }

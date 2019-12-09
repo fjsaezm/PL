@@ -65,7 +65,7 @@ principal
 
         salida<< "introduzca un valor entero: ";
         entrada>> valor ;
-        si (d1>1.1)
+        si (d1 > 1.1 )
         {
           ini_var
             entero dato ;
