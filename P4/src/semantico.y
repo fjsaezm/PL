@@ -49,7 +49,7 @@
 programa : PRINCIPAL bloque
 ;
 
-bloque : INI_BLOQUE {tsAddMark();} interiorBloque FIN_BLOQUE {tsCleanIn(); printTS();}
+bloque : INI_BLOQUE {tsAddMark();} interiorBloque FIN_BLOQUE {tsCleanIn(); /*printTS();*/}
 ;
 
 interiorBloque : dec_var_loc dec_subprogs sentencias 
@@ -132,10 +132,10 @@ sentencia_do_until : HACER bloque HASTA INI_EXPR expresion FIN_EXPR
 sentencia_entrada : ENTRADA lista_identificador PTCOMA
 ;
 
-sentencia_salida : SALIDA lista_identificador PTCOMA
+sentencia_salida : SALIDA lista_expr PTCOMA {nParam = 0;}
 ;
 
-sentencia_return : RETORNO expresion { tsCheckReturn($2,&$$); } PTCOMA
+sentencia_return : RETORNO expresion { tsCheckReturn($2,&$$);/* printTS();*/} PTCOMA
 ;
 
 expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; $$.tDim1 = $2.tDim1; $$.tDim2 = $2.tDim2; }
@@ -161,8 +161,8 @@ constante : CTE_ENTERA{ $$.type = ENTERO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 
 	| CTE_REAL { $$.type = FLOTANTE; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 	| CTE_CARACTER  { $$.type = CARACTER; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; } 
 
-funcion :  identificador INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); }
-	|  identificador INI_EXPR FIN_EXPR
+funcion :  identificador INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; }
+|  identificador INI_EXPR FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0;}
 ;
 
 tipo_basico : TIPO_BASICO
@@ -209,8 +209,8 @@ num:  CTE_ENTERA
 
 
 
-lista_expr : lista_expr COMA expresion 
-	| expresion 
+lista_expr : lista_expr COMA expresion {nParam++;}
+| expresion {nParam++;}
 ;
 
 

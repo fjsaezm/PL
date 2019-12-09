@@ -25,7 +25,7 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 %%
 
 
-"\n"          {ECHO;yylineno;}
+"\n"          {ECHO; yylineno;}
 " "           {ECHO;}
 "principal"   {ECHO; return PRINCIPAL;}
 "{"           {ECHO; return INI_BLOQUE;}
@@ -36,7 +36,7 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 "]"           {ECHO; return FIN_TAM;}
 ","           {ECHO; return COMA;}
 ";"           {ECHO; return PTCOMA;}
-"="	      {ECHO; return ASIG;}
+"="	          {ECHO; return ASIG;}
 "+"           {ECHO; yylval.attr = 0; return SUMARESTA;}
 "-"           {ECHO; yylval.attr = 1; return SUMARESTA;}
 "*"           {ECHO; yylval.attr = 0; return OPMUL;}
@@ -45,8 +45,8 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 "<"           {ECHO; yylval.attr = 1; return OPREL;}
 "<="          {ECHO; yylval.attr = 2; return OPREL;}
 ">="          {ECHO; yylval.attr = 3; return OPREL;}
-"=="	      {ECHO; yylval.attr = 0; return OPIGUAL;}
-"!="	      {ECHO; yylval.attr = 1; return OPIGUAL;}
+"=="	        {ECHO; yylval.attr = 0; return OPIGUAL;}
+"!="	        {ECHO; yylval.attr = 1; return OPIGUAL;}
 "entrada>>"   {ECHO; return ENTRADA;}
 "salida<<"    {ECHO; return SALIDA;}
 "hacer"       {ECHO; return HACER;}

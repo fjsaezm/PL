@@ -93,18 +93,23 @@ int tsDelIn(){
 // Elimina las entradas de la tabla de símbolos hasta la mark de tope
 void tsCleanIn(){
 
-    while(ts[LIMIT-1].in != MARK && LIMIT > 0){
+  // Quitar todo lo del bloque
+  while(ts[LIMIT-1].in != MARK && LIMIT > 0){
 		LIMIT--;
 	}
-	if (ts[LIMIT-1].in == MARK) {
+  // Quitar la marca si es que la hubiese
+	if (ts[LIMIT-1].in == MARK && LIMIT > 0) {
 		LIMIT--;
 	}
 
-    if (ts[LIMIT-1].in == FORM) {
-        while(ts[LIMIT-1].in != FUNCTION && LIMIT > 0){
-    		LIMIT--;
-    	}
-        LIMIT--;
+  // Quitar los parámetros si el bloque era una función
+  if (ts[LIMIT-1].in == FORM) {
+    while(ts[LIMIT-1].in != FUNCTION && LIMIT > 0){
+      LIMIT--;
+    }
+    if(ts[LIMIT-1].in != FUNCTION){
+     LIMIT--;
+    }
 	}
 
 }
@@ -251,7 +256,6 @@ void tsAddMark(){
 // Añade una in de subprograma
 void tsAddSubprog(attrs e){
 
-  printf("Add subprog \n");
   inTS inSubProg;
 	inSubProg.in = FUNCTION;
 	inSubProg.lex = e.lex;
@@ -631,6 +635,9 @@ void tsOpEqual(attrs o1, attrs op, attrs o2, attrs* res){
 // Realiza la comprobación de la operación <, >, <=, >=, <>
 void tsOpRel(attrs o1, attrs op, attrs o2, attrs* res){
 
+  printTS();
+  printf("%d",o1.type);
+  printf("%d",o2.type);
     if (o1.type != o2.type) {
 
 		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", line);
@@ -667,6 +674,7 @@ void tsFunctionCall(attrs id, attrs* res){
     } else {
 
 		if (nParam != ts[index].nParam) {
+      //printf("nParam = %d, ts[index].nParam=%d",nParam, ts[index].nParam);
 			printf("Error semántico(%d): Número de parámetros no válido.\n", line);
 		} else {
 

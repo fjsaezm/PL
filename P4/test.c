@@ -37,7 +37,7 @@ principal
           retorno x1 ;
         }
 
-        xf= functionC (verdadero, 10);
+        xf= funcionC (verdadero, 10);
         x2= xf*(funcionC(falso,1)-funcionC(verdadero,23))/10.0;
 
         hacer {x2= x2*xf ; }
@@ -65,7 +65,7 @@ principal
 
         salida<< "introduzca un valor entero: ";
         entrada>> valor ;
-        si (d1>0.0)
+        si (d1>1.1)
         {
           ini_var
             entero dato ;
