@@ -638,12 +638,12 @@ void tsOpRel(attrs o1,attrs o ,attrs o2, attrs* res){
  
     if (o1.type != o2.type) {
 
-      printTS();
-      printf("o1type =%s\n",o1.lex);
-      printf("otype =%s\n",o.lex);
-      printf("o2type =%s\n",o2.lex);
+      //printTS();
+      //printf("o1type =%s\n",o1.lex);
+      //printf("otype =%s\n",o.lex);
+      //printf("o2type =%s\n",o2.lex);
 
-		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", yylineno);
+		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo. Los tipos son %d y %d", yylineno,o1.type,o2.type);
 		return;
 	}
 	if ((o1.type != ENTERO && o1.type != REAL) || isArray(o1) || isArray(o2)) {

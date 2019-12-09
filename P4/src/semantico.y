@@ -146,8 +146,8 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; 
 	| expresion AND expresion {tsOpAnd($1, $2, $3, &$$); }
 	| expresion XOR expresion {tsOpXor($1, $2, $3, &$$); }
 	| expresion OPIGUAL expresion {tsOpEqual($1, $2, $3, &$$); }
-| expresion SUMARESTA expresion {tsOpSign($1, $2, &$$); } 
-| expresion OPREL expresion {tsOpRel($1, $2,$3, &$$); }
+	| expresion SUMARESTA expresion {tsOpSign($1, $2, &$$); } 
+	| expresion OPREL expresion {tsOpRel($1, $2,$3, &$$); }
 	| expresion OPMUL expresion {tsOpMul($1,$2,$3,&$$);}
 	| funcion {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; currentFunction = -1;}
 	| constante {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
@@ -157,24 +157,17 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; 
 
 /* revisar array ident*/
 constante : CTE_ENTERA{ $$.type = ENTERO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
-| array_ident {printf("Leido array ident!\n\n"); $$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
+| array_ident {printf("Leido array ident!(%s)\n\n",$1.lex); $$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
 	| CTE_LOGICA { $$.type = BOOLEANO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
-| CTE_REAL {printf("Leida ct real!\n\n"); $$.type = REAL; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
+| CTE_REAL {printf("Leida ct real!\(%s)\n\n",$1.lex); $$.type = REAL; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 	| CTE_CARACTER  { $$.type = CARACTER; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; } 
 
 funcion :  identificador INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; }
 |  identificador INI_EXPR FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0;}
 ;
 
-tipo_basico : TIPO_BASICO
-;
-
 lista_identificador :  lista_identificador COMA  ident_array
 	|  ident_array
-;
-
-idarray:  identificador INI_TAM  num FIN_TAM { if(decVar == 1) { $1.nDim=1; $1.tDim1=atoi($3.lex); $1.tDim2=0; tsAddId($1); } }
-	| identificador INI_TAM  num FIN_TAM INI_TAM  num FIN_TAM { if(decVar == 1) { $1.nDim=2; $1.tDim1=atoi($3.lex); $1.tDim2=atoi($6.lex); tsAddId($1); } }
 ;
 
 ident_array: identificador { if(decVar == 1){
@@ -185,21 +178,26 @@ ident_array: identificador { if(decVar == 1){
 				   tsGetId($1, &$$);
 			     }
 			    }
-	|  idarray
+	|  identificador INI_TAM  num FIN_TAM { if(decVar == 1) { $1.nDim=1; $1.tDim1=atoi($3.lex); $1.tDim2=0; tsAddId($1); } }
+	| identificador INI_TAM  num FIN_TAM INI_TAM  num FIN_TAM { if(decVar == 1) { $1.nDim=2; $1.tDim1=atoi($3.lex); $1.tDim2=atoi($6.lex); tsAddId($1); } }
 	|  error
 ;
 
-array:  identificador INI_TAM  lista_expr FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $3.tDim2; $$.nDim = $$.nDim -1; } }
+array_ident: identificador { if(decVar == 1){
+				$1.nDim=0; $1.tDim1 = 0; $1.tDim2 = 0; tsAddId($1);
+			      } 
+		             else{
+				if(decParam == 0)
+				   tsGetId($1, &$$);
+			     }
+			    }
+	| identificador INI_TAM  lista_expr FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $3.tDim2; $$.nDim = $$.nDim -1; } }
 	|  identificador INI_TAM  lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $6.tDim2; $$.nDim = $$.nDim -2;} }
 ;
 
-array_ident:  array 
-	|  identificador
-;
-
-lista_parametros :  lista_parametros COMA  tipo_basico  ident_array { $4.nDim=0; nParam++; setType($3); tsAddParam($4); }
-	|  tipo_basico  ident_array { $2.nDim=0; nParam++; setType($1); tsAddParam($2); }
-	|  lista_parametros error  tipo_basico  ident_array
+lista_parametros :  lista_parametros COMA  TIPO_BASICO  ident_array { $4.nDim=0; nParam++; setType($3); tsAddParam($4); }
+	|  TIPO_BASICO  ident_array { $2.nDim=0; nParam++; setType($1); tsAddParam($2); }
+	|  lista_parametros error  TIPO_BASICO  ident_array
 ;
 
 identificador : CADENA

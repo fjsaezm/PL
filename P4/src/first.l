@@ -69,12 +69,12 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 "verdadero"	{ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return CTE_LOGICA;}
 "falso"		{ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return CTE_LOGICA;}
 
-\'[^\']\' {ECHO; yylval.attr = 3;yylval.lex = strdup(yytext); return CTE_CARACTER;}
+\'[^\']\' {ECHO; yylval.attr = 0;yylval.lex = strdup(yytext); return CTE_CARACTER;}
 {real}		{ECHO; yylval.attr = 2;yylval.lex = strdup(yytext); return CTE_REAL;}
 {entero}        {ECHO; yylval.attr = 1;yylval.lex = strdup(yytext); return CTE_ENTERA;}
 
-\"[^\"]+\"  {ECHO; yylval.attr = 5; yylval.lex = strdup(yytext); return CADENA;}
-[a-zA-Z_][a-zA-Z0-9_]* {ECHO; yylval.lex = strdup(yytext); return CADENA;}
+\"[^\"]+\" { ECHO; yylval.lex = strdup(yytext); yylval.attr = 3; return CADENA;}
+({letra}|_)({letra}|{digito}|_)* {ECHO; yylval.lex = strdup(yytext); return CADENA;}
 
 . {
 printf(" \nError Léxico en Linea: %d. No se reconoce la palabra '%s'. ", yylineno, yytext);
