@@ -11,7 +11,7 @@ principal
   fin_var
 
 
-  entero funcionA (entero a1,b real a2, caracter a3)
+  entero funcionA (entero a1, real a2, caracter a3)
   {
     ini_var
       entero x1, x2 ;
@@ -31,7 +31,7 @@ principal
 
           x1 = 1.3 ;
           si (c2>10)
-            c2= c2-1) ;
+            c2= c2-1 ;
           si_no
             x1= 3.1 ;
           retorno x1 ;
