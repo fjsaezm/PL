@@ -148,7 +148,7 @@ int tsSearchName(attrs e){
 	}
 
 	if(!found) {
-		//printf("Error semántico(%d): Ident not declared: %s\n", line, e.lex);
+		printf("Error semántico(%d): Ident not declared: %s\n", line, e.lex);
 		return -1;
 	} else {
 		return i;
@@ -251,6 +251,7 @@ void tsAddMark(){
 // Añade una in de subprograma
 void tsAddSubprog(attrs e){
 
+  printf("Add subprog \n");
   inTS inSubProg;
 	inSubProg.in = FUNCTION;
 	inSubProg.lex = e.lex;
