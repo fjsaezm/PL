@@ -19,7 +19,7 @@ letra [a-zA-Z]
 alfanumerico {letra}[a-zA-Z0-9]*
 digito [0-9]
 entero {digito}+
-real {entero}.{entero}
+real {entero}\.{entero}
 cadena \"[^\"]*\"
 identificador [a-zA-Z_][a-zA-Z0-9_]*
 %%

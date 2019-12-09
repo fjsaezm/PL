@@ -68,6 +68,8 @@ extern inTS ts[MAX_IN];
 // Línea del fichero que se está analizando
 extern int line;
 
+extern int yylineno;
+
 // Se indica si se están utilizando las variables (0) o si se están declarando
 // (1), (2) llamada desde expresión
 extern int decVar;
@@ -91,6 +93,7 @@ extern int nParam;
 // Índice de la tabla de símbolos de la función que se está utilizando
 extern int currentFunction;
 extern int aux;
+
 
 int isArray(attrs e);
 

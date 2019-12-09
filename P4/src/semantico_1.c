@@ -64,7 +64,7 @@ int tsAddIn(inTS in){
 
 	} else {
 
-		printf("Error semántico(%d): Desbordamiento de la pila", line);
+		printf("Error semántico(%d): Desbordamiento de la pila", yylineno);
 
 		return 0;
 
@@ -83,7 +83,7 @@ int tsDelIn(){
 
 	}else{
 
-		printf("Error semántico(%d): Tabla de símbolos vacía", line);
+		printf("Error semántico(%d): Tabla de símbolos vacía", yylineno);
 		return 0;
 
 	}
@@ -129,7 +129,7 @@ int tsSearchId(attrs e){
 	}
 
 	if(!found) {
-		//printf("Error semántico(%d): Ident not declared: %s\n", line, e.lex);
+		//printf("Error semántico(%d): Ident not declared: %s\n", yylineno, e.lex);
 		return -1;
 	} else {
 		return i;
@@ -153,7 +153,7 @@ int tsSearchName(attrs e){
 	}
 
 	if(!found) {
-		printf("Error semántico(%d): Ident not declared: %s\n", line, e.lex);
+		printf("Error semántico(%d): Ident not declared: %s\n", yylineno, e.lex);
 		return -1;
 	} else {
 		return i;
@@ -180,7 +180,7 @@ void tsAddId(attrs e){
 			} else{
 
 				found = 1;
-				printf("Error semántico(%d): el identificador ya existe: %s\n", line, e.lex);
+				printf("Error semántico(%d): el identificador ya existe: %s\n", yylineno, e.lex);
 
 	 		}
 
@@ -284,7 +284,7 @@ void tsAddParam(attrs e){
 		} else{
 
 			found = 1;
-			printf("Error semántico(%d): El parámetro ya existe: %s\n", line, e.lex);
+			printf("Error semántico(%d): El parámetro ya existe: %s\n", yylineno, e.lex);
 
         }
 
@@ -356,7 +356,7 @@ void tsCheckReturn(attrs expr, attrs* res){
 	if (index > -1) {
 
 		if (expr.type != ts[index].type) {
-			printf("Error semántico(%d): El tipo del retorno no coincide con el de la función.\n", line);
+			printf("Error semántico(%d): El tipo del retorno no coincide con el de la función.\n", yylineno);
 			return;
 		}
 
@@ -366,7 +366,7 @@ void tsCheckReturn(attrs expr, attrs* res){
 		tmp.tDim2 = ts[index].tDim2;
 
 		if (!equalSize(expr,tmp)) {
-			printf("Error semántico(%d): La expresión de retorno tiene dimensión incorrecta.\n", line);
+			printf("Error semántico(%d): La expresión de retorno tiene dimensión incorrecta.\n", yylineno);
 			return;
 		}
 
@@ -377,7 +377,7 @@ void tsCheckReturn(attrs expr, attrs* res){
 
 	} else {
 
-		printf("Error semántico(%d): res no declarado en la función.\n", line);
+		printf("Error semántico(%d): res no declarado en la función.\n", yylineno);
 		return;
 
 	}
@@ -391,7 +391,7 @@ void tsGetId(attrs id, attrs* res){
 
 	if(index==-1) {
         if(ts[index].in != FUNCTION)
-		      printf("\nError semántico(%d): Id no encontrado %s.\n", line, id.lex);
+		      printf("\nError semántico(%d): Id no encontrado %s.\n", yylineno, id.lex);
 	} else {
 
 		res->lex = strdup(ts[index].lex);
@@ -408,7 +408,7 @@ void tsGetId(attrs id, attrs* res){
 void tsOpUnary(attrs op, attrs o, attrs* res){
 
     if (o.type != BOOLEANO || isArray(o)) {
-		printf("Error semántico(%d): el operador espera una expresión lógica.", line);
+		printf("Error semántico(%d): el operador espera una expresión lógica.", yylineno);
 	}
 
 	res->type = BOOLEANO;
@@ -422,7 +422,7 @@ void tsOpUnary(attrs op, attrs o, attrs* res){
 void tsOpSign(attrs op, attrs o, attrs* res){
 
     if ((o.type != FLOTANTE && o.type != ENTERO) || isArray(o)) {
-		printf("Error semántico(%d): El operador espera una expresión entera o real.", line);
+		printf("Error semántico(%d): El operador espera una expresión entera o real.", yylineno);
 	}
 
 	res->type = o.type;
@@ -436,12 +436,12 @@ void tsOpSign(attrs op, attrs o, attrs* res){
 void tsOpSignBin(attrs o1, attrs op, attrs o2, attrs* res){
 
     if (o1.type != o2.type) {
-	    printf("Error semántico(%d): Las expresiones tienen que tener el mismo tipo.", line);
+	    printf("Error semántico(%d): Las expresiones tienen que tener el mismo tipo.", yylineno);
   		return;
   	}
 
 	if (o1.type != ENTERO && o1.type != FLOTANTE) {
-		printf("Error semántico%d): Tipo inválido en op. Ambos deben ser iguales.", line);
+		printf("Error semántico%d): Tipo inválido en op. Ambos deben ser iguales.", yylineno);
 		return;
 	}
 
@@ -456,7 +456,7 @@ void tsOpSignBin(attrs o1, attrs op, attrs o2, attrs* res){
 
 		} else {
 
-            printf("Error semántico(%d): El tamaño de los arrays tiene que ser el mismo", line);
+            printf("Error semántico(%d): El tamaño de los arrays tiene que ser el mismo", yylineno);
 			return;
 
 		}
@@ -476,7 +476,7 @@ void tsOpSignBin(attrs o1, attrs op, attrs o2, attrs* res){
 
 			if (strcmp(op.lex,"-")==0){
 
-				printf("Error semántico(%d): Operación no permitida.", line);
+				printf("Error semántico(%d): Operación no permitida.", yylineno);
 				return;
 
 			} else {
@@ -498,12 +498,12 @@ void tsOpSignBin(attrs o1, attrs op, attrs o2, attrs* res){
 void tsOpMul(attrs o1, attrs op, attrs o2, attrs* res){
 
     if (o1.type != o2.type) {
-		printf("Error semántico(%d): Las expresiones deben tener el mismo tipo.", line);
+		printf("Error semántico(%d): Las expresiones deben tener el mismo tipo.", yylineno);
 		return;
 	}
 
 	if (o1.type != ENTERO && o1.type != FLOTANTE) {
-		printf("Error semántico%d): Tipo inválido en op. Ambos deben ser el mismo.", line);
+		printf("Error semántico%d): Tipo inválido en op. Ambos deben ser el mismo.", yylineno);
 		return;
 	}
 
@@ -518,7 +518,7 @@ void tsOpMul(attrs o1, attrs op, attrs o2, attrs* res){
 
 		} else {
 
-            printf("Error semántico(%d): Los tamaños del array tienen que ser el mismo", line);
+            printf("Error semántico(%d): Los tamaños del array tienen que ser el mismo", yylineno);
 			return;
 
 		}
@@ -538,7 +538,7 @@ void tsOpMul(attrs o1, attrs op, attrs o2, attrs* res){
 
 			if (strcmp(op.lex,"-")==0){
 
-				printf("Error semántico(%d): Opeeración no permitida.", line);
+				printf("Error semántico(%d): Opeeración no permitida.", yylineno);
 				return;
 
 			} else {
@@ -560,11 +560,11 @@ void tsOpMul(attrs o1, attrs op, attrs o2, attrs* res){
 void tsOpAnd(attrs o1, attrs op, attrs o2, attrs* res){
 
     if (o1.type != o2.type) {
-		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", line);
+		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", yylineno);
 		return;
 	}
 	if (o1.type != BOOLEANO || isArray(o1) || isArray(o2)) {
-		printf("Error semántico(%d):Esperaba BOOLEANO", line);
+		printf("Error semántico(%d):Esperaba BOOLEANO", yylineno);
 		return;
 	}
 
@@ -579,11 +579,11 @@ void tsOpAnd(attrs o1, attrs op, attrs o2, attrs* res){
 void tsOpOr(attrs o1, attrs op, attrs o2, attrs* res){
 
     if (o1.type != o2.type) {
-		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", line);
+		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", yylineno);
 		return;
 	}
 	if (o1.type != BOOLEANO || isArray(o1) || isArray(o2)) {
-		printf("Error semántico(%d):Esperaba BOOLEANO", line);
+		printf("Error semántico(%d):Esperaba BOOLEANO", yylineno);
 		return;
 	}
 
@@ -598,11 +598,11 @@ void tsOpOr(attrs o1, attrs op, attrs o2, attrs* res){
 void tsOpXor(attrs o1, attrs op, attrs o2, attrs* res){
 
     if (o1.type != o2.type) {
-		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", line);
+		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", yylineno);
 		return;
 	}
 	if (o1.type != BOOLEANO || isArray(o1) || isArray(o2)) {
-		printf("Error semántico(%d):Esperaba BOOLEANO", line);
+		printf("Error semántico(%d):Esperaba BOOLEANO", yylineno);
 		return;
 	}
 
@@ -617,11 +617,11 @@ void tsOpXor(attrs o1, attrs op, attrs o2, attrs* res){
 void tsOpEqual(attrs o1, attrs op, attrs o2, attrs* res){
 
     if (o1.type != o2.type) {
-		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo..", line);
+		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo..", yylineno);
 		return;
 	}
 	if (isArray(o1) || isArray(o2)) {
-		printf("Error semántico(%d):Esperaba ENTERO o REAL.", line);
+		printf("Error semántico(%d):Esperaba ENTERO o REAL.", yylineno);
 		return;
 	}
 
@@ -640,11 +640,11 @@ void tsOpRel(attrs o1, attrs op, attrs o2, attrs* res){
   printf("%d",o2.type);
     if (o1.type != o2.type) {
 
-		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", line);
+		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", yylineno);
 		return;
 	}
 	if ((o1.type != ENTERO && o1.type != FLOTANTE) || isArray(o1) || isArray(o2)) {
-		printf("Error semántico(%d):Esperaba ENTERO or REAL.", line);
+		printf("Error semántico(%d):Esperaba ENTERO or REAL.", yylineno);
 		return;
 	}
 
@@ -669,13 +669,13 @@ void tsFunctionCall(attrs id, attrs* res){
 
 		currentFunction = -1;
 
-		printf("\nError semántico(%d)): Función: Id no encontrado %s.\n", line, id.lex);
+		printf("\nError semántico(%d)): Función: Id no encontrado %s.\n", yylineno, id.lex);
 
     } else {
 
 		if (nParam != ts[index].nParam) {
       //printf("nParam = %d, ts[index].nParam=%d",nParam, ts[index].nParam);
-			printf("Error semántico(%d): Número de parámetros no válido.\n", line);
+			printf("Error semántico(%d): Número de parámetros no válido.\n", yylineno);
 		} else {
 
 			currentFunction = index;
@@ -699,12 +699,12 @@ void tsCheckParam(attrs param, int checkParam){
 	int error = ts[currentFunction].nParam - checkParam + 1;
 
 	if (param.type != ts[posParam].type) {
-		printf("Error semántico(%d): Tipo de parámetro (%d) no válido.\n", line, error);
+		printf("Error semántico(%d): Tipo de parámetro (%d) no válido.\n", yylineno, error);
 		return;
 	}
 
 	if (param.nDim != ts[posParam].nDim || param.tDim1 != ts[posParam].tDim1  || param.tDim2 != ts[posParam].tDim2) {
-		printf("Error semántico(%d): Tamaño parámetro (%d) no válido.\n", line, error);
+		printf("Error semántico(%d): Tamaño parámetro (%d) no válido.\n", yylineno, error);
 		return;
 	}
 
