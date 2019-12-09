@@ -425,8 +425,6 @@ void tsOpSign(attrs op, attrs o, attrs* res){
 		printf("Error semántico(%d): El operador espera una expresión entera o real.", yylineno);
 	}
 
-	printf("Tipo de la operación (%d). ",o.type);
-
 	res->type = o.type;
 	res->nDim = 0;
 	res->tDim1 = 0;

@@ -1535,7 +1535,7 @@ yyreduce:
 
   case 52:
 #line 150 "src/semantico.y"
-    {tsOpSign(yyvsp[-2], yyvsp[-1], &yyval); }
+    {tsOpSignBin(yyvsp[-2], yyvsp[-1], yyvsp[0], &yyval); }
 #line 1540 "src/y.tab.c"
     break;
 
