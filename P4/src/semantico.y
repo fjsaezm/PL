@@ -49,7 +49,7 @@
 programa : PRINCIPAL bloque
 ;
 
-bloque : INI_BLOQUE {tsAddMark();} interiorBloque FIN_BLOQUE {tsCleanIn();}
+bloque : INI_BLOQUE {tsAddMark();} interiorBloque FIN_BLOQUE {tsCleanIn(); printTS();}
 ;
 
 interiorBloque : dec_var_loc dec_subprogs sentencias 
