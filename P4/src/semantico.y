@@ -159,7 +159,7 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; 
 constante : CTE_ENTERA{ $$.type = ENTERO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 	| array_ident { aux = 1; $$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
 	| CTE_LOGICA { $$.type = BOOLEANO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
-	| CTE_REAL { $$.type = FLOTANTE; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
+	| CTE_REAL { $$.type = REAL; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 	| CTE_CARACTER  { $$.type = CARACTER; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; } 
 
 funcion :  identificador INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; }

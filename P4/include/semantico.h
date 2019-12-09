@@ -17,7 +17,7 @@ typedef enum {
 
 	NOT_ASIG = 0,
 	ENTERO,
-	FLOTANTE,
+	REAL,
 	CARACTER,
 	BOOLEANO,
 	STRING,

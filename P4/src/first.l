@@ -57,7 +57,7 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 "entero"      {ECHO; yylval.type = ENTERO; return TIPO_BASICO;}
 "booleano"    {ECHO; yylval.type = BOOLEANO; return TIPO_BASICO;}
 "caracter"    {ECHO; yylval.type = CARACTER; return TIPO_BASICO;}
-"real"        {ECHO; yylval.type = FLOTANTE; return TIPO_BASICO;}
+"real"        {ECHO; yylval.type = REAL; return TIPO_BASICO;}
 "si"          {ECHO; return SI;}
 "si_no"       {ECHO; return SI_NO;}
 "ini_var"     {ECHO; return INI_VAR;}
@@ -69,11 +69,11 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 "verdadero"	{ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return CTE_LOGICA;}
 "falso"		{ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return CTE_LOGICA;}
 
-\'[^\']\' {ECHO; yylval.lex = strdup(yytext); return CTE_CARACTER;}
-{real}		{ECHO; yylval.lex = strdup(yytext); return CTE_REAL;}
-{entero}        {ECHO; yylval.lex = strdup(yytext); return CTE_ENTERA;}
+\'[^\']\' {ECHO; yylval.attr = 3;yylval.lex = strdup(yytext); return CTE_CARACTER;}
+{real}		{ECHO; yylval.attr = 2;yylval.lex = strdup(yytext); return CTE_REAL;}
+{entero}        {ECHO; yylval.attr = 1;yylval.lex = strdup(yytext); return CTE_ENTERA;}
 
-\"[^\"]+\"  {ECHO; yylval.lex = strdup(yytext); return CADENA;}
+\"[^\"]+\"  {ECHO; yylval.attr = 5; yylval.lex = strdup(yytext); return CADENA;}
 [a-zA-Z_][a-zA-Z0-9_]* {ECHO; yylval.lex = strdup(yytext); return CADENA;}
 
 . {

@@ -421,7 +421,7 @@ void tsOpUnary(attrs op, attrs o, attrs* res){
 // Realiza la comprobación de la operación +, -
 void tsOpSign(attrs op, attrs o, attrs* res){
 
-    if ((o.type != FLOTANTE && o.type != ENTERO) || isArray(o)) {
+    if ((o.type != REAL && o.type != ENTERO) || isArray(o)) {
 		printf("Error semántico(%d): El operador espera una expresión entera o real.", yylineno);
 	}
 
@@ -440,7 +440,7 @@ void tsOpSignBin(attrs o1, attrs op, attrs o2, attrs* res){
   		return;
   	}
 
-	if (o1.type != ENTERO && o1.type != FLOTANTE) {
+	if (o1.type != ENTERO && o1.type != REAL) {
 		printf("Error semántico%d): Tipo inválido en op. Ambos deben ser iguales.", yylineno);
 		return;
 	}
@@ -502,7 +502,7 @@ void tsOpMul(attrs o1, attrs op, attrs o2, attrs* res){
 		return;
 	}
 
-	if (o1.type != ENTERO && o1.type != FLOTANTE) {
+	if (o1.type != ENTERO && o1.type != REAL) {
 		printf("Error semántico%d): Tipo inválido en op. Ambos deben ser el mismo.", yylineno);
 		return;
 	}
@@ -636,14 +636,14 @@ void tsOpEqual(attrs o1, attrs op, attrs o2, attrs* res){
 void tsOpRel(attrs o1, attrs op, attrs o2, attrs* res){
 
   printTS();
-  printf("%d",o1.type);
-  printf("%d",o2.type);
+  printf("%d\n",o1.type);
+  printf("%d\n",o2.type);
     if (o1.type != o2.type) {
 
 		printf("Error semántico (%d): Las expresiones tienen que ser del mismo tipo.", yylineno);
 		return;
 	}
-	if ((o1.type != ENTERO && o1.type != FLOTANTE) || isArray(o1) || isArray(o2)) {
+	if ((o1.type != ENTERO && o1.type != REAL) || isArray(o1) || isArray(o2)) {
 		printf("Error semántico(%d):Esperaba ENTERO or REAL.", yylineno);
 		return;
 	}
@@ -654,9 +654,6 @@ void tsOpRel(attrs o1, attrs op, attrs o2, attrs* res){
 	res->tDim2 = 0;
 
 }
-
-
-
 
 
 
@@ -694,7 +691,7 @@ void tsFunctionCall(attrs id, attrs* res){
 // Realiza la comprobación de cada parámetro de una función
 void tsCheckParam(attrs param, int checkParam){
 
-    int posParam = (currentFunction + ts[currentFunction].nParam) - (checkParam - 1);
+  int posParam = (currentFunction + ts[currentFunction].nParam) - (checkParam - 1);
 
 	int error = ts[currentFunction].nParam - checkParam + 1;
 
@@ -726,19 +723,6 @@ void printIn(int row){
 
 }
 
-// Muestra el type de la in
-void printInType(tIn type){
-
-
-
-}
-
-// Muestra el type del dato recibido
-void printDataType(tData type){
-
-
-
-}
 
 // Muestra la tabla de símbolos
 void printTS(){
@@ -755,7 +739,7 @@ void printTS(){
 
 		if(ts[j].type == 0) { t = "NO_ASIG"; }
 		if(ts[j].type == 1) { t = "ENTERO"; }
-		if(ts[j].type == 2) { t = "FLOTANTE"; }
+		if(ts[j].type == 2) { t = "REAL"; }
 		if(ts[j].type == 3) { t = "CARACTER"; }
 		if(ts[j].type == 4) { t = "BOOLEANO"; }
 		if(ts[j].type == 5) { t = "STRING"; }
@@ -782,7 +766,7 @@ void printAttr(attrs e, char *msg){
 
 	if(e.type == 0) { t = "NO_ASIG"; }
 	if(e.type == 1) { t = "ENTERO"; }
-	if(e.type == 2) { t = "FLOTANTE"; }
+	if(e.type == 2) { t = "REAL"; }
 	if(e.type == 3) { t = "CARACTER"; }
 	if(e.type == 4) { t = "BOOLEANO"; }
 	if(e.type == 5) { t = "STRING"; }
