@@ -31,7 +31,7 @@ principal
 
           x1 = 1.3 ;
           si (c2<10)
-            c2= c2-1 ;
+            c2= c2 - 1;
           si_no
             x1 = 3.1 ;
           retorno x1 ;

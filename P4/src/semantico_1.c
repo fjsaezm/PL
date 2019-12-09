@@ -153,7 +153,7 @@ int tsSearchName(attrs e){
 	}
 
 	if(!found) {
-		printf("Error semántico(%d): Ident not declared: %s\n", yylineno, e.lex);
+		printf("Error semántico(%d): Ident no declarado: %s\n", yylineno, e.lex);
 		return -1;
 	} else {
 		return i;
@@ -424,6 +424,8 @@ void tsOpSign(attrs op, attrs o, attrs* res){
     if ((o.type != REAL && o.type != ENTERO) || isArray(o)) {
 		printf("Error semántico(%d): El operador espera una expresión entera o real.", yylineno);
 	}
+
+	printf("Tipo de la operación (%d). ",o.type);
 
 	res->type = o.type;
 	res->nDim = 0;
