@@ -100,10 +100,10 @@ sentencia : bloque
 sentencia_asig : array_ident ASIG expresion PTCOMA
 	{
 	  if($1.type != $3.type){
-	    printf("Error semántico(%d),los tipos no coinciden (%d) y (%d).\n",line,$1.type,$3.type);
+	    printf("Error semántico(%d),los tipos no coinciden (%d) y (%d).\n",yylineno,$1.type,$3.type);
 	  }
 	  if(!equalSize($1,$3)){
-	    printf("Error semántico(%d),los tamaños no coinciden.\n",line);
+	    printf("Error semántico(%d),los tamaños no coinciden.\n",yylineno);
 	  }
 	}
 ;
@@ -111,13 +111,13 @@ sentencia_asig : array_ident ASIG expresion PTCOMA
 sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
 	{
   	  if($3.type != BOOLEANO){
-    	    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",line);
+    	    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
   	  }
 	}
 | SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
 	{
   	  if($3.type != BOOLEANO){
-    	    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",line);
+    	    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
   	  }
 	}
 ;
@@ -125,7 +125,7 @@ sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
 sentencia_do_until : HACER bloque HASTA INI_EXPR expresion FIN_EXPR
 {
   if($5.type != BOOLEANO){
-    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",line);
+    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
   }
 }
 

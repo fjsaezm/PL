@@ -1,17 +1,18 @@
-principal()
+principal
 {
   ini_var
-    entero ve b,c,d
-    real vf, g, j;
-    caracter vc;
+    entero b,c,d;
+    real f, g, j;
+    caracter vc ;
     booleano vl ;
     entero pe[10], pe2[10][10] ;
     real pf[10], pf2[10][10] ;
     caracter pc[10], pc2[10][10] ;
+    entero b;
   fin_var
 
 
-  entero funcionA (entero a1,b real a2, caracter a3)
+  entero funcionA (entero a1, real a2, caracter a3)
   {
     ini_var
       entero x1, x2 ;
@@ -22,26 +23,26 @@ principal()
         ini_var
           real xf, x2;
         fin_var
-
+····
         real funcionC (booleano c1, entero c2)
         {
           ini_var
-            real x1 ;
+            entero x1 ;
           fin_var
 
           x1 = 1.3 ;
-          si (c2>10)
-            c2= c2-1) ;
+          si (c2<10)
+            c2= c2 - 1;
           si_no
-            x1= 3.1 ;
+            x1 = 3.1 ;
           retorno x1 ;
         }
 
-        xf= functionC (verdadero, 10);
-        x2= xf*(funcionC(falso,1)-funcionC(verdadero,23))/10.0;
+        xf= funcionC (10, verdadero);
+        x2= xf*(funcionC(falso)-funcionC(verdadero,23))/10.0;
 
         hacer {x2= x2*xf ; }
-        hasta (x2*funcionC(false,1)-xf<10.0)
+        hasta (x2*funcionC(falso,1,5)-xf<10.0)
       }
 
       real funcionD (real d1)
@@ -65,7 +66,7 @@ principal()
 
         salida<< "introduzca un valor entero: ";
         entrada>> valor ;
-        si (d1>0.0)
+        si (d1 > 1.1 )
         {
           ini_var
             entero dato ;
@@ -78,8 +79,10 @@ principal()
           valor= valor * 100 ;
           d1= d1/1000.0 ;
         }
-        retorno d1 ;
+        si (d1 > 1.1 ){
+        retorno 5.0 ;
+        }
+        retorno d1;
      }
   }
-
 }
