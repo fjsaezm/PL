@@ -134,6 +134,7 @@ sentencia_entrada : ENTRADA lista_identificador PTCOMA
 ;
 
 sentencia_salida : SALIDA lista_expr PTCOMA {nParam = 0;}
+| SALIDA CADENA PTCOMA
 ;
 
 sentencia_return : RETORNO expresion { tsCheckReturn($2,&$$);/* printTS();*/} PTCOMA

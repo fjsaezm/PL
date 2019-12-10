@@ -322,7 +322,7 @@ int tsGetNextFunction(){
 
 	while (i > 0 && !found) {
 
-		if (ts[i].in == FUNCTION && ts[i+ts[i].nParam + 1].in == MARK && i+ts[i].nParam + 1 != LIMIT) {
+		if (ts[i].in == FUNCTION && ts[i+ts[i].nParam + 1].in == MARK && i+ts[i].nParam + 1 < LIMIT -1) {
 			found = 1;
 		} else {
 			i--;
