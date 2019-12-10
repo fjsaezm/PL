@@ -663,7 +663,6 @@ void tsOpRel(attrs o1,attrs o ,attrs o2, attrs* res){
 void tsFunctionCall(attrs id, attrs* res){
 
     int index = tsSearchName(id);
-    printf("\n%d\n\t ", index);
 
 	if(index==-1) {
 
@@ -691,9 +690,10 @@ void tsFunctionCall(attrs id, attrs* res){
 }
 
 // Realiza la comprobación de cada parámetro de una función
-void tsCheckParam(attrs param, int checkParam){
+void tsCheckParam(attrs funID ,attrs param, int checkParam){
 
-  int posParam = (currentFunction ) + (checkParam);
+  int f = tsSearchName(funID);
+  int posParam = (f ) + (checkParam);
   //printf("\n%d\t\n",posParam);
 	int error = checkParam;
 

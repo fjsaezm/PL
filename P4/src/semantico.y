@@ -166,7 +166,7 @@ constante : CTE_ENTERA{ $$.type = ENTERO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 
 	| CTE_CARACTER  { $$.type = CARACTER; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 ;
 
-funcion :  identificador INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; }
+funcion :  identificador  INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; }
 |  identificador INI_EXPR FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0;}
 ;
 
@@ -214,8 +214,8 @@ num:  CTE_ENTERA
 
 
 
-lista_expr : lista_expr COMA expresion { nParam++; tsCheckParam($3, nParam); }
-| expresion { nParam = 1; tsCheckParam($1, nParam); }
+lista_expr : lista_expr COMA expresion { nParam++; tsCheckParam($-1,$3, nParam); }
+| expresion { nParam++; tsCheckParam($-1,$1, nParam); }
 ;
 
 

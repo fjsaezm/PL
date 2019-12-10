@@ -106,10 +106,10 @@ int setType(attrs value);
 // Tabla de Símbolos
 //
 
-// Inserta una entrada en la tabla 
+// Inserta una entrada en la tabla
 int tsAddIn(inTS in);
 
-// Elimina una entrada de la tabla 
+// Elimina una entrada de la tabla
 int tsDelIn();
 
 // Elimina las entradas de la tabla de símbolos hasta la marca de tope
@@ -181,7 +181,7 @@ void tsOpRel(attrs o1,attrs o,attrs o2, attrs* res);
 void tsFunctionCall(attrs id, attrs* res);
 
 // Realiza la comprobación de cada parámetro de una función
-void tsCheckParam(attrs param, int checkParam);
+void tsCheckParam(attrs funID,attrs param, int checkParam);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Visualización
@@ -201,5 +201,3 @@ void printTS();
 
 // Muestra un atributo recibido
 void printAttr(attrs e, char *t);
-
- 
