@@ -28,6 +28,13 @@ int equalSize(attrs e1, attrs e2){
 
 }
 
+int compatibleSize(attrs e1, attrs e2){
+
+    return (e1.nDim == e2.nDim &&
+        e1.tDim2 == e2.tDim1);
+
+}
+
 // Guarda el type de la variable
 int setType(attrs value){
 
@@ -501,12 +508,12 @@ void tsOpMul(attrs o1, attrs op, attrs o2, attrs* res){
 
 	if (isArray(o1) && isArray(o2)){
 
-		if(equalSize(o1,o2)){
+		if(compatibleSize(o1,o2)){
 
 			res->type = o1.type;
 			res->nDim = o1.nDim;
 			res->tDim1 = o1.tDim1;
-			res->tDim2 = o1.tDim2;
+			res->tDim2 = o2.tDim2;
 
 		} else {
 
@@ -656,7 +663,7 @@ void tsOpRel(attrs o1,attrs o ,attrs o2, attrs* res){
 void tsFunctionCall(attrs id, attrs* res){
 
     int index = tsSearchName(id);
-    //printf("\n%d ", index);
+    printf("\n%d\n\t ", index);
 
 	if(index==-1) {
 
@@ -670,7 +677,6 @@ void tsFunctionCall(attrs id, attrs* res){
       //printf("nParam = %d, ts[index].nParam=%d",nParam, ts[index].nParam);
 			printf("Error semántico(%d): Número de parámetros no válido.\n", yylineno);
 		} else {
-
 			currentFunction = index;
 			res->lex = strdup(ts[index].lex);
 			res->type = ts[index].type;
@@ -688,7 +694,7 @@ void tsFunctionCall(attrs id, attrs* res){
 void tsCheckParam(attrs param, int checkParam){
 
   int posParam = (currentFunction ) + (checkParam);
-
+  //printf("\n%d\t\n",posParam);
 	int error = checkParam;
 
 	if (param.type != ts[posParam].type) {
