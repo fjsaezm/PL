@@ -102,15 +102,7 @@ void tsCleanIn(){
 		LIMIT--;
 	}
 
-  // Quitar los parámetros si el bloque era una función
-  if (ts[LIMIT-1].in == FORM) {
-    while(ts[LIMIT-1].in != FUNCTION && LIMIT > 0){
-      LIMIT--;
-    }
-    if(ts[LIMIT-1].in != FUNCTION){
-     LIMIT--;
-    }
-	}
+
 
 }
 
@@ -206,7 +198,6 @@ void tsAddId(attrs e){
 
 // Añade una mark de tope
 void tsAddMark(){
-
     inTS inInitScope;
 
 	inInitScope.in = MARK;
@@ -326,12 +317,12 @@ void tsUpdateNparam(attrs e){
 // Devuelve la in que sea función más cercana
 int tsGetNextFunction(){
 
-    int i = LIMIT - 1;
+  int i = LIMIT - 1;
 	int found = 0;
 
 	while (i > 0 && !found) {
 
-		if (ts[i].in == FUNCTION) {
+		if (ts[i].in == FUNCTION && ts[i+ts[i].nParam + 1].in == MARK && i+ts[i].nParam + 1 != LIMIT) {
 			found = 1;
 		} else {
 			i--;
@@ -351,6 +342,7 @@ int tsGetNextFunction(){
 void tsCheckReturn(attrs expr, attrs* res){
 
     int index = tsGetNextFunction();
+    //printIn(index);
 
 
 	if (index > -1) {
@@ -594,7 +586,7 @@ void tsOpOr(attrs o1, attrs op, attrs o2, attrs* res){
 
 }
 
-// Realiza la comprobación de la operación ^ 
+// Realiza la comprobación de la operación ^
 void tsOpXor(attrs o1, attrs op, attrs o2, attrs* res){
 
     if (o1.type != o2.type) {
@@ -635,7 +627,7 @@ void tsOpEqual(attrs o1, attrs op, attrs o2, attrs* res){
 // Realiza la comprobación de la operación <, >, <=, >=, <>
 void tsOpRel(attrs o1,attrs o ,attrs o2, attrs* res){
 
- 
+
     if (o1.type != o2.type) {
 
       //printTS();
@@ -664,6 +656,7 @@ void tsOpRel(attrs o1,attrs o ,attrs o2, attrs* res){
 void tsFunctionCall(attrs id, attrs* res){
 
     int index = tsSearchName(id);
+    //printf("\n%d ", index);
 
 	if(index==-1) {
 
@@ -694,9 +687,9 @@ void tsFunctionCall(attrs id, attrs* res){
 // Realiza la comprobación de cada parámetro de una función
 void tsCheckParam(attrs param, int checkParam){
 
-  int posParam = (currentFunction + ts[currentFunction].nParam) - (checkParam - 1);
+  int posParam = (currentFunction ) + (checkParam);
 
-	int error = ts[currentFunction].nParam - checkParam + 1;
+	int error = checkParam;
 
 	if (param.type != ts[posParam].type) {
 		printf("Error semántico(%d): Tipo de parámetro (%d) no válido.\n", yylineno, error);

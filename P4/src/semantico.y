@@ -53,8 +53,8 @@ programa : PRINCIPAL bloque
 bloque : INI_BLOQUE {tsAddMark();} interiorBloque FIN_BLOQUE {tsCleanIn(); /*printTS();*/}
 ;
 
-interiorBloque : dec_var_loc dec_subprogs sentencias 
-	| dec_var_loc dec_subprogs 
+interiorBloque : dec_var_loc dec_subprogs sentencias
+	| dec_var_loc dec_subprogs
 ;
 
 dec_subprogs : dec_subprogs dec_subprog
@@ -134,7 +134,6 @@ sentencia_entrada : ENTRADA lista_identificador PTCOMA
 ;
 
 sentencia_salida : SALIDA lista_expr PTCOMA {nParam = 0;}
-| SALIDA CADENA PTCOMA;
 ;
 
 sentencia_return : RETORNO expresion { tsCheckReturn($2,&$$);/* printTS();*/} PTCOMA
@@ -142,7 +141,7 @@ sentencia_return : RETORNO expresion { tsCheckReturn($2,&$$);/* printTS();*/} PT
 
 expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; $$.tDim1 = $2.tDim1; $$.tDim2 = $2.tDim2; }
 	| array_ident {decVar = 0;}
-	| SUMARESTA expresion {tsOpSign($1, $2, &$$); } 
+	| SUMARESTA expresion {tsOpSign($1, $2, &$$); }
 	| OPUNARIO expresion {tsOpUnary($1, $2, &$$); }
 	| expresion OR expresion {tsOpOr($1, $2, $3, &$$); }
 	| expresion AND expresion {tsOpAnd($1, $2, $3, &$$); }
@@ -151,7 +150,7 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; 
 	| expresion SUMARESTA expresion {tsOpSignBin($1, $2, $3, &$$); }
 	| expresion OPREL expresion {tsOpRel($1, $2,$3, &$$); }
 	| expresion OPMUL expresion {tsOpMul($1,$2,$3,&$$);}
-	| funcion {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; currentFunction = -1;}
+	| funcion {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; /*currentFunction = -1;*/}
 	| constante {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
 	| error
 ;
@@ -162,7 +161,7 @@ constante : CTE_ENTERA{ $$.type = ENTERO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 
 | const_matriz { aux = 1; $$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
 	| CTE_LOGICA { $$.type = BOOLEANO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 | CTE_REAL { $$.type = REAL; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
-	| CTE_CARACTER  { $$.type = CARACTER; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; } 
+	| CTE_CARACTER  { $$.type = CARACTER; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 ;
 
 funcion :  identificador INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; }
@@ -177,7 +176,7 @@ lista_identificador :  lista_identificador COMA  ident_array
 
 ident_array: identificador { if(decVar == 1){
 				$1.nDim=0; $1.tDim1 = 0; $1.tDim2 = 0; tsAddId($1);
-			      } 
+			      }
 		             else{
 				if(decParam == 0)
 				   tsGetId($1, &$$);
@@ -190,7 +189,7 @@ ident_array: identificador { if(decVar == 1){
 
 array_ident: identificador { if(decVar == 1){
 				$1.nDim=0; $1.tDim1 = 0; $1.tDim2 = 0; tsAddId($1);
-			      } 
+			      }
 		             else{
 				if(decParam == 0)
 				   tsGetId($1, &$$);
@@ -213,7 +212,7 @@ num:  CTE_ENTERA
 
 
 
-lista_expr : lista_expr COMA expresion { nParam++; tsCheckParam($1, nParam); }
+lista_expr : lista_expr COMA expresion { nParam++; tsCheckParam($3, nParam); }
 | expresion { nParam = 1; tsCheckParam($1, nParam); }
 ;
 

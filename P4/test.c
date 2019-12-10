@@ -41,7 +41,7 @@ principal
         x2= xf*(funcionC(falso,1)-funcionC(verdadero,23))/10.0;
 
         hacer {x2= x2*xf ; }
-        hasta (x2*funcionC(false,1)-xf<10.0)
+        hasta (x2*funcionC(falso,1)-xf<10.0)
       }
 
       real funcionD (real d1)
@@ -78,7 +78,10 @@ principal
           valor= valor * 100 ;
           d1= d1/1000.0 ;
         }
-        retorno d1 ;
+        si (d1 > 1.1 ){
+        retorno 5.0 ;
+        }
+        retorno d1;
      }
   }
 
