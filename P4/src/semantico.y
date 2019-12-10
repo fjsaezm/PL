@@ -29,6 +29,7 @@
 %token RETORNO
 %token ENTRADA SALIDA
 %token HACER HASTA
+%token CADENA2
 
 
 
@@ -134,7 +135,7 @@ sentencia_entrada : ENTRADA lista_identificador PTCOMA
 ;
 
 sentencia_salida : SALIDA lista_expr PTCOMA {nParam = 0;}
-| SALIDA CADENA PTCOMA
+| SALIDA CADENA2 PTCOMA
 ;
 
 sentencia_return : RETORNO expresion { tsCheckReturn($2,&$$);/* printTS();*/} PTCOMA

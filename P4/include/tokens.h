@@ -31,5 +31,6 @@
 #define CTE_REAL	282
 #define CTE_LOGICA	283
 #define IDENTIFICADOR	284
+#define CADENA2	285
 
 #endif
