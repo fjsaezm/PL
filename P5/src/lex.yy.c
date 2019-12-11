@@ -869,72 +869,72 @@ YY_RULE_SETUP
 case 3:
 YY_RULE_SETUP
 #line 30 "src/first.l"
-{ECHO; return PRINCIPAL;}
+{ECHO; yylval.lex = strdup(yytext); return PRINCIPAL;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 31 "src/first.l"
-{ECHO; return INI_BLOQUE;}
+{ECHO; yylval.lex = strdup(yytext); return INI_BLOQUE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 32 "src/first.l"
-{ECHO; return FIN_BLOQUE;}
+{ECHO; yylval.lex = strdup(yytext); return FIN_BLOQUE;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 33 "src/first.l"
-{ECHO; return INI_EXPR;}
+{ECHO; yylval.lex = strdup(yytext); return INI_EXPR;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 34 "src/first.l"
-{ECHO; return FIN_EXPR;}
+{ECHO; yylval.lex = strdup(yytext); return FIN_EXPR;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 35 "src/first.l"
-{ECHO; return INI_TAM;}
+{ECHO; yylval.lex = strdup(yytext); return INI_TAM;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 36 "src/first.l"
-{ECHO; return FIN_TAM;}
+{ECHO; yylval.lex = strdup(yytext); return FIN_TAM;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 37 "src/first.l"
-{ECHO; return COMA;}
+{ECHO; yylval.lex = strdup(yytext); return COMA;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 38 "src/first.l"
-{ECHO; return PTCOMA;}
+{ECHO; yylval.lex = strdup(yytext); return PTCOMA;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 39 "src/first.l"
-{ECHO; return ASIG;}
+{ECHO; yylval.lex = strdup(yytext); return ASIG;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 40 "src/first.l"
-{ECHO; yylval.attr = 0; return SUMARESTA;}
+{ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return SUMARESTA;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 41 "src/first.l"
-{ECHO; yylval.attr = 1; return SUMARESTA;}
+{ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return SUMARESTA;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 42 "src/first.l"
-{ECHO; yylval.attr = 0; return OPMUL;}
+{ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return OPMUL;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 43 "src/first.l"
-{ECHO; yylval.attr = 1; return OPMUL;}
+{ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return OPMUL;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
@@ -969,37 +969,37 @@ YY_RULE_SETUP
 case 23:
 YY_RULE_SETUP
 #line 50 "src/first.l"
-{ECHO; return ENTRADA;}
+{ECHO; yylval.lex = strdup(yytext); return ENTRADA;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 51 "src/first.l"
-{ECHO; return SALIDA;}
+{ECHO; yylval.lex = strdup(yytext); return SALIDA;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 52 "src/first.l"
-{ECHO; return HACER;}
+{ECHO; yylval.lex = strdup(yytext); return HACER;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 53 "src/first.l"
-{ECHO; return HASTA;}
+{ECHO; yylval.lex = strdup(yytext); return HASTA;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 54 "src/first.l"
-{ECHO; return OR;}
+{ECHO; yylval.lex = strdup(yytext); return OR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 55 "src/first.l"
-{ECHO; return AND;}
+{ECHO; yylval.lex = strdup(yytext); return AND;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 56 "src/first.l"
-{ECHO; return XOR;}
+{ECHO; yylval.lex = strdup(yytext); return XOR;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
@@ -1024,37 +1024,37 @@ YY_RULE_SETUP
 case 34:
 YY_RULE_SETUP
 #line 61 "src/first.l"
-{ECHO; return SI;}
+{ECHO; yylval.lex = strdup(yytext); return SI;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 62 "src/first.l"
-{ECHO; return SI_NO;}
+{ECHO; yylval.lex = strdup(yytext); return SI_NO;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 63 "src/first.l"
-{ECHO; return INI_VAR;}
+{ECHO; yylval.lex = strdup(yytext); return INI_VAR;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 64 "src/first.l"
-{ECHO; return FIN_VAR;}
+{ECHO; yylval.lex = strdup(yytext); return FIN_VAR;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 65 "src/first.l"
-{ECHO; return RETORNO;}
+{ECHO; yylval.lex = strdup(yytext); return RETORNO;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 66 "src/first.l"
-{ECHO; yylval.attr = 0; return OPUNARIO;}
+{ECHO; yylval.lex = strdup(yytext); yylval.attr = 0; return OPUNARIO;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 67 "src/first.l"
-{ECHO; yylval.attr = 1; return OPUNARIO;}
+{ECHO; yylval.lex = strdup(yytext); yylval.attr = 1; return OPUNARIO;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP

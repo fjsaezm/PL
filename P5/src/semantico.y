@@ -49,24 +49,24 @@
 
 
 programa : { generaFich(); } //CI
-	PRINCIPAL bloque 
+	PRINCIPAL bloque
 	{ closeInter(); } //CI
 ;
 ;
 
-bloque : INI_BLOQUE {tsAddMark();} 
+bloque : INI_BLOQUE {tsAddMark();}
 	{ fputs("{\n",file); } //CI
-	interiorBloque FIN_BLOQUE 
+	interiorBloque FIN_BLOQUE
 	{ fputs("}\n",file); } //CI
 	{tsCleanIn();}
 ;
 
-interiorBloque : 
-	dec_var_loc	
+interiorBloque :
+	dec_var_loc
 	dec_subprogs
 	|
 	dec_var_loc
-	dec_subprogs 
+	dec_subprogs
 	sentencias
 ;
 
@@ -84,7 +84,7 @@ cabe2 : lista_parametros FIN_EXPR { tsUpdateNparam($1); nParam = 0; decParam = 0
 	| FIN_EXPR
 ;
 
-dec_var_loc : { varPrinc++;	}	
+dec_var_loc : { varPrinc++;	}
 	INI_VAR {decVar = 1;} var_loc FIN_VAR {decVar = 0;}
 	| /*vacío*/
 ;
@@ -92,10 +92,10 @@ var_loc : var_loc cuerpo_dec_var
 	| cuerpo_dec_var
 ;
 
-cuerpo_dec_var : TIPO_BASICO 
+cuerpo_dec_var : TIPO_BASICO
 		{tipoTMP = $1.type;tipoArray = $1.type;} //CI
 		{setType($1);}
-		 lista_identificador PTCOMA 
+		 lista_identificador PTCOMA
                | error
 ;
 
@@ -122,6 +122,7 @@ sentencia_asig : array_ident ASIG expresion PTCOMA
 	    printf("Error semántico(%d),los tamaños no coinciden.\n",yylineno);
 	  }
 	}
+  { generaAsignacion($1,$2,$3); } //CI
 ;
 
 sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
@@ -157,7 +158,7 @@ sentencia_salida : SALIDA {decSal=1;} lista_expr PTCOMA {nParam = 0;} {decSal=0;
 sentencia_return : RETORNO expresion { tsCheckReturn($2,&$$);/* printTS();*/} PTCOMA
 ;
 
-expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; $$.tDim1 = $2.tDim1; $$.tDim2 = $2.tDim2; }
+expresion : INI_EXPR expresion FIN_EXPR { $$.lex=$2.lex; $$.type = $2.type; $$.nDim = $2.nDim; $$.tDim1 = $2.tDim1; $$.tDim2 = $2.tDim2; }
 	| array_ident {decVar = 0;}
 	| SUMARESTA expresion {tsOpSign($1, $2, &$$); }
 	| OPUNARIO expresion {tsOpUnary($1, $2, &$$); }
@@ -165,9 +166,9 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.type = $2.type; $$.nDim = $2.nDim; 
 	| expresion AND expresion {tsOpAnd($1, $2, $3, &$$); }
 	| expresion XOR expresion {tsOpXor($1, $2, $3, &$$); }
 	| expresion OPIGUAL expresion {tsOpEqual($1, $2, $3, &$$); }
-	| expresion SUMARESTA expresion {tsOpSignBin($1, $2, $3, &$$); }
+	| expresion SUMARESTA expresion {tsOpSignBin($1, $2, $3, &$$);  generaExpresion($1,$2,$3,&$$); } //CI
 	| expresion OPREL expresion {tsOpRel($1, $2,$3, &$$); }
-	| expresion OPMUL expresion {tsOpMul($1,$2,$3,&$$);}
+	| expresion OPMUL expresion {tsOpMul($1,$2,$3,&$$); generaExpresion($1,$2,$3,&$$); } //CI
 	| funcion {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; /*currentFunction = -1;*/}
 	| constante {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
 	| error
@@ -205,12 +206,12 @@ ident_array: identificador { if(decVar == 1){
 			    }
 	|  identificador INI_TAM  num FIN_TAM { if(decVar == 1) { $1.nDim=1; $1.tDim1=atoi($3.lex); $1.tDim2=0; tsAddId($1);
 	{ generaDecVar($1); }//CI
-	 } 
+	 }
 	if(decEnt == 1){generaEntSal(1,$1);}
 	}
 	| identificador INI_TAM  num FIN_TAM INI_TAM  num FIN_TAM { if(decVar == 1) { $1.nDim=2; $1.tDim1=atoi($3.lex); $1.tDim2=atoi($6.lex); tsAddId($1);
 	{ generaDecVar($1); }//CI
-	 } 	
+	 }
 	if(decEnt == 1){generaEntSal(1,$1);}
 	}
 	|  error

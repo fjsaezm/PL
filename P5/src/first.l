@@ -27,44 +27,44 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 
 "\n"          {ECHO; yylineno;}
 " "           {ECHO;}
-"principal"   {ECHO; return PRINCIPAL;}
-"{"           {ECHO; return INI_BLOQUE;}
-"}"           {ECHO; return FIN_BLOQUE;}
-"("           {ECHO; return INI_EXPR;}
-")"           {ECHO; return FIN_EXPR;}
-"["           {ECHO; return INI_TAM;}
-"]"           {ECHO; return FIN_TAM;}
-","           {ECHO; return COMA;}
-";"           {ECHO; return PTCOMA;}
-"="	          {ECHO; return ASIG;}
-"+"           {ECHO; yylval.attr = 0; return SUMARESTA;}
-"-"           {ECHO; yylval.attr = 1; return SUMARESTA;}
-"*"           {ECHO; yylval.attr = 0; return OPMUL;}
-"/"           {ECHO; yylval.attr = 1; return OPMUL;}
+"principal"   {ECHO; yylval.lex = strdup(yytext); return PRINCIPAL;}
+"{"           {ECHO; yylval.lex = strdup(yytext); return INI_BLOQUE;}
+"}"           {ECHO; yylval.lex = strdup(yytext); return FIN_BLOQUE;}
+"("           {ECHO; yylval.lex = strdup(yytext); return INI_EXPR;}
+")"           {ECHO; yylval.lex = strdup(yytext); return FIN_EXPR;}
+"["           {ECHO; yylval.lex = strdup(yytext); return INI_TAM;}
+"]"           {ECHO; yylval.lex = strdup(yytext); return FIN_TAM;}
+","           {ECHO; yylval.lex = strdup(yytext); return COMA;}
+";"           {ECHO; yylval.lex = strdup(yytext); return PTCOMA;}
+"="	          {ECHO; yylval.lex = strdup(yytext); return ASIG;}
+"+"           {ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return SUMARESTA;}
+"-"           {ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return SUMARESTA;}
+"*"           {ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return OPMUL;}
+"/"           {ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return OPMUL;}
 ">"           {ECHO; yylval.attr = 0; return OPREL;}
 "<"           {ECHO; yylval.attr = 1; return OPREL;}
 "<="          {ECHO; yylval.attr = 2; return OPREL;}
 ">="          {ECHO; yylval.attr = 3; return OPREL;}
 "=="	        {ECHO; yylval.attr = 0; return OPIGUAL;}
 "!="	        {ECHO; yylval.attr = 1; return OPIGUAL;}
-"entrada>>"   {ECHO; return ENTRADA;}
-"salida<<"    {ECHO; return SALIDA;}
-"hacer"       {ECHO; return HACER;}
-"hasta"       {ECHO; return HASTA;}
-"||"          {ECHO; return OR;}
-"&&"          {ECHO; return AND;}
-"^"           {ECHO; return XOR;}
+"entrada>>"   {ECHO; yylval.lex = strdup(yytext); return ENTRADA;}
+"salida<<"    {ECHO; yylval.lex = strdup(yytext); return SALIDA;}
+"hacer"       {ECHO; yylval.lex = strdup(yytext); return HACER;}
+"hasta"       {ECHO; yylval.lex = strdup(yytext); return HASTA;}
+"||"          {ECHO; yylval.lex = strdup(yytext); return OR;}
+"&&"          {ECHO; yylval.lex = strdup(yytext); return AND;}
+"^"           {ECHO; yylval.lex = strdup(yytext); return XOR;}
 "entero"      {ECHO; yylval.type = ENTERO; return TIPO_BASICO;}
 "booleano"    {ECHO; yylval.type = BOOLEANO; return TIPO_BASICO;}
 "caracter"    {ECHO; yylval.type = CARACTER; return TIPO_BASICO;}
 "real"        {ECHO; yylval.type = REAL; return TIPO_BASICO;}
-"si"          {ECHO; return SI;}
-"si_no"       {ECHO; return SI_NO;}
-"ini_var"     {ECHO; return INI_VAR;}
-"fin_var"     {ECHO; return FIN_VAR;}
-"retorno"     {ECHO; return RETORNO;}
-"&"           {ECHO; yylval.attr = 0; return OPUNARIO;}
-"!"           {ECHO; yylval.attr = 1; return OPUNARIO;}
+"si"          {ECHO; yylval.lex = strdup(yytext); return SI;}
+"si_no"       {ECHO; yylval.lex = strdup(yytext); return SI_NO;}
+"ini_var"     {ECHO; yylval.lex = strdup(yytext); return INI_VAR;}
+"fin_var"     {ECHO; yylval.lex = strdup(yytext); return FIN_VAR;}
+"retorno"     {ECHO; yylval.lex = strdup(yytext); return RETORNO;}
+"&"           {ECHO; yylval.lex = strdup(yytext); yylval.attr = 0; return OPUNARIO;}
+"!"           {ECHO; yylval.lex = strdup(yytext); yylval.attr = 1; return OPUNARIO;}
 
 "verdadero"	{ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return CTE_LOGICA;}
 "falso"		{ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return CTE_LOGICA;}

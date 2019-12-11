@@ -799,6 +799,7 @@ tData tipoArray = 0;
 inTS TF[MAX_IN];
 
 int temp = 0;
+int tempUsado = 0;
 int etiq = 0;
 int varPrinc=0;
 int decIF = 0,decElse=0;
@@ -816,6 +817,47 @@ char * etiqueta(){
 	sprintf(cadena, "etiqueta_%d",etiq);
 	etiq++;
 	return cadena;
+}
+
+void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
+
+  	char * sent;
+    char * temp2=temporal();
+  	sent = (char *) malloc(1000);
+  	if(a.type == ENTERO){
+  		sprintf(sent,"int %s;\n",temp2);
+  	}
+  	else if(a.type == REAL){
+  		sprintf(sent,"int %s;\n",temp2);
+  	}
+  	else if(a.type == CARACTER){
+  		sprintf(sent,"int %s;\n",temp2);
+  	}
+  	else if(a.type == BOOLEANO){
+  		LIMIT++;
+  		ts[LIMIT].in = descriptor;
+  		ts[LIMIT].descriptor.EtiquetaSalida = etiqueta();
+    		sprintf(sent,"int %s;\n",temp2);
+  	}
+  	/*if(a.nDim == 1){
+  		sprintf(sent,"%s[%d]",sent, a.tDim1);
+  	}
+  	if(a.nDim == 2){
+  		sprintf(sent,"%s[%d][%d]",sent, a.tDim1, a.tDim2);
+  	}*/
+  	sprintf(sent,"%s%s = %s%s%s;\n",sent,temp2,a.lex,op.lex,b.lex);
+    res->lex=temp2;
+  	fputs(sent,file);
+  	free(sent);
+}
+
+void generaAsignacion(attrs a, attrs op, attrs b){
+
+  	char * sent;
+  	sent = (char *) malloc(1000);
+    sprintf(sent,"%s = %s;\n",a.lex,b.lex);
+  	fputs(sent,file);
+  	free(sent);
 }
 
 // Abre un fichero para crear el código intermedio

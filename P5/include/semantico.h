@@ -114,6 +114,7 @@ extern tData tipoTMP; //CI
 extern tData tipoArray; //CI
 
 extern int temp; //CI
+extern int tempUsado; //CI
 extern int etiq; //CI
 extern int varPrinc; //CI
 extern int decIF, decElse; //CI
