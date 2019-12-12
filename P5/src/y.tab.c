@@ -1560,7 +1560,7 @@ yyreduce:
 
   case 51:
 #line 155 "src/semantico.y"
-    {generaEntSal(2,yyvsp[-1]);}
+    {generaEntSal(3,yyvsp[-1]);}
 #line 1565 "src/y.tab.c"
     break;
 
@@ -1706,7 +1706,7 @@ yyreduce:
 				if(decParam == 0)
 				   tsGetId(yyvsp[0], &yyval);
 			     }
-				if(decEnt == 1){generaEntSal(1,yyvsp[0]);}
+				//if(decEnt == 1){generaEntSal(1,$1);}
 			    }
 #line 1712 "src/y.tab.c"
     break;

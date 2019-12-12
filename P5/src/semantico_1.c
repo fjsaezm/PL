@@ -1026,17 +1026,28 @@ void insertaGotoEntrada(){
 void generaEntSal(int type,attrs a){
 
 	if(type == 1){
+
+		fputs("El tipo de ",file);
+		fputs(a.lex, file);
+		fputs(" es ",file);
+		char * sent;
+		sent = (char *) malloc(200);
+		sprintf(sent,"%d",a.type);
+		fputs(sent,file);
+		fputs("\n",file);
+
+
 		fputs("scanf(\"%",file);
 		if(a.type == ENTERO) fputs("d",file);
-		else if(a.type == REAL) fputs("f",file);
-		else if(a.type == CARACTER) fputs("c",file);
-		else if(a.type == BOOLEANO) fputs("d",file);
+		if(a.type == REAL) fputs("f",file);
+		if(a.type == CARACTER) fputs("c",file);
+		if(a.type == BOOLEANO) fputs("d",file);
 		fputs("\",&",file);
 		fputs(a.lex,file);
 		fputs(");",file);
 		fputs("\n",file);
 	}
-	else{
+	if(type == 2){
 		if(a.type != NA){
 			fputs("printf(\"%",file);
 			if(a.type == ENTERO) fputs("d",file);
@@ -1053,4 +1064,10 @@ void generaEntSal(int type,attrs a){
 		}
 		fputs("\n",file);
 	}
+	if(type == 3){
+		fputs("printf(",file);
+		fputs(a.lex,file);
+		fputs(");\n",file);
+	}
+
 }
