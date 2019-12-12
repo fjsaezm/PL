@@ -105,6 +105,9 @@ extern int nParam;
 extern int currentFunction;
 extern int aux;
 
+extern int isMain;//CI
+extern int isAsig;//CI
+
 extern int decSal; //CI
 extern int decEnt; //CI
 

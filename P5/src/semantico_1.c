@@ -798,6 +798,8 @@ tData tipoArray = 0;
 
 inTS TF[MAX_IN];
 
+int isMain = 1;
+int isAsig = 0;
 int temp = 0;
 int tempUsado = 0;
 int etiq = 0;
@@ -824,20 +826,24 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
   	char * sent;
     char * temp2=temporal();
   	sent = (char *) malloc(1000);
+	if (isAsig == 1){
+		sprintf(sent,"{ //Comienzo de traducción de la asignación\n");
+		isAsig=2;
+	}
   	if(a.type == ENTERO){
-  		sprintf(sent,"int %s;\n",temp2);
+  		sprintf(sent,"%sint %s;\n",sent,temp2);
   	}
   	else if(a.type == REAL){
-  		sprintf(sent,"int %s;\n",temp2);
+  		sprintf(sent,"%sfloat %s;\n",sent,temp2);
   	}
   	else if(a.type == CARACTER){
-  		sprintf(sent,"int %s;\n",temp2);
+  		sprintf(sent,"%schar %s;\n",sent,temp2);
   	}
   	else if(a.type == BOOLEANO){
   		LIMIT++;
   		ts[LIMIT].in = descriptor;
   		ts[LIMIT].descriptor.EtiquetaSalida = etiqueta();
-    		sprintf(sent,"int %s;\n",temp2);
+    		sprintf(sent,"%sint %s;\n",sent,temp2);
   	}
   	/*if(a.nDim == 1){
   		sprintf(sent,"%s[%d]",sent, a.tDim1);
@@ -855,7 +861,11 @@ void generaAsignacion(attrs a, attrs op, attrs b){
 
   	char * sent;
   	sent = (char *) malloc(1000);
-    sprintf(sent,"%s = %s;\n",a.lex,b.lex);
+	if(isAsig == 2){
+    		sprintf(sent,"%s = %s;\n} //Fin de traducción de la asignación\n",a.lex,b.lex);
+		isAsig = 0;
+	}
+	else sprintf(sent,"%s = %s;\n",a.lex,b.lex);
   	fputs(sent,file);
   	free(sent);
 }
@@ -866,7 +876,7 @@ void generaFich(){
     file = fopen("generated.c","w");
 
 	fputs("#include <stdio.h>\n",file);
-	fputs("\nint main(int argc, char *argv[] )",file);
+	//fputs("\nint main(int argc, char *argv[] )",file);
 
 }
 

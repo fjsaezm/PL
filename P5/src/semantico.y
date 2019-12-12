@@ -55,7 +55,7 @@ programa : { generaFich(); } //CI
 ;
 
 bloque : INI_BLOQUE {tsAddMark();}
-	{ fputs("{\n",file); } //CI
+	{if (isMain==0){ fputs("{\n",file); }} //CI
 	interiorBloque FIN_BLOQUE
 	{ fputs("}\n",file); } //CI
 	{tsCleanIn();}
@@ -85,7 +85,8 @@ cabe2 : lista_parametros FIN_EXPR { tsUpdateNparam($1); nParam = 0; decParam = 0
 ;
 
 dec_var_loc : { varPrinc++;	}
-	INI_VAR {decVar = 1;} var_loc FIN_VAR {decVar = 0;}
+	INI_VAR {decVar = 1;} var_loc FIN_VAR {decVar = 0;} 
+	{if(isMain==1){fputs("\nint main(int argc, char *argv[] ){\n",file); isMain=0;}}
 	| /*vacío*/
 ;
 var_loc : var_loc cuerpo_dec_var
@@ -113,16 +114,16 @@ sentencia : bloque
 	| error
 ;
 
-sentencia_asig : array_ident ASIG expresion PTCOMA
+sentencia_asig : array_ident ASIG {isAsig=1;} expresion PTCOMA
 	{
-	  if($1.type != $3.type){
+	  if($1.type != $4.type){
 	    printf("Error semántico(%d),los tipos no coinciden (%d) y (%d).\n",yylineno,$1.type,$3.type);
 	  }
-	  if(!equalSize($1,$3)){
+	  if(!equalSize($1,$4)){
 	    printf("Error semántico(%d),los tamaños no coinciden.\n",yylineno);
 	  }
 	}
-  { generaAsignacion($1,$2,$3); } //CI
+  { generaAsignacion($1,$2,$4); isAsig=0;} //CI
 ;
 
 sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
