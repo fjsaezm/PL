@@ -105,8 +105,8 @@ extern int nParam;
 extern int currentFunction;
 extern int aux;
 
-extern decSal; //CI
-extern decEnt; //CI
+extern int decSal; //CI
+extern int decEnt; //CI
 
 extern FILE * file; //CI
 
@@ -225,3 +225,39 @@ void printTS();
 
 // Muestra un atributo recibido
 void printAttr(attrs e, char *t);
+
+/********************************************
+**************generacion codigo**************
+*********************************************/
+
+char * temporal();
+
+char * etiqueta();
+
+void generaExpresion(attrs a, attrs op, attrs b, attrs* res);
+
+void generaAsignacion(attrs a, attrs op, attrs b);
+
+void generaFich();
+
+void closeInter();
+
+void generaDecVar(attrs a);
+
+void genera(int type,attrs dest,attrs a, attrs op, attrs b);
+
+void insertaDesc(int type);
+
+void eliminaDesc();
+
+void insertaCond(int type);
+
+void insertaEtiqElse();
+
+void insertaEtiqSalida();
+
+void insertaEtiqEntrada();
+
+void insertaGotoEntrada();
+
+void generaEntSal(int type,attrs a);

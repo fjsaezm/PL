@@ -8,7 +8,7 @@ int main(int argc, char * argv[]) {
   if (argc >= 2) {
     yyin = fopen (argv[1], "rt");
     if (yyin == NULL) {
-      printf ("No se puede abrir el fichero\n", argv[1]);
+      printf ("No se puede abrir el fichero %s\n", argv[1]);
       exit (1);
     }
     else {
@@ -20,7 +20,7 @@ int main(int argc, char * argv[]) {
     yyin = stdin;
   }
 
-  
+
   yyparse();
 
 
