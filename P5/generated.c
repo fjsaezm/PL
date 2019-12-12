@@ -52,12 +52,9 @@ temp6 = temp5-xf;
 char dato;
 int valor;
 {
-printf("%c","introduzca dos caracteres: ");
-scanf("%c",&e1);
-scanf("%c",&e2);
+printf("introduzca dos caracteres: ");
 }
-printf("%c","introduzca un valor entero: ");
-scanf("%c",&valor);
+printf("introduzca un valor entero: ");
 {
 int dato;
 dato = 2;

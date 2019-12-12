@@ -152,7 +152,7 @@ sentencia_entrada : ENTRADA {decEnt=1;} lista_identificador PTCOMA {decEnt=0;}
 ;
 
 sentencia_salida : SALIDA {decSal=1;} lista_expr PTCOMA {nParam = 0;} {decSal=0;}
-| SALIDA CADENA2 PTCOMA {generaEntSal(2,$2);}
+| SALIDA CADENA2 PTCOMA {generaEntSal(3,$2);}
 ;
 
 sentencia_return : RETORNO expresion { tsCheckReturn($2,&$$);/* printTS();*/} PTCOMA
