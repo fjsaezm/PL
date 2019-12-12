@@ -401,7 +401,7 @@ void tsGetId(attrs id, attrs* res){
 		res->tDim1 = ts[index].tDim1;
 		res->tDim2 = ts[index].tDim2;
 
-	}
+ 	}
 
 }
 
@@ -1026,17 +1026,6 @@ void insertaGotoEntrada(){
 void generaEntSal(int type,attrs a){
 
 	if(type == 1){
-
-		fputs("El tipo de ",file);
-		fputs(a.lex, file);
-		fputs(" es ",file);
-		char * sent;
-		sent = (char *) malloc(200);
-		sprintf(sent,"%d",a.type);
-		fputs(sent,file);
-		fputs("\n",file);
-
-
 		fputs("scanf(\"%",file);
 		if(a.type == ENTERO) fputs("d",file);
 		if(a.type == REAL) fputs("f",file);

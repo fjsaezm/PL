@@ -53,8 +53,14 @@ char dato;
 int valor;
 {
 printf("introduzca dos caracteres: ");
+El tipo de e1 es 3
+scanf("%c",&e1);
+El tipo de e2 es 3
+scanf("%c",&e2);
 }
 printf("introduzca un valor entero: ");
+El tipo de valor es 1
+scanf("%d",&valor);
 {
 int dato;
 dato = 2;

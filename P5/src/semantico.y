@@ -202,17 +202,18 @@ ident_array: identificador { if(decVar == 1){
 				if(decParam == 0)
 				   tsGetId($1, &$$);
 			     }
-				if(decEnt == 1){generaEntSal(1,$1);}
+				//printf(" El tipo es (%d).\n",$1.type);
+				if(decEnt == 1){tsGetId($1, &$$); generaEntSal(1, $$);}
 			    }
 	|  identificador INI_TAM  num FIN_TAM { if(decVar == 1) { $1.nDim=1; $1.tDim1=atoi($3.lex); $1.tDim2=0; tsAddId($1);
 	{ generaDecVar($1); }//CI
 	 }
-	if(decEnt == 1){generaEntSal(1,$1);}
+	if(decEnt == 1){tsGetId($1, &$$); generaEntSal(1, $$);}
 	}
 	| identificador INI_TAM  num FIN_TAM INI_TAM  num FIN_TAM { if(decVar == 1) { $1.nDim=2; $1.tDim1=atoi($3.lex); $1.tDim2=atoi($6.lex); tsAddId($1);
 	{ generaDecVar($1); }//CI
 	 }
-	if(decEnt == 1){generaEntSal(1,$1);}
+	if(decEnt == 1){tsGetId($1, &$$); generaEntSal(1, $$);}
 	}
 	|  error
 ;
@@ -224,6 +225,7 @@ array_ident: identificador { if(decVar == 1){
 				if(decParam == 0)
 				   tsGetId($1, &$$);
 			     }
+				//printf(" El tipo es (%d).\n",$1.type);
 			    }
 	| identificador INI_TAM  lista_expr FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $3.tDim2; $$.nDim = $$.nDim -1; } }
 	|  identificador INI_TAM  lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $6.tDim2; $$.nDim = $$.nDim -2;} }
