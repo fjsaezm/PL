@@ -55,9 +55,9 @@ programa : { generaFich(); } //CI
 ;
 
 bloque : INI_BLOQUE {tsAddMark();}
-	{if (isMain==0){ fputs("{\n",file); }} //CI
+	//{if (isMain==0){ fputs("{\n",file); }} //CI
 	interiorBloque FIN_BLOQUE
-	{ fputs("}\n",file); } //CI
+	//{ fputs("}\n",file); } //CI
 	{tsCleanIn();}
 ;
 
@@ -106,7 +106,7 @@ sentencias : sentencias {decVar = 2;} sentencia
 
 sentencia : bloque
 	| sentencia_asig
-	| sentencia_if
+	| sentencia_if {decIF--;eliminaDesc();}
 	| sentencia_do_until
 	| sentencia_entrada
 	| sentencia_salida
@@ -126,18 +126,41 @@ sentencia_asig : array_ident ASIG {isAsig=1;} expresion PTCOMA
   { generaAsignacion($1,$2,$4); isAsig=0;} //CI
 ;
 
-sentencia_if  :  SI INI_EXPR expresion FIN_EXPR sentencia
-	{
-  	  if($3.type != BOOLEANO){
-    	    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
-  	  }
+sentencia_if  :  SI 
+	{ decIF++;insertaDesc(1);fputs("{ // comienzo de la traducción del if\n",file);}
+	INI_EXPR expresion {
+		if($4.type != BOOLEANO){
+	    	    	printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
+			/*$$.lex = $6.lex;
+			fputs("}\n",file);
+			insertaEtiqElse();
+			fputs("{}\n",file);*/
+  		  }
+		else{
+			generaIf($4);
+		}
 	}
-| SI INI_EXPR expresion FIN_EXPR sentencia SI_NO sentencia
+	sentencia_if_interior {$$.lex = $4.lex; 
+		fputs("}\n",file);
+		fputs("} //fin de la traducción del if\n",file);	
+		insertaEtiqSalida();}
+;
+
+sentencia_if_interior: FIN_EXPR sentencia
 	{
-  	  if($3.type != BOOLEANO){
-    	    printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
-  	  }
+		//fputs("}\n",file);
+		insertaEtiqElse();
+		fputs("{\n",file);
+		
 	}
+| FIN_EXPR sentencia SI_NO {
+		//fputs("Aquí ELSE//\n",file);
+		decElse=1;
+		//fputs("}\n",file);
+		insertaEtiqElse();
+		fputs("{\n",file);
+		decElse=0;}
+	sentencia
 ;
 
 sentencia_do_until : HACER bloque HASTA INI_EXPR expresion FIN_EXPR

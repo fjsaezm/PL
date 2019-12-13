@@ -326,12 +326,16 @@ void tsUpdateNparam(attrs e){
 // Devuelve la in que sea función más cercana
 int tsGetNextFunction(){
 
-  int i = LIMIT - 1;
+ 
+	
+
+  int i = LIMIT - 1 - decIF;
+
 	int found = 0;
 
 	while (i > 0 && !found) {
 
-		if (ts[i].in == FUNCTION && ts[i+ts[i].nParam + 1].in == MARK && i+ts[i].nParam + 1 < LIMIT -1) {
+		if (ts[i].in == FUNCTION && ts[i+ts[i].nParam + 1].in == MARK && i+ts[i].nParam + 1 < LIMIT -1 - decIF) {
 			found = 1;
 		} else {
 			i--;
@@ -352,6 +356,12 @@ void tsCheckReturn(attrs expr, attrs* res){
 
     int index = tsGetNextFunction();
     //printIn(index);
+
+
+	/*int topeTMP = LIMIT;
+	while(TF[topeTMP].in != descriptor){
+		topeTMP--;
+	}*/
 
 
 	if (index > -1) {
@@ -887,9 +897,9 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
   			sprintf(sent,"%schar %s;\n",sent,temp2);
   		}
   		else if(a.type == BOOLEANO){
-  			LIMIT++;
+  			/*LIMIT++;
   			ts[LIMIT].in = descriptor;
-  			ts[LIMIT].descriptor.EtiquetaSalida = etiqueta();
+  			ts[LIMIT].descriptor.EtiquetaSalida = etiqueta();*/
     			sprintf(sent,"%sint %s;\n",sent,temp2);
   		}
 	}
@@ -914,6 +924,18 @@ void generaAsignacion(attrs a, attrs op, attrs b){
 		isAsig = 0;
 	}
 	else sprintf(sent,"%s = %s;\n",a.lex,b.lex);
+  	fputs(sent,file);
+  	free(sent);
+}
+
+void generaIf(attrs a){
+	int topeTMP = LIMIT;
+	while(TF[topeTMP].in != descriptor){
+		topeTMP--;
+	}
+	char * sent;
+  	sent = (char *) malloc(1000);
+    	sprintf(sent,"if (!%s) goto %s;\n",a.lex,TF[topeTMP].descriptor.EtiquetaElse);
   	fputs(sent,file);
   	free(sent);
 }
@@ -949,9 +971,9 @@ void generaDecVar(attrs a){
 		sprintf(sent,"char %s",a.lex);
 	}
 	else if(tipoTMP == BOOLEANO){
-		LIMIT++;
+		/*LIMIT++;
 		ts[LIMIT].in = descriptor;
-		ts[LIMIT].descriptor.EtiquetaSalida = etiqueta();
+		ts[LIMIT].descriptor.EtiquetaSalida = etiqueta();*/
 		sprintf(sent,"int %s",a.lex);
 	}
 	if(a.nDim == 1){
@@ -1026,38 +1048,37 @@ void insertaCond(int type){
 	free(cadena);
 }
 void insertaEtiqElse(){
-	int topeTMP = LIMIT-1;
+	int topeTMP = LIMIT;
 	char * sent;
 	sent = (char *) malloc(200);
 
 	while(TF[topeTMP].in != descriptor && topeTMP>0){
-
 		topeTMP--;
 	}
-	if(decElse == 1){
+	//if(decElse == 1){
 		sprintf(sent,"goto %s;\n%s:\n",TF[topeTMP].descriptor.EtiquetaSalida,TF[topeTMP].descriptor.EtiquetaElse);
-	}
+	/*}
 	else{
 		sprintf(sent,"%s:",TF[topeTMP].descriptor.EtiquetaElse);
-		}
+		}*/
 	fputs(sent,file);
-  printf("FUERA_ELSE\n" );
+  //printf("FUERA_ELSE\n" );
 }
 
 void insertaEtiqSalida(){
-	int topeTMP = LIMIT-1;
+	int topeTMP = LIMIT;
 	char * sent;
 	sent = (char *) malloc(200);
-  printf("\nAntes\n");
+  //printf("\nAntes\n");
 	while(TF[topeTMP].in != descriptor && topeTMP>0){
-    printf("\nDentro while %d\n", topeTMP);
+    //printf("\nDentro while %d\n", topeTMP);
 		topeTMP--;
 	}
 
 	sprintf(sent,"%s:\n",TF[topeTMP].descriptor.EtiquetaSalida);
 
 	fputs(sent,file);
-  printf("FUERA\n" );
+  //printf("FUERA\n" );
 }
 void insertaEtiqEntrada(){
 	int topeTMP = LIMIT;

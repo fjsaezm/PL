@@ -243,6 +243,8 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res);
 
 void generaAsignacion(attrs a, attrs op, attrs b);
 
+void generaIf(attrs a);
+
 void generaFich();
 
 void closeInter();
