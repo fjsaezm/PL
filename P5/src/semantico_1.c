@@ -873,7 +873,7 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
 		sprintf(sent,"{ //Comienzo de traducción de la asignación\n");
 		isAsig=2;
 	}
-	if(isOpRel(op)){ //La expresión es booleana		
+	if(isOpRel(op)){ //La expresión es booleana
     		sprintf(sent,"%sint %s;\n",sent,temp2);
 	}
 	else{
