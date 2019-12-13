@@ -29,7 +29,7 @@ principal
             real x1 ;
           fin_var
 
-          x1 = 1.3 ;
+          x1 = +1.3 ;
           si (c2<10)
             c2= c2 - 1;
           si_no

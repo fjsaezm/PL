@@ -41,12 +41,12 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 "-"           {ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return SUMARESTA;}
 "*"           {ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return OPMUL;}
 "/"           {ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return OPMUL;}
-">"           {ECHO; yylval.attr = 0; return OPREL;}
-"<"           {ECHO; yylval.attr = 1; return OPREL;}
-"<="          {ECHO; yylval.attr = 2; return OPREL;}
-">="          {ECHO; yylval.attr = 3; return OPREL;}
-"=="	        {ECHO; yylval.attr = 0; return OPIGUAL;}
-"!="	        {ECHO; yylval.attr = 1; return OPIGUAL;}
+">"           {ECHO; yylval.lex = strdup(yytext); yylval.attr = 0; return OPREL;}
+"<"           {ECHO; yylval.lex = strdup(yytext); yylval.attr = 1; return OPREL;}
+"<="          {ECHO; yylval.lex = strdup(yytext); yylval.attr = 2; return OPREL;}
+">="          {ECHO; yylval.lex = strdup(yytext); yylval.attr = 3; return OPREL;}
+"=="	        {ECHO; yylval.lex = strdup(yytext); yylval.attr = 0; return OPIGUAL;}
+"!="	        {ECHO; yylval.lex = strdup(yytext); yylval.attr = 1; return OPIGUAL;}
 "entrada>>"   {ECHO; yylval.lex = strdup(yytext); return ENTRADA;}
 "salida<<"    {ECHO; yylval.lex = strdup(yytext); return SALIDA;}
 "hacer"       {ECHO; yylval.lex = strdup(yytext); return HACER;}

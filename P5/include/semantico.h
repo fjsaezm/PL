@@ -237,6 +237,8 @@ char * temporal();
 
 char * etiqueta();
 
+int isOpRel();
+
 void generaExpresion(attrs a, attrs op, attrs b, attrs* res);
 
 void generaAsignacion(attrs a, attrs op, attrs b);

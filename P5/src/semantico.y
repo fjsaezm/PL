@@ -163,13 +163,19 @@ expresion : INI_EXPR expresion FIN_EXPR { $$.lex=$2.lex; $$.type = $2.type; $$.n
 	| array_ident {decVar = 0;}
 	| SUMARESTA expresion {tsOpSign($1, $2, &$$); }
 	| OPUNARIO expresion {tsOpUnary($1, $2, &$$); }
-	| expresion OR expresion {tsOpOr($1, $2, $3, &$$); }
-	| expresion AND expresion {tsOpAnd($1, $2, $3, &$$); }
-	| expresion XOR expresion {tsOpXor($1, $2, $3, &$$); }
-	| expresion OPIGUAL expresion {tsOpEqual($1, $2, $3, &$$); }
+	| expresion OR expresion {tsOpOr($1, $2, $3, &$$); 
+generaExpresion($1,$2,$3,&$$); } //CI
+	| expresion AND expresion {tsOpAnd($1, $2, $3, &$$); 
+generaExpresion($1,$2,$3,&$$); } //CI
+	| expresion XOR expresion {tsOpXor($1, $2, $3, &$$); 
+generaExpresion($1,$2,$3,&$$); } //CI
+	| expresion OPIGUAL expresion {tsOpEqual($1, $2, $3, &$$); 
+generaExpresion($1,$2,$3,&$$); } //CI
 	| expresion SUMARESTA expresion {tsOpSignBin($1, $2, $3, &$$);  generaExpresion($1,$2,$3,&$$); } //CI
-	| expresion OPREL expresion {tsOpRel($1, $2,$3, &$$); }
-	| expresion OPMUL expresion {tsOpMul($1,$2,$3,&$$); generaExpresion($1,$2,$3,&$$); } //CI
+	| expresion OPREL expresion {tsOpRel($1, $2,$3, &$$);  
+generaExpresion($1,$2,$3,&$$); } //CI
+	| expresion OPMUL expresion {tsOpMul($1,$2,$3,&$$); 
+generaExpresion($1,$2,$3,&$$); } //CI
 	| funcion {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; /*currentFunction = -1;*/}
 	| constante {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
 	| error

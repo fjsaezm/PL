@@ -358,6 +358,8 @@ void tsCheckReturn(attrs expr, attrs* res){
 
 		if (expr.type != ts[index].type) {
 			printf("Error semántico(%d): El tipo del retorno no coincide con el de la función.\n", yylineno);
+			printf("La expresión es %s y su tipo es %d\n", expr.lex, expr.type);
+			printf("La función del retorno es %s y su tipo es %d\n", ts[index].lex,ts[index].type);
 			return;
 		}
 
@@ -412,6 +414,12 @@ void tsOpUnary(attrs op, attrs o, attrs* res){
 		printf("Error semántico(%d): el operador espera una expresión lógica.", yylineno);
 	}
 
+	char * sent;
+    	char * temp2=temporal();
+  	sent = (char *) malloc(1000);
+	sprintf(sent,"(%s%s)",op.lex,o.lex);
+
+	res->lex = sent;
 	res->type = BOOLEANO;
 	res->nDim = 0;
 	res->tDim1 = 0;
@@ -426,6 +434,12 @@ void tsOpSign(attrs op, attrs o, attrs* res){
 		printf("Error semántico(%d): El operador espera una expresión entera o real.", yylineno);
 	}
 
+	char * sent;
+    	char * temp2=temporal();
+  	sent = (char *) malloc(1000);
+	sprintf(sent,"(%s%s)",op.lex,o.lex);
+
+	res->lex = sent;
 	res->type = o.type;
 	res->nDim = 0;
 	res->tDim1 = 0;
@@ -821,30 +835,64 @@ char * etiqueta(){
 	return cadena;
 }
 
+int isOpRel(attrs op){
+	int loes = 0;
+
+	//fputs(sent,file);
+	if(!strcmp(op.lex, ">"))
+		loes=1;
+	if(!strcmp(op.lex, "<"))
+		loes=1;
+	if(!strcmp(op.lex, ">="))
+		loes=1;
+	if(!strcmp(op.lex, "<="))
+		loes=1;
+	if(!strcmp(op.lex, "||"))
+		loes=1;
+	if(!strcmp(op.lex, "&&"))
+		loes=1;
+	if(!strcmp(op.lex, "^"))
+		loes=1;
+	if(!strcmp(op.lex, "!="))
+		loes=1;
+
+	return loes;
+}
+
 void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
 
   	char * sent;
-    char * temp2=temporal();
+   	 char * temp2=temporal();
   	sent = (char *) malloc(1000);
+
+	/*sprintf(sent,"\nEl operador es (%s)\n",op.lex);
+	fputs(sent,file);
+	free(sent);*/
+
 	if (isAsig == 1){
 		sprintf(sent,"{ //Comienzo de traducción de la asignación\n");
 		isAsig=2;
 	}
-  	if(a.type == ENTERO){
-  		sprintf(sent,"%sint %s;\n",sent,temp2);
-  	}
-  	else if(a.type == REAL){
-  		sprintf(sent,"%sfloat %s;\n",sent,temp2);
-  	}
-  	else if(a.type == CARACTER){
-  		sprintf(sent,"%schar %s;\n",sent,temp2);
-  	}
-  	else if(a.type == BOOLEANO){
-  		LIMIT++;
-  		ts[LIMIT].in = descriptor;
-  		ts[LIMIT].descriptor.EtiquetaSalida = etiqueta();
+	if(isOpRel(op)){ //La expresión es booleana		
     		sprintf(sent,"%sint %s;\n",sent,temp2);
-  	}
+	}
+	else{
+  		if(a.type == ENTERO){
+  			sprintf(sent,"%sint %s;\n",sent,temp2);
+  		}
+  		else if(a.type == REAL){
+  			sprintf(sent,"%sfloat %s;\n",sent,temp2);
+  		}
+  		else if(a.type == CARACTER){
+  			sprintf(sent,"%schar %s;\n",sent,temp2);
+  		}
+  		else if(a.type == BOOLEANO){
+  			LIMIT++;
+  			ts[LIMIT].in = descriptor;
+  			ts[LIMIT].descriptor.EtiquetaSalida = etiqueta();
+    			sprintf(sent,"%sint %s;\n",sent,temp2);
+  		}
+	}
   	/*if(a.nDim == 1){
   		sprintf(sent,"%s[%d]",sent, a.tDim1);
   	}
@@ -852,7 +900,7 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
   		sprintf(sent,"%s[%d][%d]",sent, a.tDim1, a.tDim2);
   	}*/
   	sprintf(sent,"%s%s = %s%s%s;\n",sent,temp2,a.lex,op.lex,b.lex);
-    res->lex=temp2;
+    	res->lex=temp2;
   	fputs(sent,file);
   	free(sent);
 }

@@ -24,35 +24,39 @@ float xf;
 float x2;
 {
 float x1;
-x1 = 1.3;
+x1 = (+1.3);
+int temp1;
+temp1 = c2<10;
 { //Comienzo de traducción de la asignación
-int temp0;
-temp0 = c2-1;
-c2 = temp0;
+int temp2;
+temp2 = c2-1;
+c2 = temp2;
 } //Fin de traducción de la asignación
 x1 = 3.1;
 }
 xf = funcionC;
 { //Comienzo de traducción de la asignación
-float temp1;
-temp1 = funcionC-funcionC;
-float temp2;
-temp2 = xf*temp1;
 float temp3;
-temp3 = temp2/10.0;
-x2 = temp3;
+temp3 = funcionC-funcionC;
+float temp4;
+temp4 = xf*temp3;
+float temp5;
+temp5 = temp4/10.0;
+x2 = temp5;
 } //Fin de traducción de la asignación
 {
 { //Comienzo de traducción de la asignación
-float temp4;
-temp4 = x2*xf;
-x2 = temp4;
+float temp6;
+temp6 = x2*xf;
+x2 = temp6;
 } //Fin de traducción de la asignación
 }
-float temp5;
-temp5 = x2*funcionC;
-float temp6;
-temp6 = temp5-xf;
+float temp7;
+temp7 = x2*funcionC;
+float temp8;
+temp8 = temp7-xf;
+int temp9;
+temp9 = temp8<10.0;
 }
 {
 char dato;
@@ -61,32 +65,40 @@ int valor;
 printf("introduzca dos caracteres: ");
 scanf("%c",&e1);
 scanf("%c",&e2);
+char temp10;
+temp10 = e1=='a';
+char temp11;
+temp11 = e1=='b';
 }
 printf("introduzca un valor entero: ");
 scanf("%d",&valor);
+int temp12;
+temp12 = d1>1.1;
 {
 int dato;
 dato = 2;
 { //Comienzo de traducción de la asignación
-int temp7;
-temp7 = valor*20;
-int temp8;
-temp8 = temp7/dato;
-dato = temp8;
+int temp13;
+temp13 = valor*20;
+int temp14;
+temp14 = temp13/dato;
+dato = temp14;
 } //Fin de traducción de la asignación
 }
 {
 { //Comienzo de traducción de la asignación
-int temp9;
-temp9 = valor*100;
-valor = temp9;
+int temp15;
+temp15 = valor*100;
+valor = temp15;
 } //Fin de traducción de la asignación
 { //Comienzo de traducción de la asignación
-float temp10;
-temp10 = d1/1000.0;
-d1 = temp10;
+float temp16;
+temp16 = d1/1000.0;
+d1 = temp16;
 } //Fin de traducción de la asignación
 }
+int temp17;
+temp17 = d1>1.1;
 {
 }
 }
