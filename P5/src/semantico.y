@@ -107,7 +107,7 @@ sentencias : sentencias {decVar = 2;} sentencia
 sentencia : bloque
 	| sentencia_asig
 	| sentencia_if {decIF--;eliminaDesc();}
-	| sentencia_do_until
+	| sentencia_do_until {eliminaDesc();}
 	| sentencia_entrada
 	| sentencia_salida
 	| sentencia_return
@@ -126,7 +126,7 @@ sentencia_asig : array_ident ASIG {isAsig=1;} expresion PTCOMA
   { generaAsignacion($1,$2,$4); isAsig=0;} //CI
 ;
 
-sentencia_if  :  SI 
+sentencia_if  :  SI
 	{ decIF++;insertaDesc(1);fputs("{ // comienzo de la traducción del if\n",file);}
 	INI_EXPR expresion {
 		if($4.type != BOOLEANO){
@@ -140,9 +140,9 @@ sentencia_if  :  SI
 			generaIf($4);
 		}
 	}
-	sentencia_if_interior {$$.lex = $4.lex; 
+	sentencia_if_interior {$$.lex = $4.lex;
 		fputs("}\n",file);
-		fputs("} //fin de la traducción del if\n",file);	
+		fputs("} //fin de la traducción del if\n",file);
 		insertaEtiqSalida();}
 ;
 
@@ -151,7 +151,7 @@ sentencia_if_interior: FIN_EXPR sentencia
 		//fputs("}\n",file);
 		insertaEtiqElse();
 		fputs("{\n",file);
-		
+
 	}
 | FIN_EXPR sentencia SI_NO {
 		//fputs("Aquí ELSE//\n",file);
@@ -163,10 +163,13 @@ sentencia_if_interior: FIN_EXPR sentencia
 	sentencia
 ;
 
-sentencia_do_until : HACER bloque HASTA INI_EXPR expresion FIN_EXPR
+sentencia_do_until : HACER {insertaDesc(2);insertaEtiqEntrada();fputs("{\n",file);} bloque HASTA INI_EXPR expresion FIN_EXPR
 {
-  if($5.type != BOOLEANO){
+  if($6.type != BOOLEANO){
     printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
+  }else{
+    generaDoWhile($6);
+    fputs("}\n",file);
   }
 }
 
@@ -274,8 +277,8 @@ num:  CTE_ENTERA
 
 
 
-lista_expr : lista_expr COMA expresion {if(decSal == 1){generaEntSal(3,$1);}else{ nParam++; tsCheckParam($-1,$3, nParam); }}
-| expresion  {if(decSal == 1){generaEntSal(3,$1);}else{ nParam++; tsCheckParam($-1,$1, nParam); }}
+lista_expr : lista_expr COMA expresion {if(decSal == 1){generaEntSal(2,$1);}else{ nParam++; tsCheckParam($-1,$3, nParam); }}
+| expresion  {if(decSal == 1){generaEntSal(2,$1);}else{ nParam++; tsCheckParam($-1,$1, nParam); }}
 ;
 
 

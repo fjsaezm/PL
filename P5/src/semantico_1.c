@@ -326,8 +326,8 @@ void tsUpdateNparam(attrs e){
 // Devuelve la in que sea función más cercana
 int tsGetNextFunction(){
 
- 
-	
+
+
 
   int i = LIMIT - 1 - decIF;
 
@@ -940,6 +940,19 @@ void generaIf(attrs a){
   	free(sent);
 }
 
+void generaDoWhile(attrs a){
+	int topeTMP = LIMIT;
+	while(TF[topeTMP].in != descriptor){
+		topeTMP--;
+	}
+	char * sent;
+  	sent = (char *) malloc(1000);
+    	sprintf(sent,"if (%s) goto %s;\n",a.lex,TF[topeTMP].descriptor.EtiquetaEntrada);
+  	fputs(sent,file);
+  	free(sent);
+}
+
+
 // Abre un fichero para crear el código intermedio
 void generaFich(){
 
@@ -952,7 +965,7 @@ void generaFich(){
 
 // Cerrar fichero
 void closeInter(){
-
+    fputs("}",file);
     fclose(file);
 
 }
@@ -1075,7 +1088,7 @@ void insertaEtiqSalida(){
 		topeTMP--;
 	}
 
-	sprintf(sent,"%s:\n",TF[topeTMP].descriptor.EtiquetaSalida);
+	sprintf(sent,"%s:\n{}\n",TF[topeTMP].descriptor.EtiquetaSalida);
 
 	fputs(sent,file);
   //printf("FUERA\n" );

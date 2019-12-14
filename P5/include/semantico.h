@@ -245,6 +245,8 @@ void generaAsignacion(attrs a, attrs op, attrs b);
 
 void generaIf(attrs a);
 
+void generaDoWhile(attrs a);
+
 void generaFich();
 
 void closeInter();
