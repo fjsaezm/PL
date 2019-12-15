@@ -1,7 +1,9 @@
 principal{
   ini_var
     entero n, curr ;
+    entero a23[2][3], a32[3][2],a22[2][2];
   fin_var
+  a22 = a23*a32;
   salida<< "introduce numero: ";
   entrada>> n;
   salida<< " ";
@@ -22,4 +24,5 @@ principal{
       curr = curr+1 ;
   }hasta ( curr <= n )
   salida<< "\n";
+
 }

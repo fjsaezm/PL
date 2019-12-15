@@ -435,6 +435,8 @@ void tsOpUnary(attrs op, attrs o, attrs* res){
 	res->tDim1 = 0;
 	res->tDim2 = 0;
 
+  free(sent);
+
 }
 
 // Realiza la comprobación de la operación +, -
@@ -454,6 +456,8 @@ void tsOpSign(attrs op, attrs o, attrs* res){
 	res->nDim = 0;
 	res->tDim1 = 0;
 	res->tDim2 = 0;
+
+  free(sent);
 
 }
 
@@ -888,10 +892,20 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
 	}
 	else{
   		if(a.type == ENTERO){
-  			sprintf(sent,"%sint %s;\n",sent,temp2);
+        if(a.nDim==0)
+  			  sprintf(sent,"%sint %s;\n",sent,temp2);
+        else if (a.nDim==1)
+          sprintf(sent,"%sint %s[%i];\n",sent,temp2,a.tDim1);
+        else
+          sprintf(sent,"%sint %s[%i][%i];\n",sent,temp2,a.tDim1,b.tDim2);
   		}
   		else if(a.type == REAL){
-  			sprintf(sent,"%sfloat %s;\n",sent,temp2);
+        if(a.nDim==0)
+  			  sprintf(sent,"%sdouble %s;\n",sent,temp2);
+        else if (a.nDim==1)
+          sprintf(sent,"%sdouble %s[%i];\n",sent,temp2,a.tDim1);
+        else
+          sprintf(sent,"%sdouble %s[%i][%i];\n",sent,temp2,a.tDim1,b.tDim2);
   		}
   		else if(a.type == CARACTER){
   			sprintf(sent,"%schar %s;\n",sent,temp2);
@@ -909,8 +923,46 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
   	if(a.nDim == 2){
   		sprintf(sent,"%s[%d][%d]",sent, a.tDim1, a.tDim2);
   	}*/
-  	sprintf(sent,"%s%s = %s%s%s;\n",sent,temp2,a.lex,op.lex,b.lex);
-    	res->lex=temp2;
+
+    if (a.nDim == 0)
+  	 sprintf(sent,"%s%s = %s%s%s;\n",sent,temp2,a.lex,op.lex,b.lex);
+    else if(a.nDim == 1){
+     if(a.type == ENTERO){
+      if(strcmp(op.lex, "+") == 0)
+       sprintf(sent,"%ssumaVectoresEnteros (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
+      else if(strcmp(op.lex, "-") == 0)
+        sprintf(sent,"%srestaVectoresEnteros (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
+      else if(strcmp(op.lex, "*") == 0)
+        sprintf(sent,"%smultiplicacionVectoresEnteros (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
+      else if(strcmp(op.lex, "/") == 0)
+        sprintf(sent,"%sdivisionVectoresEnteros (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
+    }else if(a.type == REAL)
+     if(strcmp(op.lex, "+") == 0)
+      sprintf(sent,"%ssumaVectoresReales (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
+     else if(strcmp(op.lex, "-") == 0)
+       sprintf(sent,"%srestaVectoresReales (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
+     else if(strcmp(op.lex, "*") == 0)
+       sprintf(sent,"%smultiplicacionVectoresReales (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
+     else if(strcmp(op.lex, "/") == 0)
+       sprintf(sent,"%sdivisionVectoresReales (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
+    } else
+      if(a.type == ENTERO){
+       if(strcmp(op.lex, "+") == 0)
+        sprintf(sent,"%ssumaMatricesEnteros (%s, %s, %s, %i, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1,a.tDim2);
+       else if(strcmp(op.lex, "-") == 0)
+         sprintf(sent,"%srestaMatricesEnteros (%s, %s, %s, %i, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1,a.tDim2);
+       else if(strcmp(op.lex, "*") == 0)
+         sprintf(sent,"%smultiplicacionMatricesEnteros (%s, %s, %s, %i, %i, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1,a.tDim2,b.tDim2);
+     }else if(a.type == REAL)
+      if(strcmp(op.lex, "+") == 0)
+       sprintf(sent,"%ssumaMatricesReales (%s, %s, %s, %i, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1,a.tDim2);
+      else if(strcmp(op.lex, "-") == 0)
+        sprintf(sent,"%srestaMatricesReales (%s, %s, %s, %i, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1,a.tDim2);
+      else if(strcmp(op.lex, "*") == 0)
+        sprintf(sent,"%smultiplicacionMatricesReales (%s, %s, %s, %i, %i %i);\n",sent,a.lex,b.lex,temp2,a.tDim1,a.tDim2,b.tDim2);
+
+
+    res->lex=temp2;
   	fputs(sent,file);
   	free(sent);
 }
@@ -1075,6 +1127,7 @@ void insertaEtiqElse(){
 		sprintf(sent,"%s:",TF[topeTMP].descriptor.EtiquetaElse);
 		}*/
 	fputs(sent,file);
+	free(sent);
   //printf("FUERA_ELSE\n" );
 }
 
@@ -1091,6 +1144,7 @@ void insertaEtiqSalida(){
 	sprintf(sent,"%s:\n{}\n",TF[topeTMP].descriptor.EtiquetaSalida);
 
 	fputs(sent,file);
+	free(sent);
   //printf("FUERA\n" );
 }
 void insertaEtiqEntrada(){
@@ -1103,6 +1157,7 @@ void insertaEtiqEntrada(){
 
 	sprintf(sent,"%s:\n",TF[topeTMP].descriptor.EtiquetaEntrada);
 	fputs(sent,file);
+  free(sent);
 }
 void insertaGotoEntrada(){
 	int topeTMP = LIMIT;
@@ -1114,6 +1169,7 @@ void insertaGotoEntrada(){
 
 	sprintf(sent,"goto %s;\n",TF[topeTMP].descriptor.EtiquetaEntrada);
 	fputs(sent,file);
+  free(sent);
 }
 void generaEntSal(int type,attrs a){
 
