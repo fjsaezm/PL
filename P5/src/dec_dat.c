@@ -1,5 +1,27 @@
 #include "dec_sat.h"
 
+void asignacionVectorEnteros(int a[], int b[], int dim){
+  for (int i=0;i < dim; ++i)
+    a[i] = b[i];
+}
+
+void asignacionMatrizEnteros(int a[], int b[], int dim1, int dim2){
+  for (int i = 0; i < dim1; ++i)
+    for (int j = 0; j < dim2; ++j)
+      a[i*dim2+j]= b[i*dim2+j];
+}
+
+void asignacionVectorReales(double a[], double b[], int dim){
+  for (int i=0;i < dim; ++i)
+    a[i] = b[i];
+}
+
+void asignacionMatrizReales(double a[], double b[], int dim1, int dim2){
+  for (int i = 0; i < dim1; ++i)
+    for (int j = 0; j < dim2; ++j)
+      a[i*dim2+j]= b[i*dim2+j];
+}
+
 void sumaVectoresEnteros (int a[], int b[], int result[], int dim){
   for (int i = 0; i < dim; ++i)
     result[i]= a[i]+b[i];

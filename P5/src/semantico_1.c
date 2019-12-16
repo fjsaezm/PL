@@ -820,6 +820,8 @@ void printAttr(attrs e, char *msg){
 *********************************************/
 
 FILE * file;
+FILE * fileMain;
+FILE * fileSubProg;
 
 tData tipoTMP = 0;
 tData tipoArray = 0;
@@ -833,6 +835,8 @@ int tempUsado = 0;
 int etiq = 0;
 int varPrinc=0;
 int decIF = 0,decElse=0;
+
+int numSubPro=0;
 
 char * temporal(){
 	char * cadena;
@@ -972,10 +976,33 @@ void generaAsignacion(attrs a, attrs op, attrs b){
   	char * sent;
   	sent = (char *) malloc(1000);
 	if(isAsig == 2){
-    		sprintf(sent,"%s = %s;\n} //Fin de traducción de la asignación\n",a.lex,b.lex);
+        if (a.nDim==0)
+            sprintf(sent,"%s = %s; \n} //Fin de traducción de la asignación\n",a.lex,b.lex);
+        else if (a.nDim==1){
+            if (ENTERO == a.type)
+              sprintf(sent,"asignacionVectorEnteros(%s, %s, %i); \n} //Fin de traducción de la asignación\n",a.lex,b.lex,a.tDim1);
+            else if (REAL == a.type)
+              sprintf(sent,"asignacionVectorReales(%s, %s, %i); \n} //Fin de traducción de la asignación\n",a.lex,b.lex,a.tDim1);
+        }else if (a.nDim == 2)
+            if (ENTERO == a.type)
+              sprintf(sent,"asignacionMatrizEnteros(%s, %s, %i, %i); \n} //Fin de traducción de la asignación\n",a.lex,b.lex,a.tDim1,a.tDim2);
+            else if (REAL == a.type)
+              sprintf(sent,"asignacionMatrizReales(%s, %s, %i, %i); \n} //Fin de traducción de la asignación\n",a.lex,b.lex,a.tDim1,a.tDim2);
 		isAsig = 0;
 	}
-	else sprintf(sent,"%s = %s;\n",a.lex,b.lex);
+	else if (a.nDim==0)
+      sprintf(sent,"%s = %s;\n",a.lex,b.lex);
+  else if (a.nDim==1){
+      if (ENTERO == a.type)
+        sprintf(sent,"asignacionVectorEnteros(%s, %s, %i);\n",a.lex,b.lex,a.tDim1);
+      else if (REAL == a.type)
+        sprintf(sent,"asignacionVectorReales(%s, %s, %i);\n",a.lex,b.lex,a.tDim1);
+  }else if (a.nDim == 2)
+      if (ENTERO == a.type)
+        sprintf(sent,"asignacionMatrizEnteros(%s, %s, %i, %i);\n",a.lex,b.lex,a.tDim1,a.tDim2);
+      else if (REAL == a.type)
+        sprintf(sent,"asignacionMatrizReales(%s, %s, %i, %i);\n",a.lex,b.lex,a.tDim1,a.tDim2);
+
   	fputs(sent,file);
   	free(sent);
 }
@@ -1009,8 +1036,10 @@ void generaDoWhile(attrs a){
 void generaFich(){
 
     file = fopen("generated.c","w");
+    fileMain = file;
+    fileSubProg = fopen("dec_fun","w");
 
-	fputs("#include <stdio.h>\n",file);
+	fputs("#include <stdio.h>\n#include \"dec_dat.h\"\n#include \"dec_fun\"\n",file);
 	//fputs("\nint main(int argc, char *argv[] )",file);
 
 }
@@ -1018,7 +1047,8 @@ void generaFich(){
 // Cerrar fichero
 void closeInter(){
     fputs("}",file);
-    fclose(file);
+    fclose(fileSubProg);
+    fclose(fileMain);
 
 }
 
@@ -1207,4 +1237,40 @@ void generaEntSal(int type,attrs a){
 		fputs(");\n",file);
 	}
 
+}
+
+void generaCabeceraFuncion( attrs id){
+	char * sent;
+  sent = (char *) malloc(200);
+  if(id.type == ENTERO) fputs("int",file);
+  if(id.type == REAL) fputs("double",file);
+  if(id.type == CARACTER) fputs("char",file);
+  if(id.type == BOOLEANO) fputs("int",file);
+  sprintf(sent, " %s (",id.lex);
+  fputs(sent,file);
+  free(sent);
+}
+
+void generarListaParametros(attrs type,attrs id){
+  char * sent;
+  sent = (char *) malloc(200);
+  if(type.type == ENTERO) fputs(", int",file);
+  if(type.type == REAL) fputs(", double",file);
+  if(type.type == CARACTER) fputs(", char",file);
+  if(type.type == BOOLEANO) fputs(", int",file);
+  sprintf(sent, " %s ",id.lex);
+  fputs(sent,file);
+  free(sent);
+}
+
+void generarPrimerParametro(attrs type,attrs id){
+  char * sent;
+  sent = (char *) malloc(200);
+  if(type.type == ENTERO) fputs("int",file);
+  if(type.type == REAL) fputs("double",file);
+  if(type.type == CARACTER) fputs("char",file);
+  if(type.type == BOOLEANO) fputs("int",file);
+  sprintf(sent, " %s ",id.lex);
+  fputs(sent,file);
+  free(sent);
 }

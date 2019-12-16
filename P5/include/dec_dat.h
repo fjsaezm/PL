@@ -1,3 +1,11 @@
+void asignacionVectorEnteros(int a[], int b[], int dim);
+
+void asignacionMatrizEnteros(int a[], int b[], int dim1, int dim2);
+
+void asignacionVectorReales(double a[], double b[], int dim);
+
+void asignacionMatrizReales(double a[], double b[], int dim1, int dim2);
+
 void sumaVectoresEnteros (int a[], int b[], int result[], int dim);
 
 void restaVectoresEnteros (int a[], int b[], int result[], int dim);

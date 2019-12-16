@@ -74,14 +74,14 @@ dec_subprogs : dec_subprogs dec_subprog
           | /*vacio*/
 ;
 
-dec_subprog : cabe_subprog { subProg = 1;} bloque { subProg = 0;}
+dec_subprog : {numSubPro++;if(numSubPro==1)file = fileSubProg;}cabe_subprog { subProg = 1;} bloque { subProg = 0;numSubPro--;if(numSubPro==0)file = fileMain;}
 ;
 
-cabe_subprog : TIPO_BASICO identificador {decParam = 1; tsAddSubprog($2);} INI_EXPR cabe2
+cabe_subprog : TIPO_BASICO identificador {decParam = 1; tsAddSubprog($2);generaCabeceraFuncion($2);} INI_EXPR cabe2
 ;
 
-cabe2 : lista_parametros FIN_EXPR { tsUpdateNparam($1); nParam = 0; decParam = 0; } {$1.nDim=0;}
-	| FIN_EXPR
+cabe2 : lista_parametros FIN_EXPR { tsUpdateNparam($1); nParam = 0; decParam = 0; } {$1.nDim=0;fputs(")\n",file);}
+	| FIN_EXPR {fputs(")\n",file);}
 ;
 
 dec_var_loc : { varPrinc++;	}
@@ -264,8 +264,8 @@ array_ident: identificador { if(decVar == 1){
 	|  identificador INI_TAM  lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $6.tDim2; $$.nDim = $$.nDim -2;} }
 ;
 
-lista_parametros :  lista_parametros COMA  TIPO_BASICO  ident_array { $4.nDim=0; nParam++; setType($3); tsAddParam($4); }
-	|  TIPO_BASICO  ident_array { $2.nDim=0; nParam++; setType($1); tsAddParam($2); }
+lista_parametros :  lista_parametros COMA  TIPO_BASICO  ident_array { $4.nDim=0; nParam++; setType($3); tsAddParam($4); generarListaParametros($3,$4);}
+	|  TIPO_BASICO  ident_array { $2.nDim=0; nParam++; setType($1); tsAddParam($2);generarPrimerParametro($1,$2); }
 	|  lista_parametros error  TIPO_BASICO  ident_array
 ;
 

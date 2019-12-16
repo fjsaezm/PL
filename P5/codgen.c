@@ -24,5 +24,4 @@ principal{
       curr = curr+1 ;
   }hasta ( curr <= n )
   salida<< "\n";
-
 }

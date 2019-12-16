@@ -112,6 +112,8 @@ extern int decSal; //CI
 extern int decEnt; //CI
 
 extern FILE * file; //CI
+extern FILE * fileMain;
+extern FILE * fileSubProg;
 
 extern tData tipoTMP; //CI
 extern tData tipoArray; //CI
@@ -121,6 +123,8 @@ extern int tempUsado; //CI
 extern int etiq; //CI
 extern int varPrinc; //CI
 extern int decIF, decElse; //CI
+
+extern int numSubPro;
 
 int isArray(attrs e);
 
@@ -270,3 +274,9 @@ void insertaEtiqEntrada();
 void insertaGotoEntrada();
 
 void generaEntSal(int type,attrs a);
+
+void generaCabeceraFuncion(attrs id);
+
+void generarListaParametros(attrs type,attrs id);
+
+void generarPrimerParametro(attrs type,attrs id);
