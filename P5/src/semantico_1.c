@@ -835,6 +835,7 @@ int tempUsado = 0;
 int etiq = 0;
 int varPrinc=0;
 int decIF = 0,decElse=0;
+int hayError = 0;
 
 int numSubPro=0;
 
@@ -1039,7 +1040,7 @@ void generaFich(){
     fileMain = file;
     fileSubProg = fopen("dec_fun","w");
 
-	fputs("#include <stdio.h>\n#include \"dec_dat.h\"\n#include \"dec_fun\"\n",file);
+	fputs("#include <stdio.h>\n#include \"dec_dat.c\"\n",file);
 	//fputs("\nint main(int argc, char *argv[] )",file);
 
 }
@@ -1049,6 +1050,8 @@ void closeInter(){
     fputs("}",file);
     fclose(fileSubProg);
     fclose(fileMain);
+    if(hayError)
+	remove("generated.c");
 
 }
 

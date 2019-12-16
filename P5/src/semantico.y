@@ -97,7 +97,7 @@ cuerpo_dec_var : TIPO_BASICO
 		{tipoTMP = $1.type;tipoArray = $1.type;} //CI
 		{setType($1);}
 		 lista_identificador PTCOMA
-               | error
+               | error {hayError=1;}
 ;
 
 sentencias : sentencias {decVar = 2;} sentencia
@@ -111,16 +111,18 @@ sentencia : bloque
 	| sentencia_entrada
 	| sentencia_salida
 	| sentencia_return
-	| error
+	| error {hayError=1;}
 ;
 
 sentencia_asig : array_ident ASIG {isAsig=1;} expresion PTCOMA
 	{
 	  if($1.type != $4.type){
 	    printf("Error semántico(%d),los tipos no coinciden (%d) y (%d).\n",yylineno,$1.type,$3.type);
+		hayError=1;
 	  }
 	  if(!equalSize($1,$4)){
 	    printf("Error semántico(%d),los tamaños no coinciden.\n",yylineno);
+ 		hayError=1;
 	  }
 	}
   { generaAsignacion($1,$2,$4); isAsig=0;} //CI
@@ -131,6 +133,7 @@ sentencia_if  :  SI
 	INI_EXPR expresion {
 		if($4.type != BOOLEANO){
 	    	    	printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
+		hayError=1;
 			/*$$.lex = $6.lex;
 			fputs("}\n",file);
 			insertaEtiqElse();
@@ -167,6 +170,7 @@ sentencia_do_until : HACER {insertaDesc(2);insertaEtiqEntrada();fputs("{\n",file
 {
   if($6.type != BOOLEANO){
     printf("Error semántico (%d),la expresión no es de tipo lógico.\n",yylineno);
+	hayError=1;
   }else{
     generaDoWhile($6);
     fputs("}\n",file);
@@ -204,7 +208,7 @@ generaExpresion($1,$2,$3,&$$); } //CI
 generaExpresion($1,$2,$3,&$$); } //CI
 	| funcion {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; /*currentFunction = -1;*/}
 	| constante {$$.type = $1.type; $$.nDim = $1.nDim; $$.tDim1 = $1.tDim1; $$.tDim2 = $1.tDim2; }
-	| error
+	| error {hayError=1;}
 ;
 
 
@@ -248,7 +252,7 @@ ident_array: identificador { if(decVar == 1){
 	 }
 	if(decEnt == 1){tsGetId($1, &$$); generaEntSal(1, $$);}
 	}
-	|  error
+	|  error {hayError=1;}
 ;
 
 array_ident: identificador { if(decVar == 1){
@@ -266,7 +270,7 @@ array_ident: identificador { if(decVar == 1){
 
 lista_parametros :  lista_parametros COMA  TIPO_BASICO  ident_array { $4.nDim=0; nParam++; setType($3); tsAddParam($4); generarListaParametros($3,$4);}
 	|  TIPO_BASICO  ident_array { $2.nDim=0; nParam++; setType($1); tsAddParam($2);generarPrimerParametro($1,$2); }
-	|  lista_parametros error  TIPO_BASICO  ident_array
+	|  lista_parametros error {hayError=1;} TIPO_BASICO  ident_array
 ;
 
 identificador : CADENA

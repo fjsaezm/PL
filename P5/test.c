@@ -1,7 +1,7 @@
 principal
 {
   ini_var
-    entero ve,b,c,d;
+    entero v e,b,c,d;
     real vf, g, j;
     caracter vc ;
     booleano vl ;

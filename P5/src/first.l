@@ -66,8 +66,8 @@ identificador [a-zA-Z_][a-zA-Z0-9_]*
 "&"           {ECHO; yylval.lex = strdup(yytext); yylval.attr = 0; return OPUNARIO;}
 "!"           {ECHO; yylval.lex = strdup(yytext); yylval.attr = 1; return OPUNARIO;}
 
-"verdadero"	{ECHO; yylval.attr = 0; yylval.lex = strdup(yytext); return CTE_LOGICA;}
-"falso"		{ECHO; yylval.attr = 1; yylval.lex = strdup(yytext); return CTE_LOGICA;}
+"verdadero"	{ECHO; yylval.attr = 0; yylval.lex = "1"; return CTE_LOGICA;}
+"falso"		{ECHO; yylval.attr = 1; yylval.lex = "0"; return CTE_LOGICA;}
 
 \'[^\']\' {ECHO; yylval.attr = 0;yylval.lex = strdup(yytext); return CTE_CARACTER;}
 {real}		{ECHO; yylval.attr = 2;yylval.lex = strdup(yytext); return CTE_REAL;}

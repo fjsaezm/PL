@@ -124,6 +124,8 @@ extern int etiq; //CI
 extern int varPrinc; //CI
 extern int decIF, decElse; //CI
 
+extern int hayError; //CI
+
 extern int numSubPro;
 
 int isArray(attrs e);
