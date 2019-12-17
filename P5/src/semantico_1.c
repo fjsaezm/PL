@@ -838,6 +838,7 @@ int decIF = 0,decElse=0;
 int hayError = 0;
 
 int numSubPro=0;
+int primeraExpresion = 0;
 
 char * variables;
 char * argumentos;
@@ -900,20 +901,20 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
 	}
 	else{
   		if(a.type == ENTERO){
-        if(a.nDim==0)
+        if(b.nDim==0)
   			  sprintf(sent,"%sint %s;\n",sent,temp2);
-        else if (a.nDim==1)
+        else if (b.nDim==1)
           sprintf(sent,"%sint %s[%i];\n",sent,temp2,a.tDim1);
-        else
+        else if (b.nDim==2)
           sprintf(sent,"%sint %s[%i][%i];\n",sent,temp2,a.tDim1,b.tDim2);
   		}
   		else if(a.type == REAL){
-        if(a.nDim==0)
+        if(b.nDim==0)
   			  sprintf(sent,"%sdouble %s;\n",sent,temp2);
-        else if (a.nDim==1)
+        else if (b.nDim==1)
           sprintf(sent,"%sdouble %s[%i];\n",sent,temp2,a.tDim1);
-        else
-          sprintf(sent,"%sdouble %s[%i][%i];\n",sent,temp2,a.tDim1,b.tDim2);
+        else if (b.nDim==2)
+          sprintf(sent,"%sdouble %s[%i1][%i];\n",sent,temp2,a.tDim1,b.tDim2);
   		}
   		else if(a.type == CARACTER){
   			sprintf(sent,"%schar %s;\n",sent,temp2);
@@ -932,9 +933,12 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
   		sprintf(sent,"%s[%d][%d]",sent, a.tDim1, a.tDim2);
   	}*/
 
-    if (a.nDim == 0)
-  	 sprintf(sent,"%s%s = %s%s%s;\n",sent,temp2,a.lex,op.lex,b.lex);
-    else if(a.nDim == 1){
+    if (a.nDim == 0){
+      if (b.nDim == 0)
+  	   sprintf(sent,"%s%s = %s%s%s;\n",sent,temp2,a.lex,op.lex,b.lex);
+      else if (b.nDim==1 && (strcmp(op.lex, "*") == 0))
+       sprintf(sent,"%smultplicacionEscalarVectorEntero(%s,%s,%s, %i);\n",sent,a.lex,b.lex,temp2,b.tDim1);
+    }else if(a.nDim == 1){
      if(a.type == ENTERO){
       if(strcmp(op.lex, "+") == 0)
        sprintf(sent,"%ssumaVectoresEnteros (%s, %s, %s, %i);\n",sent,a.lex,b.lex,temp2,a.tDim1);
@@ -971,7 +975,10 @@ void generaExpresion(attrs a, attrs op, attrs b, attrs* res){
 
 
     res->lex=temp2;
-  	fputs(sent,file);
+    if (primeraExpresion==1)
+      sprintf(variables, "%s%s",variables,sent );
+    else
+  	  fputs(sent,file);
   	free(sent);
 }
 
@@ -1297,4 +1304,36 @@ void generarPrimerParametro(attrs type,attrs id){
   sprintf(sent, " %s ",id.lex);
   fputs(sent,file);
   free(sent);
+}
+
+void generarNombreFuncion(attrs id){
+  if (primeraExpresion==1){
+    sprintf(argumentos, "%s( %s );\n",id.lex,argumentos);
+    fputs(variables,file);
+    fputs(argumentos,file);
+    free(variables);
+    free(argumentos);
+    primeraExpresion =0;
+  }else{
+    char * sent;
+    sent = (char *) malloc(200);
+    sprintf(sent, "%s();\n",id.lex);
+    fputs(sent,file);
+    free(sent);
+  }
+}
+
+void generarListaExpresiones(attrs a){
+  if (primeraExpresion==0){
+    variables = (char *) malloc(1000);
+    argumentos = (char *) malloc(1000);
+    primeraExpresion =1;
+  }
+
+    printf("\n%s\n",a.lex);
+  sprintf(argumentos, ", %s %s ",a.lex,argumentos);
+}
+
+void generarPrimeraExpresion(attrs a){
+  sprintf(argumentos, "%s %s",a.lex, argumentos);
 }

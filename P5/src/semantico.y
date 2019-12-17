@@ -220,8 +220,8 @@ constante : CTE_ENTERA{ $$.type = ENTERO; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 
 	| CTE_CARACTER  { $$.type = CARACTER; $$.nDim = 0; $$.tDim1 = 0; $$.tDim2 = 0; }
 ;
 
-funcion :  identificador  INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; }
-|  identificador INI_EXPR FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0;}
+funcion :  identificador  INI_EXPR lista_expr FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; generarNombreFuncion($1);}
+|  identificador INI_EXPR FIN_EXPR { tsFunctionCall($1, &$$); nParam = 0; generarNombreFuncion($1);}
 ;
 
 const_matriz: INI_BLOQUE lista_expr FIN_BLOQUE { $$.type = $2.type; $$.nDim = $2.nDim; $$.tDim1 = $2.tDim1; $$.tDim2 = $2.tDim2;} ;
@@ -264,8 +264,18 @@ array_ident: identificador { if(decVar == 1){
 			     }
 				//printf(" El tipo es (%d).\n",$1.type);
 			    }
-	| identificador INI_TAM  lista_expr FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $3.tDim2; $$.nDim = $$.nDim -1; } }
-	|  identificador INI_TAM  lista_expr FIN_TAM INI_TAM lista_expr FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $6.tDim2; $$.nDim = $$.nDim -2;} }
+	| identificador INI_TAM  expresion FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $3.tDim2; $$.nDim = $$.nDim -1; }
+    char * sent;
+    sent = (char *) malloc(1000);
+    sprintf(sent,"%s[%s]",$1.lex,$3.lex);
+    $$.lex=sent;
+    } //Fin de traducción de la asignación\n",a.lex,b.lex);
+	|  identificador INI_TAM  expresion FIN_TAM INI_TAM expresion FIN_TAM { if(decVar == 2){ tsGetId($1, &$$); $$.tDim1 = $3.tDim1; $$.tDim2 = $6.tDim2; $$.nDim = $$.nDim -2;}
+    char * sent;
+    sent = (char *) malloc(1000);
+    sprintf(sent,"%s[%s][%s]",$1.lex,$3.lex,$5.lex);
+    $$.lex=sent;
+   }
 ;
 
 lista_parametros :  lista_parametros COMA  TIPO_BASICO  ident_array { $4.nDim=0; nParam++; setType($3); tsAddParam($4); generarListaParametros($3,$4);}
@@ -281,8 +291,8 @@ num:  CTE_ENTERA
 
 
 
-lista_expr : lista_expr COMA expresion {if(decSal == 1){generaEntSal(2,$1);}else{ nParam++; tsCheckParam($-1,$3, nParam); }}
-| expresion  {if(decSal == 1){generaEntSal(2,$1);}else{ nParam++; tsCheckParam($-1,$1, nParam); }}
+lista_expr : lista_expr COMA expresion {if(decSal == 1){generaEntSal(2,$1);}else{ nParam++; tsCheckParam($-1,$3, nParam);generarListaExpresiones($3); }}
+| expresion  {if(decSal == 1){generaEntSal(2,$1);}else{ nParam++; tsCheckParam($-1,$1, nParam); generarPrimeraExpresion($1); }}
 ;
 
 

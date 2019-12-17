@@ -1,9 +1,10 @@
 principal{
   ini_var
     entero n, curr ;
-    entero a23[2][3], a32[3][2],a22[2][2];
+    entero a23[2][3], a32[3][2],a22[2];
   fin_var
-  a22 = a23*a32;
+  a22[0] = 1;
+  a22 = 2 * a22 ;
   salida<< "introduce numero: ";
   entrada>> n;
   salida<< " ";

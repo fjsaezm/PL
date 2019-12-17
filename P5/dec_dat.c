@@ -139,3 +139,8 @@ void multiplicacionMatricesReales (double a[],double b[], double result[], int d
         result[k*dimB2+j]+= a[k*dimA2B1+i]*b[i*dimB2+j];
 
 }
+
+void multplicacionEscalarVectorEntero(int escalar,int a[], int result[], int dim){
+  for (int i = 0; i < dim; ++i)
+    result[i]= a[i]*escalar;
+}

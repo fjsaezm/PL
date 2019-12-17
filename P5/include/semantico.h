@@ -282,3 +282,11 @@ void generaCabeceraFuncion(attrs id);
 void generarListaParametros(attrs type,attrs id);
 
 void generarPrimerParametro(attrs type,attrs id);
+
+void generarNombreFuncion(attrs id);
+
+void generarListaExpresiones(attrs a);
+
+void generarPrimeraExpresion(attrs a);
+
+void multplicacionEscalarVectorEntero(int escalar,int a[], int result[], int dim);
