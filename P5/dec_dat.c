@@ -1,5 +1,33 @@
 #include "dec_dat.h"
 
+void mostrarVectorEnteros(int a[], int dim){
+  for (int i=0;i < dim; ++i)
+    printf("%i\t",a[i]);
+  printf("\n");
+}
+
+void mostrarMatrizEnteros(int a[], int dim1, int dim2){
+  for (int i = 0; i < dim1; ++i){
+    for (int j = 0; j < dim2; ++j)
+      printf("%i\t",a[i*dim2+j]);
+  printf("\n");
+  }
+}
+
+void mostrarVectorReales(double a[], int dim){
+  for (int i=0;i < dim; ++i)
+    printf("%d\t",a[i]);
+  printf("\n");
+}
+
+void mostrarMatrizReales(double a[], int dim1, int dim2){
+  for (int i = 0; i < dim1; ++i){
+    for (int j = 0; j < dim2; ++j)
+      printf("%d\t",a[i*dim2+j]);
+  printf("\n");
+  }
+}
+
 void asignacionVectorEnteros(int a[], int b[], int dim){
   for (int i=0;i < dim; ++i)
     a[i] = b[i];

@@ -839,6 +839,9 @@ int hayError = 0;
 
 int numSubPro=0;
 
+char * variables;
+char * argumentos;
+
 char * temporal(){
 	char * cadena;
 	cadena = (char *) malloc(20);
@@ -1219,14 +1222,32 @@ void generaEntSal(int type,attrs a){
 	}
 	if(type == 2){
 		if(a.type != NA){
-			fputs("printf(\"%",file);
-			if(a.type == ENTERO) fputs("d",file);
-			else if(a.type == REAL) fputs("f",file);
-			else if(a.type == CARACTER) fputs("c",file);
-			else if(a.type == BOOLEANO) fputs("d",file);
-			fputs("\",",file);
-			fputs(a.lex,file);
-			fputs(");",file);
+      char * sent;
+      sent = (char *) malloc(200);
+      if (a.nDim==0){
+  			fputs("printf(\"%",file);
+  			if(a.type == ENTERO) fputs("d",file);
+  			else if(a.type == REAL) fputs("f",file);
+  			else if(a.type == CARACTER) fputs("c",file);
+  			else if(a.type == BOOLEANO) fputs("d",file);
+  			fputs("\",",file);
+  			fputs(a.lex,file);
+  			fputs(");",file);
+      }else if(a.nDim == 1){
+        if (a.type == ENTERO)
+          sprintf(sent,"mostrarVectorEnteros(%s,%i);",a.lex,a.tDim1);
+        else if (a.type == REAL)
+          sprintf(sent,"mostrarVectorReales(%s,%i);",a.lex,a.tDim1);
+        fputs(sent,file);
+        free(sent);
+      }else if (a.nDim == 2){
+        if (a.type == ENTERO)
+          sprintf(sent,"mostrarMatrizEnteros(%s,%i,%i);",a.lex,a.tDim1,a.tDim2);
+        else if (a.type == REAL)
+          sprintf(sent,"mostrarMatrizReales(%s,%i,%i);",a.lex,a.tDim1,a.tDim2);
+        fputs(sent,file);
+        free(sent);
+      }
 		}else {
 			fputs("printf(",file);
 			fputs(a.lex,file);

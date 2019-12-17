@@ -1,3 +1,11 @@
+void mostrarVectorEnteros(int a[], int dim);
+
+void mostrarMatrizEnteros(int a[], int dim1, int dim2);
+
+void mostrarVectorReales(double a[], int dim);
+
+void mostrarMatrizReales(double a[], int dim1, int dim2);
+
 void asignacionVectorEnteros(int a[], int b[], int dim);
 
 void asignacionMatrizEnteros(int a[], int b[], int dim1, int dim2);
